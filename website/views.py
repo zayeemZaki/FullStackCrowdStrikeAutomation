@@ -107,4 +107,4 @@ def stale_accounts():
     df = pd.DataFrame(data)
     df_html = df.to_html(classes='table table-striped')
 
-    return render_template("home.html", tables=[df_html], titles=df.columns.values)
+    return render_template("home.html", tables=[df_html], titles=df.columns.values, user=current_user)
