@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Stale Accounts{% endblock %}
+
+{% block content %}
+<h1>Stale Accounts</h1>
+{% if tables %}
+    <div>
+        {% for table in tables %}
+            {{ table|safe }} 
+        {% endfor %}
+    </div>
+{% endif %}
+{% endblock %}
