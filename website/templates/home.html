@@ -3,4 +3,7 @@
 
 {% block content %}
 <h1>This is the homepage</h1>
+<form action="{{ url_for('views.stale_accounts') }}" method="post">
+    <button type="submit">Stale Accounts</button>
+</form>
 {% endblock %}

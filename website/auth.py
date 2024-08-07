@@ -32,6 +32,7 @@ def authenticate():
             user.id = client_id
             login_user(user)
             session[client_id] = True
+            session['token'] = token  # Store the token in the session
             flash('Authenticated successfully!', category='success')
             return redirect(url_for('views.home'))
         else:
