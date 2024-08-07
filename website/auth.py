@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 import requests
-from flask_login import login_user, login_required, logout_user, UserMixin
+from flask_login import login_user, login_required, logout_user, UserMixin, current_user
 from flask import session
 
 auth = Blueprint('auth', __name__)
@@ -36,9 +36,9 @@ def authenticate():
             return redirect(url_for('views.home'))
         else:
             flash('Incorrect credential!', category='error')
-    return render_template("authenticate.html", boolean=True)
+    return render_template("authenticate.html", user=current_user)
 
-@auth.route('/logout')
+@auth.route('/exit')
 @login_required
 def logout():
     user_id = current_user.get_id()
