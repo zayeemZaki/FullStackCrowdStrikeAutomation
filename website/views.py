@@ -3,15 +3,25 @@ from flask_login import login_required, current_user
 import requests
 import pandas as pd
 from datetime import datetime, timezone
+from falconpy import RealTimeResponse
 
 views = Blueprint('views', __name__)
+
+
 
 @views.route('/')
 @login_required
 def home():
     return render_template("home.html", user=current_user)
 
-@views.route('/stale-accounts', methods=['POST'])
+
+
+
+
+
+
+
+@views.route('/stale-accounts', methods=['GET', 'POST'])
 @login_required
 def stale_accounts():
     token = session.get('token')  # Get the token from the session
@@ -108,3 +118,13 @@ def stale_accounts():
     df_html = df.to_html(classes='table table-striped')
 
     return render_template("stale_accounts.html", tables=[df_html], titles=df.columns.values, user=current_user)
+
+
+
+
+
+
+
+
+
+
