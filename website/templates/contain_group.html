@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Stale Accounts{% endblock %}
+
+{% block content %}
+<h1>Stale Accounts</h1>
+
+{% if tables %}
+    <div>
+        {% for table in tables %}
+            {{ table|safe }} 
+        {% endfor %}
+    </div>
+
+{% endif %}
+
+<br></br>
+
+<div class="form-group">
+    <label for="group-id"><h2>Enter the group id to check its members</h2></label>
+    <input
+        type="email"
+        class="form-control"
+        id="group-id"
+        name="group-id"
+        placeholder="Group id"
+    />
+</div>
+<form action="{{ url_for('containment.contain_host') }}" method="post">
+    <button type="submit">Contain host</button>
+</form>
+<br></br>
+
+
+{% endblock %}

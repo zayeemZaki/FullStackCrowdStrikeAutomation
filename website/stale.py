@@ -15,7 +15,7 @@ def stale_accounts():
 
 
 
-@stale.route('/stale-accounts_table', methods=['GET', 'POST'])
+@stale.route('/stale-accounts-table', methods=['GET', 'POST'])
 @login_required
 def stale_accounts_table():
     token = session.get('token')  # Get the token from the session

@@ -33,6 +33,8 @@ def authenticate():
             login_user(user)
             session[client_id] = True
             session['token'] = token  # Store the token in the session
+            session['client_id'] = client_id
+            session['client_secret'] = client_secret
             flash('Authenticated successfully!', category='success')
             return redirect(url_for('views.home'))
         else:
