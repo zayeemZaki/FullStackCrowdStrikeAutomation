@@ -11,9 +11,11 @@ def create_app():
 
     from .views import views
     from .auth import auth
+    from .stale import stale
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
+    app.register_blueprint(stale, url_prefix='/')
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.authenticate'

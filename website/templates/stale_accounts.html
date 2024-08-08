@@ -3,11 +3,26 @@
 
 {% block content %}
 <h1>Stale Accounts</h1>
+
 {% if tables %}
     <div>
         {% for table in tables %}
             {{ table|safe }} 
         {% endfor %}
+    </div>
+{% else %}
+    <div>
+        <form  action="{{ url_for('stale.stale_accounts_table') }}" method="POST">
+            <p>Please select how you want to sort the stale accounts:</p>
+            <input type="radio" id="risk_score" name="sorting" value="risk_score" checked="checked">
+            <label for="risk_score">Risk score</label><br>
+            <input type="radio" id="is_human" name="sorting" value="is_human">
+            <label for="is_human">Is human</label><br>
+            <input type="radio" id="domain" name="sorting" value="domain">
+            <label for="domain">Domain</label><br><br>
+            <input type=submit value=submit>
+
+        </form>
     </div>
 {% endif %}
 {% endblock %}
