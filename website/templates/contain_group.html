@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-{% block title %}Stale Accounts{% endblock %}
+{% block title %}Falcon Groups{% endblock %}
 
 {% block content %}
-<h1>Stale Accounts</h1>
+<h1>Falcon Groups</h1>
 
 {% if tables %}
     <div>
@@ -10,25 +10,34 @@
             {{ table|safe }} 
         {% endfor %}
     </div>
-
 {% endif %}
 
 <br></br>
 
 <div class="form-group">
     <label for="group-id"><h2>Enter the group id to check its members</h2></label>
-    <input
-        type="email"
-        class="form-control"
-        id="group-id"
-        name="group-id"
-        placeholder="Group id"
-    />
+    <form action="{{ url_for('containment.list_groups') }}" method="post">
+        <input
+            type="text"
+            class="form-control"
+            id="group-id"
+            name="group-id"
+            placeholder="Group id"
+        />
+        <button type="submit" class="btn btn-primary mt-2">Submit</button>
+    </form>
 </div>
-<form action="{{ url_for('containment.contain_host') }}" method="post">
-    <button type="submit">Contain host</button>
-</form>
+
 <br></br>
 
+{% if member_tables %}
+    <h2>Group Members</h2>
+    <div>
+        {% for table in member_tables %}
+            {{ table|safe }}
+        {% endfor %}
+    </div>
+{% endif %}
+<br></br>
 
 {% endblock %}
