@@ -5,10 +5,16 @@ import pandas as pd
 
 containment = Blueprint('containment', __name__)
 
+
+
+
 @containment.route('/containment', methods=['GET', 'POST'])
 @login_required
 def falcon_containment():
-    return render_template("containment.html", user=current_user)
+    return render_template("falcon_containment/containment.html", user=current_user)
+
+
+
 
 @containment.route('/group-containment', methods=['GET', 'POST'])
 @login_required
@@ -48,9 +54,9 @@ def list_groups():
 
     # Only pass member_tables if members were successfully retrieved
     if members_df_html:
-        return render_template("contain_group.html", tables=[df_html], member_tables=[members_df_html], titles=df.columns.values, user=current_user)
+        return render_template("falcon_containment/contain_group.html", tables=[df_html], member_tables=[members_df_html], titles=df.columns.values, user=current_user)
     else:
-        return render_template("contain_group.html", tables=[df_html], titles=df.columns.values, user=current_user)
+        return render_template("falcon_containment/contain_group.html", tables=[df_html], titles=df.columns.values, user=current_user)
 
 
 def list_host_group_members(group_id):
@@ -117,7 +123,10 @@ def lift_containment(hosts, falcon_hosts):
 
 
 
+
+
+
 @containment.route('/contain-host', methods=['GET', 'POST'])
 @login_required
 def contain_host():
-    return render_template("contain_host.html")
+    return render_template("falcon_containment/contain_host.html")

@@ -10,7 +10,7 @@ stale = Blueprint('stale', __name__)
 @login_required
 def stale_accounts():
     
-    return render_template("stale_accounts.html", user=current_user)
+    return render_template("stale_accounts/stale_accounts.html", user=current_user)
 
 
 
@@ -128,7 +128,7 @@ def stale_accounts_table():
 
     df_html = df.to_html(classes='table table-striped')
 
-    return render_template("stale_accounts.html", tables=[df_html], titles=df.columns.values, user=current_user)
+    return render_template("stale_accounts/stale_accounts.html", tables=[df_html], titles=df.columns.values, user=current_user)
 
 
 
