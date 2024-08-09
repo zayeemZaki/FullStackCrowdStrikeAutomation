@@ -37,7 +37,25 @@
             {{ table|safe }}
         {% endfor %}
     </div>
+
+    <h2>Select Action</h2>
+    <form action="{{ url_for('containment.containment_action') }}" method="post">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="action" id="contain" value="contain" required>
+            <label class="form-check-label" for="contain">
+                Contain Hosts
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="action" id="lift" value="lift" required>
+            <label class="form-check-label" for="lift">
+                Lift Containment
+            </label>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Submit Action</button>
+    </form>
 {% endif %}
+<br></br>
 <br></br>
 
 {% endblock %}
