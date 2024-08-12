@@ -139,24 +139,23 @@ def lift_containment_group(hosts, falcon_hosts):
 @login_required
 def hosts_containment_status():
     if request.method == 'POST':
-        host_ids = request.form.get('host_ids')
-        if not host_ids:
+        host_names = request.form.get('host-name')
+        if not host_names:
             return render_template("falcon_containment/contain_host.html", error="Please enter host IDs.", user=current_user)
 
-        host_ids = host_ids.splitlines()
-        session['host_ids'] = host_ids
+        host_names = host_names.splitlines()
+        session['host_names'] = host_names
 
         falcon_hosts = Hosts(client_id=session.get('client_id'), client_secret=session.get('client_secret'))
 
         status_data = []
-        for hostname in host_ids:
+        for hostname in host_names:
             response = falcon_hosts.query_devices_by_filter(filter=f"hostname:'{hostname}'")
             host_id = response["body"]["resources"][0]  # Get the host ID from the response
 
 
             # Attempt to retrieve host details
             containment_status_response = falcon_hosts.get_device_details(ids=[host_id])
-            print(f"API Response for Host ID {host_id}: {containment_status_response}")  # Debug print
 
             if containment_status_response and containment_status_response['status_code'] == 200:
                 resources = containment_status_response['body'].get('resources', [])
@@ -187,19 +186,22 @@ def hosts_containment_status():
 @login_required
 def hosts_containment_action():
     action = request.form.get('action')
-    host_ids = session.get('host_ids')
+    host_names = session.get('host_names')
 
     falcon_hosts = Hosts(client_id=session.get('client_id'), client_secret=session.get('client_secret'))
 
     if action == "contain":
-        contain_hosts(host_ids, falcon_hosts)
+        contain_hosts(host_names, falcon_hosts)
     elif action == "lift":
-        lift_containment_hosts(host_ids, falcon_hosts)
+        lift_containment_hosts(host_names, falcon_hosts)
 
     return redirect(url_for('containment.hosts_containment_status'))
 
 def contain_hosts(hosts, falcon_hosts):
-    for host_id in hosts:
+    for host_name in hosts:
+
+        host_id = falcon_hosts.query_devices_by_filter(filter=f"hostname:'{host_name}'")["body"]["resources"][0]  # Get the host ID from the response
+
         response = falcon_hosts.perform_action(action_name="contain", ids=[host_id])
         if response['status_code'] == 200:
             print(f"Successfully contained host ID: {host_id}")
@@ -207,7 +209,10 @@ def contain_hosts(hosts, falcon_hosts):
             print(f"Failed to contain host ID: {host_id}, Response: {response}")
 
 def lift_containment_hosts(hosts, falcon_hosts):
-    for host_id in hosts:
+    for host_name in hosts:
+
+        host_id = falcon_hosts.query_devices_by_filter(filter=f"hostname:'{host_name}'")["body"]["resources"][0]  # Get the host ID from the response
+        
         response = falcon_hosts.perform_action(action_name="lift_containment", ids=[host_id])
         if response['status_code'] == 200:
             print(f"Successfully lifted containment for host ID: {host_id}")
