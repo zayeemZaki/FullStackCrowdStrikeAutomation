@@ -133,10 +133,34 @@ def lift_containment_group(hosts, falcon_hosts):
 
 
 
+
+
 @containment.route('/host-containment', methods=['GET', 'POST'])
 @login_required
 def hosts_containment_status():
-    return render_template("falcon_containment/contain_host.html",  user=current_user)
+    if request.method == 'POST':
+        host_ids = request.form['host_ids'].splitlines()
+        session['host_ids'] = host_ids
+
+        falcon_hosts = Hosts(client_id=session.get('client_id'), client_secret=session.get('client_secret'))
+
+        status_data = []
+        for host_id in host_ids:
+            containment_status_response = falcon_hosts.get_device_details(ids=[host_id])
+            if containment_status_response and containment_status_response['status_code'] == 200 and containment_status_response['body']['resources']:
+                containment_status = containment_status_response['body']['resources'][0].get('status', 'Unknown')
+                status_data.append({'Host ID': host_id, 'Status': containment_status})
+            else:
+                status_data.append({'Host ID': host_id, 'Status': 'Error retrieving status'})
+
+        # Convert the data into a DataFrame
+        df = pd.DataFrame(status_data)
+        # Convert the DataFrame into an HTML table
+        host_status_table = df.to_html(classes='table table-striped')
+
+        return render_template("falcon_containment/contain_host.html", host_status_table=host_status_table, user=current_user)
+
+    return render_template("falcon_containment/contain_host.html", user=current_user)
 
 
 
@@ -147,9 +171,9 @@ def hosts_containment_status():
 def hosts_containment_action():
     action = request.form.get('action')
     host_ids = session.get('host_ids')
-    
+
     falcon_hosts = Hosts(client_id=session.get('client_id'), client_secret=session.get('client_secret'))
-    
+
     if action == "contain":
         contain_hosts(host_ids, falcon_hosts)
     elif action == "lift":
@@ -157,7 +181,6 @@ def hosts_containment_action():
 
     return redirect(url_for('containment.list_groups'))
 
-# Containment and lift containment functions
 def contain_hosts(hosts, falcon_hosts):
     for host_id in hosts:
         response = falcon_hosts.perform_action(action_name="contain", ids=[host_id])
