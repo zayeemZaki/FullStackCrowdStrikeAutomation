@@ -137,9 +137,15 @@ def lift_containment_group(hosts, falcon_hosts):
 
 @containment.route('/host-containment', methods=['GET', 'POST'])
 @login_required
+
 def hosts_containment_status():
     if request.method == 'POST':
-        host_ids = request.form['host_ids'].splitlines()
+        host_ids = request.form.get('host_ids')
+        
+        if not host_ids:
+            return render_template("falcon_containment/contain_host.html", error="Please enter host IDs.", user=current_user)
+
+        host_ids = host_ids.splitlines()
         session['host_ids'] = host_ids
 
         falcon_hosts = Hosts(client_id=session.get('client_id'), client_secret=session.get('client_secret'))
@@ -153,14 +159,13 @@ def hosts_containment_status():
             else:
                 status_data.append({'Host ID': host_id, 'Status': 'Error retrieving status'})
 
-        # Convert the data into a DataFrame
         df = pd.DataFrame(status_data)
-        # Convert the DataFrame into an HTML table
         host_status_table = df.to_html(classes='table table-striped')
 
         return render_template("falcon_containment/contain_host.html", host_status_table=host_status_table, user=current_user)
 
     return render_template("falcon_containment/contain_host.html", user=current_user)
+
 
 
 
@@ -179,7 +184,7 @@ def hosts_containment_action():
     elif action == "lift":
         lift_containment_hosts(host_ids, falcon_hosts)
 
-    return redirect(url_for('containment.list_groups'))
+    return redirect(url_for('containment.hosts_containment_status'))
 
 def contain_hosts(hosts, falcon_hosts):
     for host_id in hosts:
