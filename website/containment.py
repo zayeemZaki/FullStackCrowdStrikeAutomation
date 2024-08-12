@@ -88,9 +88,9 @@ def list_host_group_members(group_id):
         print(f"An error occurred: {e}")
         return None
 
-@containment.route('/containment-action', methods=['POST'])
+@containment.route('/group-containment-action', methods=['POST'])
 @login_required
-def containment_action():
+def group_containment_action():
     action = request.form.get('action')
     group_id = session.get('group_id')
     host_ids = session.get('host_ids')
@@ -98,14 +98,14 @@ def containment_action():
     falcon_hosts = Hosts(client_id=session.get('client_id'), client_secret=session.get('client_secret'))
     
     if action == "contain":
-        contain_hosts(host_ids, falcon_hosts)
+        contain_group(host_ids, falcon_hosts)
     elif action == "lift":
-        lift_containment(host_ids, falcon_hosts)
+        lift_containment_group(host_ids, falcon_hosts)
 
     return redirect(url_for('containment.list_groups'))
 
 # Containment and lift containment functions
-def contain_hosts(hosts, falcon_hosts):
+def contain_group(hosts, falcon_hosts):
     for host_id in hosts:
         response = falcon_hosts.perform_action(action_name="contain", ids=[host_id])
         if response['status_code'] == 200:
@@ -113,7 +113,7 @@ def contain_hosts(hosts, falcon_hosts):
         else:
             print(f"Failed to contain host ID: {host_id}, Response: {response}")
 
-def lift_containment(hosts, falcon_hosts):
+def lift_containment_group(hosts, falcon_hosts):
     for host_id in hosts:
         response = falcon_hosts.perform_action(action_name="lift_containment", ids=[host_id])
         if response['status_code'] == 200:
@@ -126,7 +126,50 @@ def lift_containment(hosts, falcon_hosts):
 
 
 
-@containment.route('/contain-host', methods=['GET', 'POST'])
+
+
+
+
+
+
+
+@containment.route('/host-containment', methods=['GET', 'POST'])
 @login_required
-def contain_host():
-    return render_template("falcon_containment/contain_host.html")
+def hosts_containment_status():
+    return render_template("falcon_containment/contain_host.html",  user=current_user)
+
+
+
+
+
+@containment.route('/host-containment-action', methods=['POST'])
+@login_required
+def hosts_containment_action():
+    action = request.form.get('action')
+    host_ids = session.get('host_ids')
+    
+    falcon_hosts = Hosts(client_id=session.get('client_id'), client_secret=session.get('client_secret'))
+    
+    if action == "contain":
+        contain_hosts(host_ids, falcon_hosts)
+    elif action == "lift":
+        lift_containment_hosts(host_ids, falcon_hosts)
+
+    return redirect(url_for('containment.list_groups'))
+
+# Containment and lift containment functions
+def contain_hosts(hosts, falcon_hosts):
+    for host_id in hosts:
+        response = falcon_hosts.perform_action(action_name="contain", ids=[host_id])
+        if response['status_code'] == 200:
+            print(f"Successfully contained host ID: {host_id}")
+        else:
+            print(f"Failed to contain host ID: {host_id}, Response: {response}")
+
+def lift_containment_hosts(hosts, falcon_hosts):
+    for host_id in hosts:
+        response = falcon_hosts.perform_action(action_name="lift_containment", ids=[host_id])
+        if response['status_code'] == 200:
+            print(f"Successfully lifted containment for host ID: {host_id}")
+        else:
+            print(f"Failed to lift containment for host ID: {host_id}, Response: {response}")
