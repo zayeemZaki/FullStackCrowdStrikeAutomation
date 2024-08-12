@@ -137,11 +137,9 @@ def lift_containment_group(hosts, falcon_hosts):
 
 @containment.route('/host-containment', methods=['GET', 'POST'])
 @login_required
-
 def hosts_containment_status():
     if request.method == 'POST':
         host_ids = request.form.get('host_ids')
-        
         if not host_ids:
             return render_template("falcon_containment/contain_host.html", error="Please enter host IDs.", user=current_user)
 
@@ -151,13 +149,26 @@ def hosts_containment_status():
         falcon_hosts = Hosts(client_id=session.get('client_id'), client_secret=session.get('client_secret'))
 
         status_data = []
-        for host_id in host_ids:
+        for hostname in host_ids:
+            response = falcon_hosts.query_devices_by_filter(filter=f"hostname:'{hostname}'")
+            host_id = response["body"]["resources"][0]  # Get the host ID from the response
+
+
+            # Attempt to retrieve host details
             containment_status_response = falcon_hosts.get_device_details(ids=[host_id])
-            if containment_status_response and containment_status_response['status_code'] == 200 and containment_status_response['body']['resources']:
-                containment_status = containment_status_response['body']['resources'][0].get('status', 'Unknown')
-                status_data.append({'Host ID': host_id, 'Status': containment_status})
+            print(f"API Response for Host ID {host_id}: {containment_status_response}")  # Debug print
+
+            if containment_status_response and containment_status_response['status_code'] == 200:
+                resources = containment_status_response['body'].get('resources', [])
+                if resources:
+                    containment_status = resources[0].get('status', 'Unknown')
+                    status_data.append({'Host ID': hostname, 'Status': containment_status})
+                else:
+                    error_message = containment_status_response['body'].get('errors', [{}])[0].get('message', 'Unknown error')
+                    status_data.append({'Host ID': hostname, 'Status': f"Error: {error_message}"})
             else:
-                status_data.append({'Host ID': host_id, 'Status': 'Error retrieving status'})
+                error_message = containment_status_response['body'].get('errors', [{}])[0].get('message', 'Unknown error')
+                status_data.append({'Host ID': hostname, 'Status': f"API Error: {error_message}"})
 
         df = pd.DataFrame(status_data)
         host_status_table = df.to_html(classes='table table-striped')
@@ -165,6 +176,7 @@ def hosts_containment_status():
         return render_template("falcon_containment/contain_host.html", host_status_table=host_status_table, user=current_user)
 
     return render_template("falcon_containment/contain_host.html", user=current_user)
+
 
 
 
