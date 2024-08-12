@@ -2,58 +2,94 @@
 {% block title %}Falcon Groups{% endblock %}
 
 {% block content %}
-<h1>Falcon Groups</h1>
+<h1 class="text-center" style="padding: 20px 0;">Falcon Groups</h1> 
+
+<style>
+    .white-text-table table,
+    .white-text-table th,
+    .white-text-table td {
+        color: white;
+    }
+</style>
 
 {% if tables %}
-    <div>
-        {% for table in tables %}
-            {{ table|safe }} 
-        {% endfor %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-14">
+                <div class="white-text-table">
+                    {% for table in tables %}
+                        <div class="white-text-table">
+                            {{ table|safe }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     </div>
 {% endif %}
 
+
+
+
 <br></br>
 
-<div class="form-group">
-    <label for="group-id"><h2>Enter the group id to check its members</h2></label>
-    <form action="{{ url_for('containment.list_groups') }}" method="post">
-        <input
-            type="text"
-            class="form-control"
-            id="group-id"
-            name="group-id"
-            placeholder="Group id"
-        />
-        <button type="submit" class="btn btn-primary mt-2">Submit</button>
-    </form>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8"> 
+            <div class="form-group text-center">
+                <label for="group-id"><h2>Enter the group id to check its members</h2></label>
+                <form action="{{ url_for('containment.list_groups') }}" method="post">
+                    <input
+                        type="text"
+                        class="form-control mt-3"
+                        id="group-id"
+                        name="group-id"
+                        placeholder="Group id"
+                    />
+                    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+
 
 <br></br>
 
 {% if member_tables %}
-    <h2>Group Members</h2>
-    <div>
-        {% for table in member_tables %}
-            {{ table|safe }}
-        {% endfor %}
-    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-14">
+            <h2 class = "text-center">Group Members</h2>
+            <div class="white-text-table">
+                {% for table in member_tables %}
+                    {{ table|safe }}
+                {% endfor %}
+            </div>
+        <div class="col-md-14">
+    <div class="row justify-content-center">
 
-    <h2>Select Action</h2>
-    <form action="{{ url_for('containment.group_containment_action') }}" method="post">
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="action" id="contain" value="contain" required>
-            <label class="form-check-label" for="contain">
-                Contain Hosts
-            </label>
+
+        
+    <div class="container mt-5">
+        <div class="card p-4 shadow-sm" style="background-color: #2f353b; border: none;">
+            <h4 class="text-center mb-4" style="color: #ffffff;">Select Action</h4>
+            <form action="{{ url_for('containment.group_containment_action') }}" method="post">
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="radio" name="action" id="contain" value="contain" required>
+                    <label class="form-check-label" for="contain" style="color: #ffffff;">
+                        Contain Hosts
+                    </label>
+                </div>
+                <div class="form-check mb-4">
+                    <input class="form-check-input" type="radio" name="action" id="lift" value="lift" required>
+                    <label class="form-check-label" for="lift" style="color: #ffffff;">
+                        Lift Containment
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+            </form>
         </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="action" id="lift" value="lift" required>
-            <label class="form-check-label" for="lift">
-                Lift Containment
-            </label>
-        </div>
-        <button type="submit" class="btn btn-primary mt-3">Submit Action</button>
-    </form>
+    </div>
 {% endif %}
 <br></br>
 <br></br>

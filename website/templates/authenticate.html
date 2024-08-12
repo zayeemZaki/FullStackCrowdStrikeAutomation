@@ -2,31 +2,71 @@
 {% block title %}Authenticate{% endblock %}
 
 {% block content %}
-<form method="POST">
-    <h3 align="center">Authenticate</h3>
-    <div class="form-group">
-        <label for="client_id">Client id</label>
-        <input
-            type="password"
-            class="form-control"
-            id="client_id"
-            name="client_id"
-            placeholder="Client id"
-        />
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h3 style="font-family: 'Lucida Console', Monaco, monospace; margin-top: 20px; position: absolute; top: 0; left: 20px;">
+                CrowdStrike Automation   
+            </h3>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="client_secret">Client secret</label>
-        <input
-            type="password"
-            class="form-control"
-            id="client_secret"
-            name="client_secret"
-            placeholder="client secret"
-        />
+    <div class="row justify-content-center" style="margin-top: 100px;">
+        <div class="col-md-6"> <!-- Changed from col-md-4 to col-md-6 to increase the width -->
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <form method="POST">
+                        <h3 align="center" class="mb-4" style="font-weight: 600; color: #333;">Authenticate</h3>
+                        <div class="form-group">
+                            <label for="client_id" style="font-weight: 500; color: #555;">Client ID</label>
+                            <input
+                                type="password"
+                                class="form-control"
+                                id="client_id"
+                                name="client_id"
+                                placeholder="Enter Client ID"
+                                style="border-radius: 5px; border: 1px solid #ccc;"
+                            />
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="client_secret" style="font-weight: 500; color: #555;">Client Secret</label>
+                            <input
+                                type="password"
+                                class="form-control"
+                                id="client_secret"
+                                name="client_secret"
+                                placeholder="Enter Client Secret"
+                                style="border-radius: 5px; border: 1px solid #ccc;"
+                            />
+                        </div>
+                        <br />
+                        <button type="submit" class="btn btn-primary btn-block" style="background-color: #007bff; border-color: #007bff; font-weight: 600; border-radius: 5px;">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <br />
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+</div>
 
+<style>
+    .card {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    .form-group label {
+        margin-bottom: 8px;
+    }
+
+    .form-control {
+        height: calc(1.5em + 0.75rem + 2px);
+        padding: 0.375rem 0.75rem;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+</style>
 
 {% endblock %}

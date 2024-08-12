@@ -2,12 +2,19 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<br></br>
-<form action="{{ url_for('stale.stale_accounts') }}" method="post">
-    <button type="submit">Stale Accounts</button>
-</form>
-<br></br>
-<form action="{{ url_for('containment.falcon_containment') }}" method="post">
-    <button type="submit">Falcon Containment</button>
-</form>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8"> 
+            <div class="card p-5" style="background-color: #343a40; color: white; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); border: none;">
+                <h4 class="text-center mb-4">Actions</h4>
+                <form action="{{ url_for('stale.stale_accounts') }}" method="post" class="mb-3">
+                    <button type="submit" class="btn btn-secondary btn-block btn-lg">Stale Accounts</button>
+                </form>     
+                <form action="{{ url_for('containment.falcon_containment') }}" method="post">
+                    <button type="submit" class="btn btn-secondary btn-block btn-lg">Falcon Containment</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -87,6 +87,7 @@ def list_host_group_members(group_id):
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
+    
 
 @containment.route('/group-containment-action', methods=['POST'])
 @login_required
