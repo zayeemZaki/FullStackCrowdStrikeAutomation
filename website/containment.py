@@ -1,7 +1,8 @@
-from flask import Blueprint, render_template, session, request, redirect, url_for
+from flask import Blueprint, render_template, session, request, redirect, url_for, send_file
 from flask_login import login_required, current_user
 from falconpy import Hosts, HostGroup, APIError, APIHarnessV2
 import pandas as pd
+import io
 
 containment = Blueprint('containment', __name__)
 
@@ -54,7 +55,7 @@ def list_groups():
 
     # Only pass member_tables if members were successfully retrieved
     if members_df_html:
-        return render_template("falcon_containment/contain_group.html", tables=[df_html], member_tables=[members_df_html], titles=df.columns.values, user=current_user)
+        return render_template("falcon_containment/contain_group.html", tables=[df_html], member_tables=[members_df_html], titles=df.columns.values, user=current_user, group_id=group_id)
     else:
         return render_template("falcon_containment/contain_group.html", tables=[df_html], titles=df.columns.values, user=current_user)
 
@@ -79,10 +80,15 @@ def list_host_group_members(group_id):
             'HostIds': hostIds
         }
         pd.set_option('display.max_rows', None)
+
+
         df = pd.DataFrame(data)
 
-        session['host_ids'] = hostIds  # Save the host IDs in the session
+        dict_obj = df.to_dict('dict')
+        session['data'] = dict_obj
 
+        session['host_ids'] = hostIds  # Save the host IDs in the session
+        
         return df.to_html(classes='table table-striped')
     except Exception as e:
         print(f"An error occurred: {e}")
@@ -219,3 +225,35 @@ def lift_containment_hosts(hosts, falcon_hosts):
             print(f"Successfully lifted containment for host ID: {host_id}")
         else:
             print(f"Failed to lift containment for host ID: {host_id}, Response: {response}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+@containment.route('/download-table/<file_format>', methods=['GET'])
+@login_required
+def download_table(file_format):
+
+    df_new = session.get('data')
+    new = pd.DataFrame(df_new)
+    print(new)
+    if file_format == 'csv':
+        output = io.StringIO()
+        new.to_csv(output, index=False)
+        output.seek(0)
+        return send_file(io.BytesIO(output.getvalue().encode('utf-8')), mimetype='text/csv', as_attachment=True, download_name='group_members.csv')
+    elif file_format == 'txt':
+        output = io.StringIO()
+        new.to_string(output, index=False)
+        output.seek(0)
+        return send_file(io.BytesIO(output.getvalue().encode('utf-8')), mimetype='text/plain', as_attachment=True, download_name='group_members.txt')
+    
+    return redirect(url_for('containment.list_groups'))

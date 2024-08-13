@@ -23,6 +23,8 @@
                         </div>
                     {% endfor %}
                 </div>
+
+        
             </div>
         </div>
     </div>
@@ -59,12 +61,17 @@
 {% if member_tables %}
     <div class="row justify-content-center">
         <div class="col-md-14">
+            <h5 class = "text-center"> {{group_id}} </h5>
             <h2 class = "text-center">Group Members</h2>
             <div class="white-text-table">
                 {% for table in member_tables %}
                     {{ table|safe }}
                 {% endfor %}
             </div>
+            <div class="text-center mt-4">
+                <a href="{{ url_for('containment.download_table', file_format='csv') }}" class="btn btn-success">Download CSV</a>
+                <a href="{{ url_for('containment.download_table', file_format='txt') }}" class="btn btn-success">Download Text</a>
+            </div>    
         <div class="col-md-14">
     <div class="row justify-content-center">
 

@@ -1,8 +1,9 @@
-from flask import Blueprint, render_template, flash, session, redirect, url_for, request
+from flask import Blueprint, render_template, flash, session, redirect, url_for, request, send_file
 from flask_login import login_required, current_user
 import requests
 from datetime import datetime, timezone
 import pandas as pd
+import io
 
 stale = Blueprint('stale', __name__)
 
@@ -126,6 +127,11 @@ def stale_accounts_table():
         print('Invalid input. Exiting.')
         exit()
 
+    # dict_obj = df.to_dict('dict')
+    # session['data'] = dict_obj
+
+
+
     df_html = df.to_html(classes='table table-striped')
 
     return render_template("stale_accounts/stale_accounts.html", tables=[df_html], titles=df.columns.values, user=current_user)
@@ -133,7 +139,35 @@ def stale_accounts_table():
 
 
 
+# @stale.route('/download-table/<file_format>', methods=['GET'])
+# @login_required
+# def download_table(file_format):
 
+#     print("DATA: --- - -- -- - - ")
+#     print(session.get('data'))
+
+#     df_old = session.get('data')
+
+#     print("df_old - -- - -- - ----- --- - - - -- -")
+#     print(df_old)
+
+#     df_new = pd.DataFrame(df_old)
+
+#     print("DF - -- - - - -- - ------ ")
+#     print(df_new)
+
+#     if file_format == 'csv':
+#         output = io.StringIO()
+#         df_new.to_csv(output, index=False)
+#         output.seek(0)
+#         return send_file(io.BytesIO(output.getvalue().encode('utf-8')), mimetype='text/csv', as_attachment=True, download_name='stale_accounts.csv')
+#     elif file_format == 'txt':
+#         output = io.StringIO()
+#         df_new.to_string(output, index=False)
+#         output.seek(0)
+#         return send_file(io.BytesIO(output.getvalue().encode('utf-8')), mimetype='text/plain', as_attachment=True, download_name='stale_accounts.txt')
+    
+#     return redirect(url_for('stale.stale_accounts_table'))
 
 
 
