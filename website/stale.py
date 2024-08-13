@@ -127,8 +127,8 @@ def stale_accounts_table():
         print('Invalid input. Exiting.')
         exit()
 
-    # dict_obj = df.to_dict('dict')
-    # session['data'] = dict_obj
+    dict_obj = df.to_dict('dict')
+    session['data'] = dict_obj
 
 
 
@@ -139,35 +139,25 @@ def stale_accounts_table():
 
 
 
-# @stale.route('/download-table/<file_format>', methods=['GET'])
-# @login_required
-# def download_table(file_format):
+@stale.route('/download-table/<file_format>', methods=['GET'])
+@login_required
+def download_table(file_format):
 
-#     print("DATA: --- - -- -- - - ")
-#     print(session.get('data'))
+    data = session.get('data')
+    df = pd.DataFrame(data)
 
-#     df_old = session.get('data')
-
-#     print("df_old - -- - -- - ----- --- - - - -- -")
-#     print(df_old)
-
-#     df_new = pd.DataFrame(df_old)
-
-#     print("DF - -- - - - -- - ------ ")
-#     print(df_new)
-
-#     if file_format == 'csv':
-#         output = io.StringIO()
-#         df_new.to_csv(output, index=False)
-#         output.seek(0)
-#         return send_file(io.BytesIO(output.getvalue().encode('utf-8')), mimetype='text/csv', as_attachment=True, download_name='stale_accounts.csv')
-#     elif file_format == 'txt':
-#         output = io.StringIO()
-#         df_new.to_string(output, index=False)
-#         output.seek(0)
-#         return send_file(io.BytesIO(output.getvalue().encode('utf-8')), mimetype='text/plain', as_attachment=True, download_name='stale_accounts.txt')
+    if file_format == 'csv':
+        output = io.StringIO()
+        df.to_csv(output, index=False)
+        output.seek(0)
+        return send_file(io.BytesIO(output.getvalue().encode('utf-8')), mimetype='text/csv', as_attachment=True, download_name='stale_accounts.csv')
+    elif file_format == 'txt':
+        output = io.StringIO()
+        df.to_string(output, index=False)
+        output.seek(0)
+        return send_file(io.BytesIO(output.getvalue().encode('utf-8')), mimetype='text/plain', as_attachment=True, download_name='stale_accounts.txt')
     
-#     return redirect(url_for('stale.stale_accounts_table'))
+    return redirect(url_for('stale.stale_accounts_table'))
 
 
 

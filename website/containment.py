@@ -84,8 +84,6 @@ def list_host_group_members(group_id):
 
         df = pd.DataFrame(data)
 
-        dict_obj = df.to_dict('dict')
-        session['data'] = dict_obj
 
         session['host_ids'] = hostIds  # Save the host IDs in the session
         
@@ -236,24 +234,3 @@ def lift_containment_hosts(hosts, falcon_hosts):
 
 
 
-
-
-@containment.route('/download-table/<file_format>', methods=['GET'])
-@login_required
-def download_table(file_format):
-
-    df_new = session.get('data')
-    new = pd.DataFrame(df_new)
-    print(new)
-    if file_format == 'csv':
-        output = io.StringIO()
-        new.to_csv(output, index=False)
-        output.seek(0)
-        return send_file(io.BytesIO(output.getvalue().encode('utf-8')), mimetype='text/csv', as_attachment=True, download_name='group_members.csv')
-    elif file_format == 'txt':
-        output = io.StringIO()
-        new.to_string(output, index=False)
-        output.seek(0)
-        return send_file(io.BytesIO(output.getvalue().encode('utf-8')), mimetype='text/plain', as_attachment=True, download_name='group_members.txt')
-    
-    return redirect(url_for('containment.list_groups'))

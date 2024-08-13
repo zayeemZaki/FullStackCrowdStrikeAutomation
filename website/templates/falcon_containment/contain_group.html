@@ -68,10 +68,6 @@
                     {{ table|safe }}
                 {% endfor %}
             </div>
-            <div class="text-center mt-4">
-                <a href="{{ url_for('containment.download_table', file_format='csv') }}" class="btn btn-success">Download CSV</a>
-                <a href="{{ url_for('containment.download_table', file_format='txt') }}" class="btn btn-success">Download Text</a>
-            </div>    
         <div class="col-md-14">
     <div class="row justify-content-center">
 
