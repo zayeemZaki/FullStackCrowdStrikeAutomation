@@ -14,7 +14,15 @@
         <div class="text-center mt-4">
             <a href="{{ url_for('stale.download_table', file_format='csv') }}" class="btn btn-success">Download CSV</a>
             <a href="{{ url_for('stale.download_table', file_format='txt') }}" class="btn btn-success">Download Text</a>
-        </div>    
+        </div>
+
+        <div class="text-center mt-4">
+            {% if has_next_page %}
+                <a href="{{ url_for('stale.stale_accounts_table', cursor=end_cursor) }}" class="btn btn-secondary">Next</a>
+            {% endif %}
+        </div>
+        
+        
     {% else %}
         <div class="card p-4 shadow-sm" style="background-color: #2f353b; border: none;">
             <h4 class="text-center mb-4" style="color: #ffffff;">Sort Stale Accounts</h4>
@@ -41,7 +49,6 @@
         </div>
     {% endif %}
 </div>
-
 
 <style>
     .white-text-table table,
