@@ -10,6 +10,13 @@ stale = Blueprint('stale', __name__)
 # Base URL for the GraphQL API
 graphqlUrl = 'https://api.crowdstrike.com/identity-protection/combined/graphql/v1'
 
+@stale.route('/stale_accounts', methods=['GET', 'POST'])
+@login_required
+def stale_accounts():
+    
+    return render_template("stale_accounts/stale_accounts.html", user=current_user)
+
+
 @stale.route('/stale-accounts-table', methods=['GET', 'POST'])
 @login_required
 def stale_accounts_table():
