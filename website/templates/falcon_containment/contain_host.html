@@ -56,6 +56,39 @@
             </form>
         </div>
     </div>
+
+    <button type="button" class="btn btn-info" style="position: fixed; bottom: 20px; right: 20px;" data-toggle="modal" data-target="#logsModal">
+        View Logs
+    </button>
+
+    <div class="modal fade" id="logsModal" tabindex="-1" aria-labelledby="logsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content" style="background-color: #2f353b; color: #ffffff;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logsModalLabel">Saved Logs</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="color: #ffffff;">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="logContent">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            $('#logsModal').on('show.bs.modal', function () {
+                fetch('/hosts-containment-logs')
+                    .then(response => response.text())
+                    .then(data => {
+                        document.getElementById('logContent').innerText = data;
+                    })
+                    .catch(error => console.error('Error fetching logs:', error));
+            });
+        });
+    </script>
+
 {% endif %}
 
 <br><br>

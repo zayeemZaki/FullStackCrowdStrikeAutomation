@@ -94,12 +94,12 @@ def list_host_group_members(group_id):
         print(f"An error occurred: {e}")
         return None
 
-@containment.route('/view-logs', methods=['GET'])
+@containment.route('/group-containment-logs', methods=['GET'])
 @login_required
-def view_logs():
+def view_group_containment_logs():
     return send_file('templates/logs/group_containment_log.txt', mimetype='text/plain')
 
-def log_containment_action(hostname, host_id, action, status):
+def group_log_containment_action(hostname, host_id, action, status):
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     log_message = f"{timestamp} - Hostname: {hostname}, Host ID: {host_id}, Action: {action}, Status: {status}\n"
     with open("website/templates/logs/group_containment_log.txt", "a") as log_file:
@@ -136,7 +136,7 @@ def contain_group(hostNames, hostIds, falcon_hosts):
             print(f"Failed to contain host ID: {hostIds[i]}, Response: {response}")
             status = "failure"
         
-        log_containment_action(hostNames[i], hostIds[i], "contain", status)
+        group_log_containment_action(hostNames[i], hostIds[i], "contain", status)
 
 
 def lift_containment_group(hostNames, hostIds, falcon_hosts):
@@ -150,7 +150,7 @@ def lift_containment_group(hostNames, hostIds, falcon_hosts):
             print(f"Failed to lift containment for host ID: {hostIds[i]}, Response: {response}")
             status = "failure"
         
-        log_containment_action(hostNames[i], hostIds[i], "lift_containment", status)
+        group_log_containment_action(hostNames[i], hostIds[i], "lift_containment", status)
 
 
 
@@ -158,7 +158,16 @@ def lift_containment_group(hostNames, hostIds, falcon_hosts):
 
 
 
+@containment.route('/hosts-containment-logs', methods=['GET'])
+@login_required
+def view_host_containment_logs():
+    return send_file('templates/logs/hosts_containment_log.txt', mimetype='text/plain')
 
+def host_log_containment_action(hostname, host_id, action, status):
+    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    log_message = f"{timestamp} - Hostname: {hostname}, Host ID: {host_id}, Action: {action}, Status: {status}\n"
+    with open("website/templates/logs/hosts_containment_log.txt", "a") as log_file:
+        log_file.write(log_message)
 
 
 
@@ -192,13 +201,13 @@ def hosts_containment_status():
                 resources = containment_status_response['body'].get('resources', [])
                 if resources:
                     containment_status = resources[0].get('status', 'Unknown')
-                    status_data.append({'Host ID': hostname, 'Status': containment_status})
+                    status_data.append({'Host Name': hostname, 'Status': containment_status})
                 else:
                     error_message = containment_status_response['body'].get('errors', [{}])[0].get('message', 'Unknown error')
-                    status_data.append({'Host ID': hostname, 'Status': f"Error: {error_message}"})
+                    status_data.append({'Host Name': hostname, 'Status': f"Error: {error_message}"})
             else:
                 error_message = containment_status_response['body'].get('errors', [{}])[0].get('message', 'Unknown error')
-                status_data.append({'Host ID': hostname, 'Status': f"API Error: {error_message}"})
+                status_data.append({'Host Name': hostname, 'Status': f"API Error: {error_message}"})
 
         df = pd.DataFrame(status_data)
         host_status_table = df.to_html(classes='table table-striped')
@@ -236,8 +245,12 @@ def contain_hosts(hosts, falcon_hosts):
         response = falcon_hosts.perform_action(action_name="contain", ids=[host_id])
         if response['status_code'] == 200:
             print(f"Successfully contained host ID: {host_id}")
+            status = "success"
         else:
             print(f"Failed to contain host ID: {host_id}, Response: {response}")
+            status = "failure"
+
+        host_log_containment_action(host_name, host_id, "contain", status)
 
 def lift_containment_hosts(hosts, falcon_hosts):
     for host_name in hosts:
@@ -247,9 +260,12 @@ def lift_containment_hosts(hosts, falcon_hosts):
         response = falcon_hosts.perform_action(action_name="lift_containment", ids=[host_id])
         if response['status_code'] == 200:
             print(f"Successfully lifted containment for host ID: {host_id}")
+            status = "success"
         else:
             print(f"Failed to lift containment for host ID: {host_id}, Response: {response}")
+            status = "failure"
 
+        host_log_containment_action(host_name, host_id, "lift_containment", status)
 
 
 
