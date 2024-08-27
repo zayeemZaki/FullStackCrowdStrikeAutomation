@@ -6,7 +6,7 @@ import io
 from datetime import datetime
 containment = Blueprint('containment', __name__)
 import os
-
+import time
 
 
 
@@ -143,13 +143,19 @@ def group_containment_action():
 def contain_group(hostNames, hostIds, falcon_hosts):
 
     for i in range(len(hostIds)):
-        response = falcon_hosts.perform_action(action_name="contain", ids=[hostIds[i]])
-        if response['status_code'] == 200:
+        falcon_hosts.perform_action(action_name="contain", ids=[hostIds[i]])
+        
+    time.sleep(60)
+
+    for i in range(len(hostIds)):
+        result = falcon_hosts.get_device_details(ids=hostIds[i])
+
+        if result['status_code'] == 200:
             print(f"Successfully contained host ID: {hostIds[i]}")
-            status = "success"
+            status = result["body"]["resources"][0]["status"]
         else:
-            print(f"Failed to contain host ID: {hostIds[i]}, Response: {response}")
-            status = "failure"
+            print(f"Failed to contain host ID: {hostIds[i]}, Response: {result}")
+            status = result["body"]["resources"][0]["status"]
         
         group_log_containment_action(hostNames[i], hostIds[i], "contain", status)
 
@@ -157,13 +163,19 @@ def contain_group(hostNames, hostIds, falcon_hosts):
 def lift_containment_group(hostNames, hostIds, falcon_hosts):
 
     for i in range(len(hostIds)):
-        response = falcon_hosts.perform_action(action_name="lift_containment", ids=[hostIds[i]])
-        if response['status_code'] == 200:
+        falcon_hosts.perform_action(action_name="lift_containment", ids=[hostIds[i]])
+    
+    time.sleep(60)
+
+    for i in range(len(hostIds)):
+        result = falcon_hosts.get_device_details(ids=hostIds[i])
+
+        if result['status_code'] == 200:
             print(f"Successfully lifted containment for host ID: {hostIds[i]}")
-            status = "success"
+            status = result["body"]["resources"][0]["status"]
         else:
-            print(f"Failed to lift containment for host ID: {hostIds[i]}, Response: {response}")
-            status = "failure"
+            print(f"Failed to lift containment for host ID: {hostIds[i]}, Response: {result}")
+            status = result["body"]["resources"][0]["status"]
         
         group_log_containment_action(hostNames[i], hostIds[i], "lift_containment", status)
 
@@ -254,33 +266,43 @@ def hosts_containment_action():
 
 def contain_hosts(hosts, falcon_hosts):
     for host_name in hosts:
-
         host_id = falcon_hosts.query_devices_by_filter(filter=f"hostname:'{host_name}'")["body"]["resources"][0]  # Get the host ID from the response
+        falcon_hosts.perform_action(action_name="contain", ids=[host_id])
 
-        response = falcon_hosts.perform_action(action_name="contain", ids=[host_id])
-        if response['status_code'] == 200:
+    time.sleep(60)
+
+    for host_name in hosts:
+        host_id = falcon_hosts.query_devices_by_filter(filter=f"hostname:'{host_name}'")["body"]["resources"][0]  # Get the host ID from the response
+        result = falcon_hosts.get_device_details(ids=host_id)
+
+        if result['status_code'] == 200:
             print(f"Successfully contained host ID: {host_id}")
-            status = "success"
+            status = result["body"]["resources"][0]["status"]
         else:
-            print(f"Failed to contain host ID: {host_id}, Response: {response}")
-            status = "failure"
-
+            print(f"Failed to contain host ID: {host_id}, Response: {result}")
+            status = result["body"]["resources"][0]["status"]
+        
         host_log_containment_action(host_name, host_id, "contain", status)
 
 def lift_containment_hosts(hosts, falcon_hosts):
     for host_name in hosts:
-
         host_id = falcon_hosts.query_devices_by_filter(filter=f"hostname:'{host_name}'")["body"]["resources"][0]  # Get the host ID from the response
-        
-        response = falcon_hosts.perform_action(action_name="lift_containment", ids=[host_id])
-        if response['status_code'] == 200:
-            print(f"Successfully lifted containment for host ID: {host_id}")
-            status = "success"
-        else:
-            print(f"Failed to lift containment for host ID: {host_id}, Response: {response}")
-            status = "failure"
+        falcon_hosts.perform_action(action_name="lift_containment", ids=[host_id])
 
-        host_log_containment_action(host_name, host_id, "lift_containment", status)
+    time.sleep(60)
+
+    for host_name in hosts:
+        host_id = falcon_hosts.query_devices_by_filter(filter=f"hostname:'{host_name}'")["body"]["resources"][0]  # Get the host ID from the response
+        result = falcon_hosts.get_device_details(ids=host_id)
+
+        if result['status_code'] == 200:
+            print(f"Successfully lifted containment from host ID: {host_id}")
+            status = result["body"]["resources"][0]["status"]
+        else:
+            print(f"Failed to lift containment from host ID: {host_id}, Response: {result}")
+            status = result["body"]["resources"][0]["status"]
+        
+        host_log_containment_action(host_name, host_id, "lift", status)
 
 
 
