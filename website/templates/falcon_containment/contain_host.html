@@ -39,7 +39,7 @@
     <div class="container mt-5">
         <div class="card p-4 shadow-sm" style="background-color: #2f353b; border: none;">
             <h4 class="text-center mb-4" style="color: #ffffff;">Select Action</h4>
-            <form action="{{ url_for('containment.hosts_containment_action') }}" method="post">
+            <form action="{{ url_for('containment.hosts_containment_action') }}" method="post" onsubmit="showLoadingSpinner()">
                 <div class="form-check mb-3">
                     <input class="form-check-input" type="radio" name="action" id="contain" value="contain" required>
                     <label class="form-check-label" for="contain" style="color: #ffffff;">
@@ -56,6 +56,21 @@
             </form>
         </div>
     </div>
+
+    <!-- Spinner container -->
+    <div class="spinner-container" id="loadingSpinner">
+        <div class="spinner"></div>
+        <div class="spinner-text"> <b>60 sec delay</b></div>
+    </div>
+
+    <script>
+        // JavaScript function to show the loading spinner
+        function showLoadingSpinner() {
+            document.getElementById('loadingSpinner').style.display = 'flex';
+            document.getElementById('loadingSpinner').style.flexDirection = 'column';
+            document.getElementById('loadingSpinner').style.alignItems = 'center';
+        }
+    </script>
 
     <button type="button" class="btn btn-info" style="position: fixed; bottom: 20px; right: 20px;" data-toggle="modal" data-target="#logsModal">
         View Logs
@@ -99,6 +114,39 @@
     .white-text-table td {
         color: white;
     }
+    .spinner-container {
+        display: none; /* Initially hidden */
+        position: fixed;
+        z-index: 9999;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+    
+    .spinner {
+        width: 3rem;
+        height: 3rem;
+        border: 0.25rem solid #f3f3f3;
+        border-top: 0.25rem solid #3498db;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 1rem;
+    }
+    
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+    
+    .spinner-text {
+        color: #ff0000;
+        font-size: 3rem;
+        text-align: center;
+    }
 </style>
-
 {% endblock %}
