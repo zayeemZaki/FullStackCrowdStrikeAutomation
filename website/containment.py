@@ -71,14 +71,18 @@ def list_host_group_members(group_id):
 
         members = response['body']['resources']
         hostNames, hostIds = list(), list()
+        group_members_status_data = list()
 
         for member in members:
             hostNames.append(member.get('hostname', 'Unknown hostname'))
             hostIds.append(member.get('device_id', 'Unknown ID'))
+            group_members_status_data.append(member.get('status', 'Unknown Status'))
+
 
         data = {
             'Host_Name': hostNames,
-            'HostIds': hostIds
+            'HostIds': hostIds,
+            'status': group_members_status_data
         }
         pd.set_option('display.max_rows', None)
 
@@ -86,13 +90,18 @@ def list_host_group_members(group_id):
         df = pd.DataFrame(data)
 
 
-        session['host_ids'] = hostIds  # Save the host IDs in the session
+        session['host_ids'] = hostIds
         session['host_names'] = hostNames
 
         return df.to_html(classes='table table-striped')
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
+
+
+
+
+
 
 @containment.route('/group-containment-logs', methods=['GET'])
 @login_required
@@ -104,6 +113,12 @@ def group_log_containment_action(hostname, host_id, action, status):
     log_message = f"{timestamp} - Hostname: {hostname}, Host ID: {host_id}, Action: {action}, Status: {status}\n"
     with open("website/templates/logs/group_containment_log.txt", "a") as log_file:
         log_file.write(log_message)
+
+
+
+
+
+
 
 
 
