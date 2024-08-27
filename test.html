@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Stale Accounts{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    {% if tables %}
+
+        <div class="white-text-table">
+
+            {% for table in tables %}
+
+                <div class="white-text-table">
+
+                    {{ table|safe }} 
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+        <div class="text-center mt-4">
+
+            <a href="{{ url_for('stale.download_table', file_format='csv') }}" class="btn btn-success">Download CSV</a>
+
+            <a href="{{ url_for('stale.download_table', file_format='txt') }}" class="btn btn-success">Download Text</a>
+
+        </div>    
+
+        <div class="text-center mt-4">
+
+            {% if page > 1 %}
+
+                <a href="{{ url_for('stale.stale_accounts_table', page=page-1) }}" class="btn btn-primary">Previous</a>
+
+            {% endif %}
+
+            {% if has_next_page %}
+
+                <a href="{{ url_for('stale.stale_accounts_table', page=page+1) }}" class="btn btn-primary">Next</a>
+
+            {% endif %}
+
+        </div
+ 

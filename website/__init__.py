@@ -2,6 +2,13 @@ from flask import Flask
 from flask_login import LoginManager, UserMixin
 from flask import session
 from flask_session import Session
+# import os
+
+# # Ensure the log file exists.
+# log_file_path = "group_containment_log.txt"
+# if not os.path.exists(log_file_path):
+#     with open(log_file_path, 'w') as log_file:
+#         log_file.write("")
 
 class User(UserMixin):
     pass

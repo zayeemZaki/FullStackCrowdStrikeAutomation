@@ -3,8 +3,9 @@ from flask_login import login_required, current_user
 from falconpy import Hosts, HostGroup, APIError, APIHarnessV2
 import pandas as pd
 import io
-
+from datetime import datetime
 containment = Blueprint('containment', __name__)
+import os
 
 
 
@@ -86,12 +87,26 @@ def list_host_group_members(group_id):
 
 
         session['host_ids'] = hostIds  # Save the host IDs in the session
-        
+        session['host_names'] = hostNames
+
         return df.to_html(classes='table table-striped')
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
-    
+
+@containment.route('/view-logs', methods=['GET'])
+@login_required
+def view_logs():
+    return send_file('templates/logs/group_containment_log.txt', mimetype='text/plain')
+
+def log_containment_action(hostname, host_id, action, status):
+    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    log_message = f"{timestamp} - Hostname: {hostname}, Host ID: {host_id}, Action: {action}, Status: {status}\n"
+    with open("website/templates/logs/group_containment_log.txt", "a") as log_file:
+        log_file.write(log_message)
+
+
+
 
 @containment.route('/group-containment-action', methods=['POST'])
 @login_required
@@ -99,32 +114,43 @@ def group_containment_action():
     action = request.form.get('action')
     group_id = session.get('group_id')
     host_ids = session.get('host_ids')
-    
+    host_names = session.get('host_names')
     falcon_hosts = Hosts(client_id=session.get('client_id'), client_secret=session.get('client_secret'))
     
     if action == "contain":
-        contain_group(host_ids, falcon_hosts)
+        contain_group(host_names, host_ids, falcon_hosts)
     elif action == "lift":
-        lift_containment_group(host_ids, falcon_hosts)
+        lift_containment_group(host_names, host_ids, falcon_hosts)
 
     return redirect(url_for('containment.list_groups'))
 
-# Containment and lift containment functions
-def contain_group(hosts, falcon_hosts):
-    for host_id in hosts:
-        response = falcon_hosts.perform_action(action_name="contain", ids=[host_id])
-        if response['status_code'] == 200:
-            print(f"Successfully contained host ID: {host_id}")
-        else:
-            print(f"Failed to contain host ID: {host_id}, Response: {response}")
 
-def lift_containment_group(hosts, falcon_hosts):
-    for host_id in hosts:
-        response = falcon_hosts.perform_action(action_name="lift_containment", ids=[host_id])
+def contain_group(hostNames, hostIds, falcon_hosts):
+
+    for i in range(len(hostIds)):
+        response = falcon_hosts.perform_action(action_name="contain", ids=[hostIds[i]])
         if response['status_code'] == 200:
-            print(f"Successfully lifted containment for host ID: {host_id}")
+            print(f"Successfully contained host ID: {hostIds[i]}")
+            status = "success"
         else:
-            print(f"Failed to lift containment for host ID: {host_id}, Response: {response}")
+            print(f"Failed to contain host ID: {hostIds[i]}, Response: {response}")
+            status = "failure"
+        
+        log_containment_action(hostNames[i], hostIds[i], "contain", status)
+
+
+def lift_containment_group(hostNames, hostIds, falcon_hosts):
+
+    for i in range(len(hostIds)):
+        response = falcon_hosts.perform_action(action_name="lift_containment", ids=[hostIds[i]])
+        if response['status_code'] == 200:
+            print(f"Successfully lifted containment for host ID: {hostIds[i]}")
+            status = "success"
+        else:
+            print(f"Failed to lift containment for host ID: {hostIds[i]}, Response: {response}")
+            status = "failure"
+        
+        log_containment_action(hostNames[i], hostIds[i], "lift_containment", status)
 
 
 
