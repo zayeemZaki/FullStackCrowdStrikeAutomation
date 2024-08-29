@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Remove Admin Rights from Host{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card p-4 shadow-sm" style="background-color: #2f353b; border: none;">
+        <h4 class="text-center mb-4" style="color: #ffffff;">Remove Admin Rights using RTR</h4>
+
+
+        <form action="{{ url_for('adminRights.remove_admin_rights') }}" methods="POST">
+            <textarea
+                class="form-control mt-3"
+                id="user-name"
+                name="user-name"
+                placeholder="Enter user name of the host"
+                rows="1"
+            ></textarea>
+            <textarea
+                class="form-control mt-3"
+                id="device-name"
+                name="device-name"
+                placeholder="Enter users device name (FS-#####)"
+                rows="1"
+            ></textarea>
+            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
