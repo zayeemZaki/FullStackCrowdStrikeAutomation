@@ -91,11 +91,12 @@ def remove_admin_rights():
         except Exception as e:
             raise
 
-    def edit_script():
+    def edit_script(token, script_id):
         headers = {
-            'Authorization': f'Bearer {token}',
+            'Authorization': f'Bearer {token}'
         }
         files = {
+            'id': (None, script_id),
             'name': (None, script_name),
             'permission_type': (None, 'public'),
             'file': (script_name, script_content, 'application/octet-stream')
