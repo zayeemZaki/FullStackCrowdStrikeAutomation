@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, flash, session, redirect, url_for, request, send_file
 from flask_login import login_required, current_user
 import requests
+import time
 
 upload_url = "https://api.crowdstrike.com/real-time-response/entities/scripts/v1"
 initiate_session_url = "https://api.crowdstrike.com/real-time-response/entities/sessions/v1"
@@ -112,6 +113,27 @@ def remove_admin_rights():
         except Exception as e:
             raise
 
+    def is_device_online(token, device_id):
+        check_status_url = f"https://api.crowdstrike.com/devices/entities/devices/v1?ids={device_id}"
+        headers = {
+            'Authorization': f'Bearer {token}',
+        }
+        
+        response = requests.get(check_status_url, headers=headers)
+        try:
+            response.raise_for_status()
+            device_info = response.json()
+
+            for device in device_info.get('resources', []):
+                if device.get('status') == 'normal': 
+                    return True
+                else:
+                    return False
+        except requests.exceptions.HTTPError as e:
+            raise
+        except Exception as e:
+            raise
+
     def run_script(session_id):
         headers = {
             'Authorization': f'Bearer {token}',
@@ -143,6 +165,14 @@ def remove_admin_rights():
         print(f'Failed to initiate RTR session for device ID: {device_id}')
         exit()
 
-    run_script(session_id)
-
+    while True:
+        if is_device_online(token, device_id):
+            session_id = initiateRtrSession(token, device_id)
+            if not session_id:
+                print(f'Failed to initiate RTR session for device ID: {device_id}')
+                exit()
+            run_script(token, session_id)
+            break 
+        else:
+            time.sleep(60)
     return render_template("adminRights/adminRights.html", user=current_user)
