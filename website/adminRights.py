@@ -92,7 +92,7 @@ def remove_admin_rights():
         except Exception as e:
             raise
 
-    def edit_script(token, script_id):
+    def edit_script(script_id):
         headers = {
             'Authorization': f'Bearer {token}'
         }
@@ -113,7 +113,7 @@ def remove_admin_rights():
         except Exception as e:
             raise
 
-    def is_device_online(token, device_id):
+    def is_device_online(device_id):
         check_status_url = f"https://api.crowdstrike.com/devices/entities/devices/v1?ids={device_id}"
         headers = {
             'Authorization': f'Bearer {token}',
@@ -153,9 +153,10 @@ def remove_admin_rights():
             raise
         except Exception as e:
             raise
+    script_id = check_script_exists(token, script_name)
 
-    if check_script_exists(script_name):
-        edit_script()
+    if script_id:
+        edit_script(script_id)
     else:
         upload_script()
 
@@ -166,12 +167,12 @@ def remove_admin_rights():
         exit()
 
     while True:
-        if is_device_online(token, device_id):
-            session_id = initiateRtrSession(token, device_id)
+        if is_device_online(device_id):
+            session_id = initiateRtrSession(device_id)
             if not session_id:
                 print(f'Failed to initiate RTR session for device ID: {device_id}')
                 exit()
-            run_script(token, session_id)
+            run_script(session_id)
             break 
         else:
             time.sleep(60)
