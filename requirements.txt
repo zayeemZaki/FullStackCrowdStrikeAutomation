@@ -1,0 +1,6 @@
+Flask
+Flask-Login
+flask-session
+falconpy
+pandas
+requests
