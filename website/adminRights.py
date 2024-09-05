@@ -161,10 +161,10 @@ def remove_admin_rights():
         upload_script()
 
     device_id = getDeviceId(device_name)
-    session_id = initiateRtrSession(device_id)
-    if not session_id:
-        print(f'Failed to initiate RTR session for device ID: {device_id}')
-        exit()
+    # session_id = initiateRtrSession(device_id)
+    # if not session_id:
+    #     print(f'Failed to initiate RTR session for device ID: {device_id}')
+    #     exit()
 
     while True:
         if is_device_online(device_id):
