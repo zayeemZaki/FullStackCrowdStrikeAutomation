@@ -156,6 +156,7 @@ def remove_admin_rights():
             raise
         except Exception as e:
             raise
+        
     script_id = check_script_exists(script_name)
 
     if script_id:
@@ -178,5 +179,6 @@ def remove_admin_rights():
             run_script(session_id)
             break 
         else:
+            flash('Host is offline will try again!', category='error')
             time.sleep(60)
     return render_template("adminRights/adminRights.html", user=current_user)
