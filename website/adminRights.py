@@ -156,7 +156,7 @@ def remove_admin_rights():
             raise
         except Exception as e:
             raise
-    script_id = check_script_exists(token, script_name)
+    script_id = check_script_exists(script_name)
 
     if script_id:
         edit_script(script_id)
