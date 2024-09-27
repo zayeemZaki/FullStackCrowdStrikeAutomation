@@ -2,17 +2,18 @@
 {% block title %}IOC Search Results{% endblock %}
 
 {% block content %}
-<div class="container-fluid mt-5 px-3">
+<div class="container-fluid mt-5">
     <h4 class="text-center mb-4" style="color: #ffffff;">IOC Search Results</h4>
-    {% if tables %}
-        <div class="table-responsive px-0">
+    
+    {% if tables and not details %}
+        <div class="table-responsive">
             {% for table in tables %}
-                <div class="white-text-table" style="overflow-x: auto; white-space: nowrap;">
+                <div class="white-text-table mx-2" style="overflow-x: auto; white-space: nowrap;">
                     {{ table|safe }}
                 </div>
             {% endfor %}
         </div>
-    {% else %}
+    {% elif not details %}
         <p class="text-center" style="color: #ffffff;">No IOCs matched your criteria.</p>
     {% endif %}
 
@@ -22,14 +23,15 @@
         <div class="row justify-content-center">
             <div class="col-md-8"> 
                 <div class="form-group text-center">
-                    <label for="ioc-id"><h2>Enter the IOC id to check details</h2></label>
+                    <label for="ioc-id"><h2 style="color: #ffffff;">Enter the IOC ID to Check Details</h2></label>
                     <form action="{{ url_for('searchIOCs.get_ioc_details_by_id') }}" method="post">
                         <input
                             type="text"
                             class="form-control mt-3"
                             id="ioc-id"
                             name="ioc-id"
-                            placeholder="IOC id"
+                            placeholder="IOC ID"
+                            style="text-align: center;"
                         />
                         <button type="submit" class="btn btn-primary mt-3">Submit</button>
                     </form>
@@ -41,16 +43,16 @@
 
     <div class="container mt-5">
         {% if details %}
-            <h4 class="text-center mb-4" style="color: #ffffff;">IOC Details</h4>
-            <div class="white-text-details">
-                <ul>
-                    {% for detail in details %}
-                        <li>{{ detail }}</li>
-                    {% endfor %}
-                </ul>
+            <div class="card text-light bg-dark mb-3">
+                <div class="card-header text-center"><h4>IOC Details</h4></div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush text-light">
+                        {% for detail in details %}
+                            <li class="list-group-item bg-dark">{{ detail }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
-        {% else %}
-            <p class="text-center" style="color: #ffffff;">No details found for the provided IOC ID.</p>
         {% endif %}
     </div>
 </div>
@@ -60,7 +62,8 @@
         overflow-x: auto; /* Enable horizontal scrolling */
         white-space: nowrap; /* Prevent line breaks */
         display: block; /* Make container scrollable */
-        margin: 0; /* Remove all margins */
+        margin-left: 0; /* Remove margins */
+        margin-right: 0; /* Remove margins */
     }
 
     .white-text-table table,
@@ -75,12 +78,27 @@
     }
 
     .container-fluid {
-        padding: 0 15px; /* Reduce container padding to 15px on both sides */
+        padding-left: 10px;  /* Reduce container left padding */
+        padding-right: 10px; /* Reduce container right padding */
     }
 
     .container {
         max-width: 100%; /* Allow container to take full width */
         padding: 0;
+    }
+
+    .card {
+        border: none;
+        margin-top: 20px;
+    }
+
+    .card-header {
+        background-color: #343a40;
+    }
+
+    .list-group-item {
+        border: none;
+        padding: 10px 20px;
     }
 </style>
 {% endblock %}
