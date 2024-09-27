@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}IOC Search Results{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h4 class="text-center mb-4" style="color: #ffffff;">IOC Search Results</h4>
+    {% if tables %}
+        <div class="white-text-table">
+
+            {% for table in tables %}
+            <div class="white-text-table" style="text-align: center; margin: 0 auto;">
+                {{ table|safe }}
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center" style="color: #ffffff;">No IOCs matched your criteria.</p>
+    {% endif %}
+
+    <br>
+    
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8"> 
+                <div class="form-group text-center">
+                    <label for="ioc-id"><h2>Enter the IOC id to check details</details></h2></label>
+                    <form action="{{ url_for('searchIOCs.get_ioc_details_by_id') }}" method="post">
+                        <input
+                            type="text"
+                            class="form-control mt-3"
+                            id="ioc-id"
+                            name="ioc-id"
+                            placeholder="IOC id"
+                        />
+                        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <div class="container mt-5">
+        {% if details %}
+            <h4 class="text-center mb-4" style="color: #ffffff;">IOC Details</h4>
+            <div class="white-text-details">
+                <ul>
+                    {% for detail in details %}
+                        <li>{{ detail }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <p class="text-center" style="color: #ffffff;">No details found for the provided IOC ID.</p>
+        {% endif %}
+    </div>
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+<style>
+    .white-text-table table,
+    .white-text-table th,
+    .white-text-table td {
+        color: white;
+    }
+    .white-text-table {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+</style>
+{% endblock %}

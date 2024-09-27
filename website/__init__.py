@@ -32,12 +32,14 @@ def create_app():
     from .stale import stale
     from .containment import containment
     from .adminRights import adminRights
+    from .searchIOCs import searchIOCs
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
     app.register_blueprint(stale, url_prefix='/')
     app.register_blueprint(containment, url_prefix='/')
     app.register_blueprint(adminRights, url_prefix='/')
+    app.register_blueprint(searchIOCs, url_prefix='/')
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.authenticate'
