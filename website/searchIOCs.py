@@ -62,8 +62,8 @@ def process_ioc_search():
         # Convert filtered IOCs into DataFrame and then to HTML table
         if filtered_iocs:
             data = {
-                # 'IOC ID': [ioc.get('id', 'N/A') for ioc in filtered_iocs],
-                'Indicator': [ioc.get('value', 'N/A') for ioc in filtered_iocs],
+                'IOC ID': [ioc.get('id', 'N/A') for ioc in filtered_iocs],
+                'IOC Value': [ioc.get('value', 'N/A') for ioc in filtered_iocs],
                 'Type': [ioc.get('type', 'N/A') for ioc in filtered_iocs],
                 'Severity': [ioc.get('severity', 'N/A') for ioc in filtered_iocs],
                 'Created On': [ioc.get('created_on', 'N/A') for ioc in filtered_iocs],
@@ -71,7 +71,7 @@ def process_ioc_search():
                 'Description': [ioc.get('description', 'N/A') for ioc in filtered_iocs]
             }
             df = pd.DataFrame(data)
-            df_html = df.to_html(classes='table table-striped')
+            df_html = df.to_html(classes='table table-striped left-align-headers')
 
             # Passing the table to the template
             return render_template("searchIOCs/ioc_results.html", tables=[df_html], titles=df.columns.values, user=current_user)
