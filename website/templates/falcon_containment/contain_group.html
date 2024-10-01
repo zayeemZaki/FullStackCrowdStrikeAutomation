@@ -2,46 +2,37 @@
 {% block title %}Falcon Groups{% endblock %}
 
 {% block content %}
-<h1 class="text-center" style="padding: 20px 0;">Falcon Groups</h1> 
-
-<style>
-    .white-text-table table,
-    .white-text-table th,
-    .white-text-table td {
-        color: white;
-    }
-</style>
+<h1 class="text-center text-white" style="padding: 20px 0;">Falcon Groups</h1> 
 
 {% if tables %}
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-14">
-                <div class="white-text-table">
-                    {% for table in tables %}
-                        <div class="white-text-table">
-                            {{ table|safe }}
-                        </div>
-                    {% endfor %}
+    <div class="container-fluid mt-5">
+        <div class="table-responsive">
+            {% for table in tables %}
+                <div class="white-text-table mx-2" style="overflow-x: auto; white-space: nowrap;">
+                    {{ table|safe }}
                 </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
+{% else %}
+    <p class="text-center text-white">No Falcon groups found.</p>
 {% endif %}
 
-<br></br>
+<br>
 
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8"> 
             <div class="form-group text-center">
-                <label for="group-id"><h2>Enter the group id to check its members</h2></label>
+                <label for="group-id"><h2 style="color: #ffffff;">Enter the Group ID to Check Its Members</h2></label>
                 <form action="{{ url_for('containment.list_groups') }}" method="post">
                     <input
                         type="text"
                         class="form-control mt-3"
                         id="group-id"
                         name="group-id"
-                        placeholder="Group id"
+                        placeholder="Group ID"
+                        style="text-align: center;"
                     />
                     <button type="submit" class="btn btn-primary mt-3">Submit</button>
                 </form>
@@ -50,40 +41,39 @@
     </div>
 </div>
 
-
-<br></br>
+<br>
 
 {% if member_tables %}
-    <div class="row justify-content-center">
-        <div class="col-md-14">
-            <h5 class="text-center">{{ group_id }}</h5>
-            <h2 class="text-center">Group Members</h2>
-            <div class="white-text-table">
-                {% for table in member_tables %}
+    <div class="container-fluid mt-5">
+        <div class="table-responsive">
+            {% for table in member_tables %}
+                <div class="white-text-table mx-2" style="overflow-x: auto; white-space: nowrap;">
                     {{ table|safe }}
-                {% endfor %}
-            </div>
+                </div>
+            {% endfor %}
         </div>
     </div>
         
     <div class="container mt-5">
-        <div class="card p-4 shadow-sm" style="background-color: #2f353b; border: none;">
-            <h4 class="text-center mb-4" style="color: #ffffff;">Select Action</h4>
-            <form action="{{ url_for('containment.group_containment_action') }}" method="post" onsubmit="showLoadingSpinner()">
-                <div class="form-check mb-3">
-                    <input class="form-check-input" type="radio" name="action" id="contain" value="contain" required>
-                    <label class="form-check-label" for="contain" style="color: #ffffff;">
-                        Contain Hosts
-                    </label>
-                </div>
-                <div class="form-check mb-4">
-                    <input class="form-check-input" type="radio" name="action" id="lift" value="lift" required>
-                    <label class="form-check-label" for="lift" style="color: #ffffff;">
-                        Lift Containment
-                    </label>
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">Submit</button>
-            </form>
+        <div class="card text-light bg-dark mb-3">
+            <div class="card-header text-center"><h4>Select Action</h4></div>
+            <div class="card-body">
+                <form action="{{ url_for('containment.group_containment_action') }}" method="post" onsubmit="showLoadingSpinner()">
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="radio" name="action" id="contain" value="contain" required>
+                        <label class="form-check-label" for="contain" style="color: #ffffff;">
+                            Contain Hosts
+                        </label>
+                    </div>
+                    <div class="form-check mb-4">
+                        <input class="form-check-input" type="radio" name="action" id="lift" value="lift" required>
+                        <label class="form-check-label" for="lift" style="color: #ffffff;">
+                            Lift Containment
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -133,13 +123,57 @@
             });
         });
     </script>
-
 {% endif %}
 
-<br></br>
-<br></br>
+<br>
 
 <style>
+    .white-text-table {
+        overflow-x: auto; /* Enable horizontal scrolling */
+        white-space: nowrap; /* Prevent line breaks */
+        display: block; /* Make container scrollable */
+    }
+
+    .white-text-table table,
+    .white-text-table th,
+    .white-text-table td {
+        color: white;
+        width: auto; /* Allow table to dynamically adjust width */
+    }
+
+    .table-responsive {
+        overflow-x: auto; /* Enable horizontal scrolling */
+    }
+
+    .container-fluid {
+        padding-left: 10px;  /* Reduce container left padding */
+        padding-right: 10px; /* Reduce container right padding */
+    }
+
+    .container {
+        max-width: 100%; /* Allow container to take full width */
+        padding: 0;
+    }
+
+    .card {
+        border: none;
+        margin-top: 20px;
+    }
+
+    .card-header {
+        background-color: #343a40;
+    }
+
+    .list-group-item {
+        border: none;
+        padding: 10px 20px;
+    }
+
+    /* Custom CSS to align table headers to the left */
+    .left-align-headers th {
+        text-align: left;
+    }
+
     .spinner-container {
         display: none; /* Initially hidden */
         position: fixed;
@@ -177,7 +211,3 @@
 </style>
 
 {% endblock %}
-
-
-
-

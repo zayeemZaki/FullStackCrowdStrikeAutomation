@@ -45,7 +45,7 @@ def list_groups():
     pd.set_option('display.max_rows', None)
     df = pd.DataFrame(data)
 
-    df_html = df.to_html(classes='table table-striped')
+    df_html = df.to_html(classes='table table-striped left-align-headers')
 
     group_id = request.form.get('group-id')
     members_df_html = None
