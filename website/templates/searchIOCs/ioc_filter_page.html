@@ -3,65 +3,89 @@
 
 {% block content %}
 <div class="card p-4 shadow-sm" style="background-color: #2f353b; border: none;">
-    <h4 class="text-center mb-4" style="color: #ffffff;">Filter IOC search</h4>
-    <form action="{{ url_for('searchIOCs.process_ioc_search') }}" method="POST"> <!--  change url -->
-        <h5>Please select minimum severity to display:</h5>
-        <div class="form-check mb-3">
-            <input class="form-check-input" type="radio" id="critical" name="severity" value="critical" checked="checked">
-            <label class="form-check-label" for="critical">Critical</label>
-        </div>
-        <div class="form-check mb-3">
-            <input class="form-check-input" type="radio" id="high" name="severity" value="high">
-            <label class="form-check-label" for="high">High</label>
-        </div>
-        <div class="form-check mb-3">
-            <input class="form-check-input" type="radio" id="medium" name="severity" value="medium">
-            <label class="form-check-label" for="medium">Medium</label>
-        </div>
-        <div class="form-check mb-3">
-            <input class="form-check-input" type="radio" id="low" name="severity" value="low">
-            <label class="form-check-label" for="low">Low</label>
-        </div>
-        <div class="form-check mb-3">
-            <input class="form-check-input" type="radio" id="no_minimum" name="severity" value="no_minimum">
-            <label class="form-check-label" for="no_minimum">No minimum</label>
-        </div>
-
-        </br>
-
-        <h5>Please enter the IOC type:</h5>
-        <div class="form-check mb-3"></div>
-            <input class="form-check-input" type="checkbox" id="sha256" name="ioc_type" value="sha256" checked="sha256">
-            <label class="form-check-label" for="sha256">Sha256</label>
-        </div>
-        <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" id="md5" name="ioc_type" value="md5" >
-            <label class="form-check-label" for="md5">MD5</label>
-        </div>
-        <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" id="domain" name="ioc_type" value="domain">
-            <label class="form-check-label" for="domain">Domain</label>
-        </div>
-        <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" id="all_of_the_above" name="ioc_type" value="all_of_the_above">
-            <label class="form-check-label" for="all_of_the_above">All of the above</label>
+    <h4 class="text-center mb-4" style="color: #ffffff;">Filter IOC Search</h4>
+    <form action="{{ url_for('searchIOCs.process_ioc_search') }}" method="POST">
+        
+        <div class="form-group">
+            <h5>Please select minimum severity to display:</h5>
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="radio" id="critical" name="severity" value="critical" checked>
+                <label class="form-check-label" for="critical" style="color: #ffffff;">Critical</label>
+            </div>
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="radio" id="high" name="severity" value="high">
+                <label class="form-check-label" for="high" style="color: #ffffff;">High</label>
+            </div>
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="radio" id="medium" name="severity" value="medium">
+                <label class="form-check-label" for="medium" style="color: #ffffff;">Medium</label>
+            </div>
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="radio" id="low" name="severity" value="low">
+                <label class="form-check-label" for="low" style="color: #ffffff;">Low</label>
+            </div>
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="radio" id="no_minimum" name="severity" value="no_minimum">
+                <label class="form-check-label" for="no_minimum" style="color: #ffffff;">No minimum</label>
+            </div>
         </div>
 
-        </br>
+        <div class="form-group">
+            <h5>Please select the IOC type(s):</h5>
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="sha256" name="ioc_type" value="sha256" checked>
+                <label class="form-check-label" for="sha256" style="color: #ffffff;">Sha256</label>
+            </div>
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="md5" name="ioc_type" value="md5">
+                <label class="form-check-label" for="md5" style="color: #ffffff;">MD5</label>
+            </div>
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="domain" name="ioc_type" value="domain">
+                <label class="form-check-label" for="domain" style="color: #ffffff;">Domain</label>
+            </div>
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="all_of_the_above" name="ioc_type" value="all_of_the_above">
+                <label class="form-check-label" for="all_of_the_above" style="color: #ffffff;">All of the above</label>
+            </div>
+        </div>
 
-        <h5>Please input start date (leave blank for no start date)</h5>
-        <textarea
-            class="form-control mt-3"
-            id="date"
-            name="date"
-            placeholder="MM-DD-YYYY"
-            rows="1"
-        ></textarea>
+        <div class="form-group">
+            <h5>Please input start date (leave blank for no start date):</h5>
+            <input type="date" class="form-control" id="start_date" name="start_date">
+            <small class="form-text text-muted">Format: MM-DD-YYYY</small>
+        </div>
+        
+        <div class="form-group mt-3">
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+        </div>
 
-        </br>
-
-
-        <button type="submit" class="btn btn-primary btn-block">Submit</button>
     </form>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const allOfTheAbove = document.getElementById('all_of_the_above');
+        const checkboxes = document.querySelectorAll('.form-check-input[name="ioc_type"]');
+
+        allOfTheAbove.addEventListener('change', function () {
+            checkboxes.forEach(checkbox => {
+                if (checkbox !== allOfTheAbove) {
+                    checkbox.checked = allOfTheAbove.checked;
+                }
+            });
+        });
+
+        checkboxes.forEach(checkbox => {
+            if (checkbox !== allOfTheAbove) {
+                checkbox.addEventListener('change', function () {
+                    if (!this.checked) {
+                        allOfTheAbove.checked = false;
+                    }
+                });
+            }
+        });
+    });
+</script>
+
 {% endblock %}

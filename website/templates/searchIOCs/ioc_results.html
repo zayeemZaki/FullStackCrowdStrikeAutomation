@@ -18,7 +18,6 @@
     {% endif %}
 
     <br>
-    
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-8"> 
@@ -46,11 +45,25 @@
             <div class="card text-light bg-dark mb-3">
                 <div class="card-header text-center"><h4>IOC Details</h4></div>
                 <div class="card-body">
-                    <ul class="list-group list-group-flush text-light">
+                    <ul class="list-group text-light">
                         {% for detail in details %}
-                            <li class="list-group-item bg-dark">{{ detail }}</li>
+                            <li class="list-group-item bg-dark">
+                                <strong>{{ detail.key }}:</strong> {{ detail.value }}
+                            </li>
                         {% endfor %}
                     </ul>
+                </div>
+            </div>
+        {% endif %}
+        {% if detection_tables %}
+            <div class="card text-light bg-dark mb-3">
+                <div class="card-header text-center"><h4>Related Detection Details</h4></div>
+                <div class="card-body">
+                    {% for table in detection_tables %}
+                        <div class="white-text-table" style="overflow-x: auto; white-space: nowrap;">
+                            {{ table|safe }}
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
         {% endif %}
@@ -62,8 +75,6 @@
         overflow-x: auto; /* Enable horizontal scrolling */
         white-space: nowrap; /* Prevent line breaks */
         display: block; /* Make container scrollable */
-        margin-left: 0; /* Remove margins */
-        margin-right: 0; /* Remove margins */
     }
 
     .white-text-table table,
