@@ -44,39 +44,39 @@
 <br>
 
 {% if member_tables %}
-    <div class="container-fluid mt-5">
-        <div class="table-responsive">
-            {% for table in member_tables %}
-                <div class="white-text-table mx-2" style="overflow-x: auto; white-space: nowrap;">
+    <div class="row justify-content-center">
+        <div class="col-md-14">
+            <h5 class="text-center">{{ group_id }}</h5>
+            <h2 class="text-center">Group Members</h2>
+            <div class="white-text-table">
+                {% for table in member_tables %}
                     {{ table|safe }}
-                </div>
-            {% endfor %}
-        </div>
-    </div>
-        
-    <div class="container mt-5">
-        <div class="card text-light bg-dark mb-3">
-            <div class="card-header text-center"><h4>Select Action</h4></div>
-            <div class="card-body">
-                <form action="{{ url_for('containment.group_containment_action') }}" method="post" onsubmit="showLoadingSpinner()">
-                    <div class="form-check mb-3">
-                        <input class="form-check-input" type="radio" name="action" id="contain" value="contain" required>
-                        <label class="form-check-label" for="contain" style="color: #ffffff;">
-                            Contain Hosts
-                        </label>
-                    </div>
-                    <div class="form-check mb-4">
-                        <input class="form-check-input" type="radio" name="action" id="lift" value="lift" required>
-                        <label class="form-check-label" for="lift" style="color: #ffffff;">
-                            Lift Containment
-                        </label>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">Submit</button>
-                </form>
+                {% endfor %}
             </div>
         </div>
     </div>
-
+        
+    <div class="d-flex justify-content-center mt-5">
+        <div class="card p-4 shadow-sm" style="background-color: #2f353b; border: none; width: 100%; max-width: 500px;">
+            <h4 class="text-center mb-4" style="color: #ffffff;">Select Action</h4>
+            <form action="{{ url_for('containment.group_containment_action') }}" method="post" onsubmit="showLoadingSpinner()">
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="radio" name="action" id="contain" value="contain" required>
+                    <label class="form-check-label" for="contain" style="color: #ffffff;">
+                        Contain Hosts
+                    </label>
+                </div>
+                <div class="form-check mb-4">
+                    <input class="form-check-input" type="radio" name="action" id="lift" value="lift" required>
+                    <label class="form-check-label" for="lift" style="color: #ffffff;">
+                        Lift Containment
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+            </form>
+        </div>
+    </div>
+    
     <!-- Spinner container -->
     <div class="spinner-container" id="loadingSpinner">
         <div class="spinner"></div>
@@ -123,6 +123,7 @@
             });
         });
     </script>
+
 {% endif %}
 
 <br>
