@@ -72,6 +72,9 @@ def list_host_group_members(group_id):
         members = response['body']['resources']
         hostNames, hostIds = list(), list()
         group_members_status_data = list()
+        print("----------")
+        print(response)
+        print("-----------")
 
         for member in members:
             hostNames.append(member.get('hostname', 'Unknown hostname'))

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Manage Detections{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-5">
+    <h4 class="text-center mb-4" style="color: #ffffff;">Crowd Score</h4>
+    <div class="table-responsive">
+        {% for table in tables %}
+            <div class="white-text-table mx-2" style="overflow-x: auto; white-space: nowrap;">
+                {{ table|safe }}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+<style>
+    .white-text-table {
+        overflow-x: auto; /* Enable horizontal scrolling */
+        white-space: nowrap; /* Prevent line breaks */
+        display: block; /* Make container scrollable */
+    }
+
+    .white-text-table table,
+    .white-text-table th,
+    .white-text-table td {
+        color: white;
+        width: auto; /* Allow table to dynamically adjust width */
+    }
+
+    .table-responsive {
+        overflow-x: auto; /* Enable horizontal scrolling */
+    }
+
+    .container-fluid {
+        padding-left: 10px;  /* Reduce container left padding */
+        padding-right: 10px; /* Reduce container right padding */
+    }
+
+    .container {
+        max-width: 100%; /* Allow container to take full width */
+        padding: 0;
+    }
+
+
+
+    /* Custom CSS to align table headers to the left */
+    .left-align-headers th {
+        text-align: left;
+    }
+
+</style>
+
+{% endblock %}

@@ -21,7 +21,7 @@ severity_map = {
 @searchIOCs.route('/search-IOCs', methods=['GET', 'POST'])
 @login_required
 def search_IOCs_view():
-    return render_template("searchIOCs/ioc_filter_page.html", user=current_user)
+    return render_template("endPoint/searchIOCs/ioc_filter_page.html", user=current_user)
 
 @searchIOCs.route('/process-ioc-search', methods=['POST'])
 @login_required
@@ -74,7 +74,7 @@ def process_ioc_search():
             df_html = df.to_html(classes='table table-striped left-align-headers')
 
             # Passing the table to the template
-            return render_template("searchIOCs/ioc_results.html", tables=[df_html], titles=df.columns.values, user=current_user)
+            return render_template("endPoint/searchIOCs/ioc_results.html", tables=[df_html], titles=df.columns.values, user=current_user)
         else:
             flash("No IOCs matched the criteria.", "info")
             return redirect(url_for('searchIOCs.search_IOCs_view'))
@@ -129,7 +129,7 @@ def get_ioc_details_by_id():
             detection_df = pd.DataFrame(detection_data)
             detection_df_html = detection_df.to_html(classes='table table-striped')
 
-        return render_template("searchIOCs/ioc_results.html", user=current_user, details=details, detection_tables=[detection_df_html])
+        return render_template("endPoint/searchIOCs/ioc_results.html", user=current_user, details=details, detection_tables=[detection_df_html])
     except Exception as e:
         flash(f"Error fetching IOC details: {e}", "danger")
         return redirect(url_for('searchIOCs.search_IOCs_view'))

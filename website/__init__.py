@@ -29,10 +29,16 @@ def create_app():
 
     from .views import views
     from .auth import auth
-    from .stale import stale
-    from .containment import containment
-    from .adminRights import adminRights
-    from .searchIOCs import searchIOCs
+    from .scripts.stale import stale
+    from .scripts.containment import containment
+    from .scripts.adminRights import adminRights
+    from .scripts.endPoint.searchIOCs import searchIOCs
+    from .scripts.endPoint.endPoint import endPoint
+    from .scripts.endPoint.manageAlerts import manageAlerts
+    from .scripts.endPoint.manageDetections import manageDetections
+    from .scripts.endPoint.manageIncidents import manageIncidents
+    from .scripts.endPoint.manageBehaviors import manageBehaviors
+    from .scripts.endPoint.crowdScore import crowdscores
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
@@ -40,6 +46,12 @@ def create_app():
     app.register_blueprint(containment, url_prefix='/')
     app.register_blueprint(adminRights, url_prefix='/')
     app.register_blueprint(searchIOCs, url_prefix='/')
+    app.register_blueprint(endPoint, url_prefix='/')
+    app.register_blueprint(manageAlerts, url_prefix='/')
+    app.register_blueprint(manageDetections, url_prefix='/')
+    app.register_blueprint(manageIncidents, url_prefix='/')
+    app.register_blueprint(manageBehaviors, url_prefix='/')
+    app.register_blueprint(crowdscores, url_prefix='/')
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.authenticate'
