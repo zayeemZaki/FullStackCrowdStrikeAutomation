@@ -12,6 +12,7 @@ handling stale accounts, and managing user authentication.
 - **Lift containment**: Lift containment from hosts/groups
 - **Stale Accounts Handling**: Load and manage stale accounts using CrowdStrike's API.
 - **User Authentication**: Secure login and session management.
+- **End Point**: Searches IOCs and detections related to it, looks up incidents, alerts, detections and crowdscore
 
 ## Prerequisites
 
@@ -48,5 +49,6 @@ Ensure you have the following installed:
 - `auth.py`: Manages user authentication and session handling.
 - `containment.py`: Checks the containment status of hosts/groups and contains and lifts hosts/groups.
 - `stale.py`: Loads and processes stale accounts using the CrowdStrike API.
+- `endpoint.py`: looks up IOCs, detections, incidents, alerts and crowdscore
 
 
