@@ -9,7 +9,7 @@
                 <h4 class="text-center mb-4">Actions</h4>
                 <form action="{{ url_for('stale.stale_accounts') }}" method="post" class="mb-3">
                     <button type="submit" class="btn btn-secondary btn-block btn-lg">Stale Accounts</button>
-                </form>     
+                </form>
                 <form action="{{ url_for('containment.falcon_containment') }}" method="post" class="mb-3">
                     <button type="submit" class="btn btn-secondary btn-block btn-lg">Falcon Containment</button>
                 </form>
@@ -23,4 +23,204 @@
         </div>
     </div>
 </div>
+
+<!-- Chat Button and Popup -->
+<button class="chat-button" onclick="toggleChat()">💬</button>
+
+<div class="chat-popup" id="chatPopup">
+    <div class="chat-header">
+        Chat Support
+        <button class="close-btn" onclick="toggleChat()">×</button>
+    </div>
+    <div class="chat-body">
+        <ul class="question-list">
+            <li class="question-item" onclick="showAnswer('How can I check stale accounts?', '<div class=\'answer-detail\'><p><strong>API Scope Required:</strong> <span class=\'badge badge-primary\'>entities</span></p><p>Navigate to the link below, select filters and submit!</p><a class=\'btn btn-link\' href=\'http://{{ ip_address }}:{{ port }}/stale_accounts\' target=\'_blank\'>http://{{ ip_address }}:{{ port }}/stale_accounts</a></div>')">
+                How can I check stale accounts?
+            </li>
+            <li class="question-item" onclick="showAnswer('How can I contain hosts?', '<div class=\'answer-detail\'><p><strong>API Scope Required:</strong> <span class=\'badge badge-primary\'>Hosts</span></p><p>Navigate to the link below, enter each host name in separate line and submit!</p><a class=\'btn btn-link\' href=\'http://{{ ip_address }}:{{ port }}/host-containment\' target=\'_blank\'>http://{{ ip_address }}:{{ port }}/host-containment</a></div>')">
+                How can I contain hosts?
+            </li>
+            <li class="question-item" onclick="showAnswer('How can I contain groups?', '<div class=\'answer-detail\'><p><strong>API Scope Required:</strong> <span class=\'badge badge-primary\'>Hosts</span></p><p>Navigate to the link below, scroll to the bottom enter group id and submit!</p><a class=\'btn btn-link\' href=\'http://{{ ip_address }}:{{ port }}/group-containment\' target=\'_blank\'>http://{{ ip_address }}:{{ port }}/group-containment</a></div>')">
+                How can I contain groups?
+            </li>
+            <li class="question-item" onclick="showAnswer('How can I remove admin rights?', '<div class=\'answer-detail\'><p><strong>API Scope Required:</strong> <span class=\'badge badge-primary\'>Real Time Response</span></p><p>Navigate to the link below, enter user name, host id and submit!</p><a class=\'btn btn-link\' href=\'http://{{ ip_address }}:{{ port }}/admin-rights\' target=\'_blank\'>http://{{ ip_address }}:{{ port }}/admin-rights</a> <p><strong>NOTE:</strong> If host is offline we will keep retrying after every 60 seconds so please keep the website ONLINE!</p></div>')">
+                How can I remove admin rights?
+            </li>
+            <li class="question-item" onclick="showAnswer('How can I search for IOCs and detections related to it, alerts, detections, incidents, behaviors and crowdscore?', '<div class=\'answer-detail\'><p><strong>API Scope Required:</strong> <span class=\'badge badge-primary\'>IOC Management</span></p><p>Navigate to the link below where you can find different endpoint scripts!</p><a class=\'btn btn-link\' href=\'http://{{ ip_address }}:{{ port }}/end-point\' target=\'_blank\'>http://{{ ip_address }}:{{ port }}/end-point</a></div>')">
+                How can I search for IOCs?
+            </li>
+        </ul>
+        <div id="answerContainer"></div>
+    </div>
+</div>
+
+<style>
+    .chat-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #28a745;
+        color: #ffffff;
+        border: none;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        font-size: 24px;
+        transition: transform 0.3s ease;
+    }
+    
+    .chat-button:hover {
+        transform: scale(1.1);
+    }
+    
+    .chat-popup {
+        position: fixed;
+        bottom: 80px;
+        right: 20px;
+        width: 500px; /* Increased width */
+        max-height: 700px; /* Increased height */
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        display: none;
+        z-index: 1000;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    
+    .chat-popup.show {
+        display: block;
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .chat-header {
+        background-color: #007bff;
+        color: #ffffff;
+        padding: 15px;
+        text-align: center;
+        font-weight: bold;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+    
+    .chat-body {
+        padding: 15px;
+        overflow-y: auto;
+        height: 500px; /* Adjusted height */
+        background-color: #ffffff;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+    
+    .question-list {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .question-item {
+        padding: 10px;
+        cursor: pointer;
+        color: #007bff;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border-bottom: 1px solid #ddd;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        position: relative;
+    }
+    
+    .question-item:before {
+        content: '❓';
+        font-size: 20px;
+    }
+    
+    .question-item:hover {
+        background-color: #f1f1f1;
+        color: #0056b3;
+    }
+    
+    .answer-item {
+        background-color: #e9ecef;
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        margin-bottom: 10px;
+        font-size: 14px;
+        color: #343a40;
+        word-wrap: break-word;
+        position: relative;
+    }
+    
+    .answer-item:before {
+        content: '💬';
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        font-size: 24px;
+        color: #007bff;
+    }
+    
+    .answer-detail {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px;
+        margin: 5px 0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .answer-item strong {
+        color: #212529;
+    }
+    
+    .close-btn {
+        background-color: transparent;
+        border: none;
+        color: #ffffff;
+        font-size: 20px;
+        float: right;
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+    
+    .close-btn:hover {
+        color: #ddd;
+    }
+</style>
+
+<script>
+    // Toggle chat popup visibility
+    function toggleChat() {
+        var chatPopup = document.getElementById("chatPopup");
+        if (chatPopup.classList.contains("show")) {
+            chatPopup.classList.remove("show");
+        } else {
+            chatPopup.classList.add("show");
+        }
+    }
+
+    // Show answer in chat body when a question is clicked
+    function showAnswer(question, answer) {
+        var answerContainer = document.getElementById("answerContainer");
+
+        // Clear any existing answer
+        answerContainer.innerHTML = "";
+
+        // Add the question and answer as a new element
+        var questionElement = document.createElement("div");
+        questionElement.classList.add("answer-item");
+        questionElement.innerHTML = "<strong>Q:</strong> " + question + "<br><strong>A:</strong> " + answer;
+        answerContainer.appendChild(questionElement);
+
+        // Scroll to the bottom of the chat body
+        var chatBody = document.querySelector(".chat-body");
+        chatBody.scrollTop = chatBody.scrollHeight;
+    }
+</script>
+
 {% endblock %}
