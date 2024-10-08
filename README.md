@@ -37,7 +37,14 @@ Ensure you have the following installed:
     pip install -r requirements.txt
     ```
 
-3. Run the Flask application:
+3. Make sure to change the IP address and port in `main.py` before running the application. You can find the relevant portion in `main.py`:
+
+    ```python
+    if __name__ == "__main__":
+        app.run(host="0.0.0.0", port=5000)
+    ```
+
+4. Run the Flask application:
 
     ```bash
     python main.py
@@ -50,5 +57,3 @@ Ensure you have the following installed:
 - `containment.py`: Checks the containment status of hosts/groups and contains and lifts hosts/groups.
 - `stale.py`: Loads and processes stale accounts using the CrowdStrike API.
 - `endpoint.py`: looks up IOCs, detections, incidents, alerts and crowdscore
-
-
