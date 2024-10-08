@@ -101,7 +101,6 @@ The home route, which requires user login (@login_required) and renders the home
 def home():
     return render_template("home.html", ip_address=g.ip_address, port=g.port, user=current_user)
 Dependencies
-
 flask: For route and template rendering.
 flask_login: For securing routes and managing user sessions.
 requests: For making API requests to CrowdStrike.
