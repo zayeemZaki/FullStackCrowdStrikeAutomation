@@ -22,15 +22,21 @@ This module is the entry point for initializing and configuring the Flask applic
 
 A simple user class that extends `UserMixin` from Flask-Login, used for user session management.
 
+```python
 class User(UserMixin):
     pass
+```
+
 create_app Function
 
 This function initializes the Flask application, configures server-side sessions using flask_session, registers blueprints, and sets up Flask-Login for managing user authentication.
 
+```python
 def create_app():
     # Configuration and initialization code
     return app
+```
+
 Blueprints
 
 The following blueprints are registered within create_app:
@@ -45,6 +51,7 @@ User Loader
 
 A function to load users from the session storage:
 
+```python
 @login_manager.user_loader
 def load_user(user_id):
     if user_id in session:
@@ -52,6 +59,8 @@ def load_user(user_id):
         user.id = user_id
         return user
     return None
+```
+
 auth.py
 This module handles user authentication using CrowdStrike's API. It includes routes for user login and logout.
 
@@ -60,26 +69,35 @@ User Class
 
 A simple user class that extends UserMixin from Flask-Login.
 
+```python
+
 class User(UserMixin):
     pass
+```
+
 Routes
 
 /authenticate
 
 Handles both GET (display form) and POST (process form) requests. On successful authentication, it stores the session token, logs in the user, and redirects to the home page.
 
+```python
 @auth.route('/authenticate', methods=['GET', 'POST'])
 def authenticate():
     # Authentication logic
+```
+
 /exit
 
 Logs out the current user and clears their session.
 
+```python
 @auth.route('/exit')
 @login_required
 def logout():
     # Logout logic
 Session Management
+```
 
 Session data is used to store:
 
@@ -95,15 +113,18 @@ Routes
 
 The home route, which requires user login (@login_required) and renders the home.html template, passing the user's IP address, port, and current user object.
 
+```python
 @views.route('/')
 @login_required
 def home():
     return render_template("home.html", ip_address=g.ip_address, port=g.port, user=current_user)
+```
+
 Dependencies
 flask: For route and template rendering.
 flask_login: For securing routes and managing user sessions.
 requests: For making API requests to CrowdStrike.
 pandas: For data manipulation.
 falconpy: To interact with CrowdStrike's RealTimeResponse.
-For more detailed information about the project structure and other files, please refer to the main README.md.
+For more detailed information about the project structure and other files, please refer to the main [README.md](https://github.com/zayeemZaki/FullStackCrowdStrikeAutomation/blob/main/README.md).
 
