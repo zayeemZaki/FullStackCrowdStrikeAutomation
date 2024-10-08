@@ -22,7 +22,6 @@ This module is the entry point for initializing and configuring the Flask applic
 
 A simple user class that extends `UserMixin` from Flask-Login, used for user session management.
 
-```python
 class User(UserMixin):
     pass
 create_app Function
