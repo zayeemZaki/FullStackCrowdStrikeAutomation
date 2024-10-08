@@ -108,3 +108,4 @@ requests: For making API requests to CrowdStrike.
 pandas: For data manipulation.
 falconpy: To interact with CrowdStrike's RealTimeResponse.
 For more detailed information about the project structure and other files, please refer to the main README.md.
+
