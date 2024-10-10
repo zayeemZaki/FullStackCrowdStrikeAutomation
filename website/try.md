@@ -1,5 +1,26 @@
 # Falcon Admin Management Tool
 
+## Table of Contents
+
+1. [Detailed Documentation](#detailed-documentation)
+    1. [__init__.py](#__initpy)
+        1. [Components](#components)
+            - [User Class](#user-class)
+            - [create_app Function](#create_app-function)
+            - [Blueprints](#blueprints)
+            - [User Loader](#user-loader)
+    2. [auth.py](#authpy)
+        1. [Components](#components-1)            
+            - [User Class](#user-class-1)
+            - [Routes](#routes)
+            - [Session Management](#session-management)
+    3. [views.py](#viewspy)
+        1. [Components](#components-2)
+            - [Routes](#routes-1)
+            - [Dependencies](#dependencies)
+
+
+
 For general details, features, prerequisites, and installation instructions, please refer to the main [README.md](https://github.com/zayeemZaki/FullStackCrowdStrikeAutomation/blob/main/README.md).
 
 ## Detailed Documentation
