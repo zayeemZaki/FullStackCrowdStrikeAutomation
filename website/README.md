@@ -35,19 +35,30 @@ def create_app():
 
 **Blueprints**
 
-The following blueprints are registered within create_app:
+### General
+- **views**: General routes and views for the application.
 
-*views*: General routes and views for the application.
+### Authentication
+- **auth**: User authentication routes.
 
-*auth*: User authentication routes.
+### Account Management
+- **stale**: Routes for handling stale accounts.
 
-*stale*: Routes for handling stale accounts.
+### Containment
+- **containment**: Routes for containment management.
 
-*containment*: Routes for containment management.
+### Administration
+- **adminRights**: Routes for admin rights management.
 
-*adminRights*: Routes for admin rights management.
+### Endpoint Management
+- **searchIOCs**: Routes for managing Indicators of Compromise (IOCs).
+- **endPoint**: General routes for endpoint management.
+- **manageAlerts**: Routes for managing alerts.
+- **manageDetections**: Routes for managing detections.
+- **manageIncidents**: Routes for managing incidents.
+- **manageBehaviors**: Routes for managing behaviors.
+- **crowdscores**: Routes for managing crowd-sourced scores.
 
-*searchIOCs, endPoint, manageAlerts, manageDetections, manageIncidents, manageBehaviors, crowdscores*: EndPoint management routes.
 
 **User Loader**
 
