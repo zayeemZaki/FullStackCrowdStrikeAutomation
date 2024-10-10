@@ -12,7 +12,8 @@ This module is the entry point for initializing and configuring the Flask applic
 - User session management
 - Blueprints for different application components and routes
 
-#### Components
+#### Components ####
+
 
 **User Class**
 
@@ -23,6 +24,7 @@ class User(UserMixin):
     pass
 ```
 
+
 **create_app Function**
 
 This function initializes the Flask application, configures server-side sessions using flask_session, registers blueprints, and sets up Flask-Login for managing user authentication.
@@ -32,6 +34,7 @@ def create_app():
     # Configuration and initialization code
     return app
 ```
+
 
 **Blueprints**
 
@@ -74,11 +77,14 @@ def load_user(user_id):
     return None
 ```
 
-### `auth.py`
+
+
+### `auth.py` ###
 
 This module handles user authentication using CrowdStrike's API. It includes routes for user login and logout.
 
-####Components
+####Components####
+
 
 **User Class**
 
@@ -89,6 +95,7 @@ A simple user class that extends UserMixin from Flask-Login.
 class User(UserMixin):
     pass
 ```
+
 
 **Routes**
 
@@ -114,17 +121,22 @@ def logout():
 Session Management
 ```
 
+
 **Session data is used to store:**
 
 - User's client_id after successful login.
 
 - CrowdStrike API token for subsequent authorized requests.
 
-### `views.py`
+
+
+### `views.py` ###
 
 This module handles the main views and routes for the application, including rendering templates and securing routes.
 
-**Components**
+
+#### Components ####
+
 
 *Routes*
 
@@ -139,12 +151,14 @@ def home():
     return render_template("home.html", ip_address=g.ip_address, port=g.port, user=current_user)
 ```
 
-**Dependencies**
+
+*Dependencies*
 - flask: For route and template rendering.
 - flask_login: For securing routes and managing user sessions.
 - requests: For making API requests to CrowdStrike.
 - pandas: For data manipulation.
 - falconpy: To interact with CrowdStrike's RealTimeResponse.
+
 
 ***For more detailed information about the project structure and other files, please refer to the main [README.md](https://github.com/zayeemZaki/FullStackCrowdStrikeAutomation/blob/main/README.md).***
 
