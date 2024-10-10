@@ -1,9 +1,5 @@
 # Falcon Admin Management Tool
 
-This project is a Flask-based web application that interacts with CrowdStrike's Falcon APIs 
-to manage various administrative tasks such as removing admin rights, checking host containment status, containing and lifting hosts/groups,
-handling stale accounts, and managing user authentication.
-
 For general details, features, prerequisites, and installation instructions, please refer to the main [README.md](https://github.com/zayeemZaki/FullStackCrowdStrikeAutomation/blob/main/README.md).
 
 ## Detailed Documentation
