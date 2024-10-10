@@ -23,7 +23,7 @@ class User(UserMixin):
     pass
 ```
 
-*create_app Function*
+**create_app Function**
 
 This function initializes the Flask application, configures server-side sessions using flask_session, registers blueprints, and sets up Flask-Login for managing user authentication.
 
@@ -33,18 +33,23 @@ def create_app():
     return app
 ```
 
-*Blueprints*
+**Blueprints**
 
 The following blueprints are registered within create_app:
 
 *views*: General routes and views for the application.
+
 *auth*: User authentication routes.
+
 *stale*: Routes for handling stale accounts.
+
 *containment*: Routes for containment management.
+
 *adminRights*: Routes for admin rights management.
+
 *searchIOCs, endPoint, manageAlerts, manageDetections, manageIncidents, manageBehaviors, crowdscores*: EndPoint management routes.
 
-*User Loader*
+**User Loader**
 
 A function to load users from the session storage:
 
