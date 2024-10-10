@@ -83,7 +83,7 @@ def load_user(user_id):
 
 This module handles user authentication using CrowdStrike's API. It includes routes for user login and logout.
 
-####Components####
+#### Components ####
 
 
 **User Class**
