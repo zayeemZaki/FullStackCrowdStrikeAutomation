@@ -1,164 +1,158 @@
-# Falcon Admin Management Tool
+# `/website` Directory Documentation
 
-For general details, features, prerequisites, and installation instructions, please refer to the main [README.md](https://github.com/zayeemZaki/FullStackCrowdStrikeAutomation/blob/main/README.md).
+This directory contains the core components of the **Falcon Admin Management Tool**. It is organized to separate scripts, templates, and configuration files, ensuring a clear and maintainable structure for the Flask application.
 
-## Detailed Documentation
+For general details, features, prerequisites, and installation instructions, please refer to the main [README.md](../README.md).
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Directory Structure](#directory-structure)
+- [Components](#components)
+  - [Scripts Folder](#scripts-folder)
+  - [Templates Folder](#templates-folder)
+  - [__init__.py](#__init__.py)
+  - [auth.py](#auth.py)
+  - [views.py](#views.py)
+
+## Overview
+
+The `/website` directory contains the following primary components:
+
+1. **Scripts**: This folder contains Python scripts that handle automation tasks such as admin rights management, containment operations, and handling stale accounts.
+2. **Templates**: This folder contains HTML templates rendered by Flask for various routes.
+3. **Blueprints and Flask Configuration Files**: Files such as `__init__.py`, `auth.py`, and `views.py` handle user authentication, session management, and the overall application structure.
+
+## Directory Structure
+
+```
+/website/
+├── scripts/                          # Contains automation scripts for different administrative tasks
+│   ├── endPoint/                     # Scripts related to endpoint management and data extraction
+│   │   ├── crowdScore.py             # Handles operations related to CrowdScore
+│   │   ├── endPoint.py               # Main script for endpoint management
+│   │   ├── manageAlerts.py           # Script to manage alerts from CrowdStrike
+│   │   ├── manageBehaviors.py        # Manages behavior-based detections
+│   │   ├── manageDetections.py       # Handles detection management and actions
+│   │   ├── manageIncidents.py        # Manages incidents within the CrowdStrike environment
+│   │   ├── searchIOCs.py             # Searches and filters Indicators of Compromise (IOCs)
+│   ├── adminRights.py                # Automates the removal of admin rights
+│   ├── containment.py                # Manages containment status of hosts and groups
+│   ├── stale.py                      # Loads and processes stale accounts
+│
+├── templates/                        # HTML templates for rendering pages in Flask
+│   ├── adminRights/                  # Contains templates for admin rights management
+│   ├── endPoint/                     # Contains templates for endpoint management
+│   │   ├── crowdScore/
+│   │   │   ├── crowd_score.html
+│   │   ├── manageAlerts/
+│   │   │   ├── manage_alerts.html
+│   │   ├── manageBehaviors/
+│   │   │   ├── manage_behaviors.html
+│   │   ├── manageDetections/
+│   │   │   ├── manage_detections.html
+│   │   ├── manageIncidents/
+│   │   │   ├── manage_incidents.html
+│   │   ├── searchIOCs/
+│   │   │   ├── ioc_filter_page.html
+│   │   │   ├── ioc_results.html
+│   │   ├── endPointView.html
+│   ├── falcon_containment/           # Templates for host and group containment
+│   ├── stale_accounts/               # Templates for displaying and managing stale accounts
+│   ├── authenticate.html             # User authentication form
+│   ├── base.html                     # Base template for common layout structure
+│   ├── home.html                     # Homepage template
+│
+├── __init__.py                       # Initializes the Flask application and blueprints
+├── auth.py                           # Handles user authentication and session management
+├── views.py                          # Defines general routes and main views for the application
+```
+
+## Components
+
+### Scripts Folder
+
+The `scripts/` folder contains the main Python files that handle the back-end logic for different administrative functionalities. The folder is further divided into subdirectories like `endPoint/`, which holds scripts specifically related to endpoint operations.
+
+- **adminRights.py**: Automates the removal of admin rights from devices using CrowdStrike's RealTimeResponse API.
+- **containment.py**: Manages the containment status of hosts and groups, including applying or lifting containment.
+- **stale.py**: Loads and processes stale accounts from CrowdStrike.
+- **endPoint Folder**: Contains scripts for handling IOCs, detections, alerts, incidents, behaviors, and CrowdScores.
+
+### Templates Folder
+
+The `templates/` folder holds all the HTML files that are rendered by Flask for different web pages. These templates are organized to correspond with the scripts and routes defined in the application.
+
+- **adminRights Folder**: Templates related to admin rights management.
+- **endPoint Folder**: Templates for displaying and managing various endpoint-related operations like detections, incidents, and CrowdScores.
+- **falcon_containment Folder**: Contains templates to handle host and group containment views.
+- **stale_accounts Folder**: Templates for displaying stale accounts and handling related actions.
 
 ### `__init__.py`
 
-This module is the entry point for initializing and configuring the Flask application. It sets up:
+The `__init__.py` file is the entry point for initializing and configuring the Flask application. It handles the following:
 
-- The Flask application
-- User session management
-- Blueprints for different application components and routes
-
-#### Components ####
-
-
-**User Class**
-
-A simple user class that extends `UserMixin` from Flask-Login, used for user session management.
-
-```python
-class User(UserMixin):
-    pass
-```
-
-
-**create_app Function**
-
-This function initializes the Flask application, configures server-side sessions using flask_session, registers blueprints, and sets up Flask-Login for managing user authentication.
+- Sets up the Flask app and configures server-side sessions using `flask_session`.
+- Registers all blueprints for different application components, such as `auth`, `views`, `stale`, and others from the `scripts` directory.
+- Initializes Flask-Login for user authentication and manages user sessions.
 
 ```python
 def create_app():
-    # Configuration and initialization code
+    app = Flask(__name__)
+    app.config['SECRET_KEY'] = 'your_secret_key'
+    app.config['SESSION_TYPE'] = 'filesystem'
+    Session(app)
+
+    from .views import views
+    from .auth import auth
+    # Import other scripts and register blueprints
+
+    app.register_blueprint(views, url_prefix='/')
+    app.register_blueprint(auth, url_prefix='/')
+    # Register other blueprints
+
+    login_manager = LoginManager()
+    login_manager.login_view = 'auth.authenticate'
+    login_manager.init_app(app)
+
     return app
 ```
 
+### `auth.py`
 
-**Blueprints**
+The `auth.py` file manages user authentication and session handling using CrowdStrike's API. It includes the following components:
 
-*General*
-- views: General routes and views for the application.
-
-*Authentication*
-- auth: User authentication routes.
-
-*Account Management*
-- stale: Routes for handling stale accounts.
-
-*Containment*
-- containment: Routes for containment management.
-
-*Administration*
-- adminRights: Routes for admin rights management.
-
-*Endpoint Management*
-- searchIOCs: Routes for managing Indicators of Compromise (IOCs).
-- endPoint: General routes for endpoint management.
-- manageAlerts: Routes for managing alerts.
-- manageDetections: Routes for managing detections.
-- manageIncidents: Routes for managing incidents.
-- manageBehaviors: Routes for managing behaviors.
-- crowdscores: Routes for managing crowd-sourced scores.
-
-
-**User Loader**
-
-A function to load users from the session storage:
-
-```python
-@login_manager.user_loader
-def load_user(user_id):
-    if user_id in session:
-        user = User()
-        user.id = user_id
-        return user
-    return None
-```
-
-
-
-### `auth.py` ###
-
-This module handles user authentication using CrowdStrike's API. It includes routes for user login and logout.
-
-#### Components ####
-
-
-**User Class**
-
-A simple user class that extends UserMixin from Flask-Login.
-
-```python
-
-class User(UserMixin):
-    pass
-```
-
-
-**Routes**
-
-`/authenticate`
-
-Handles both GET (display form) and POST (process form) requests. On successful authentication, it stores the session token, logs in the user, and redirects to the home page.
+- **User Class**: A simple user class that extends `UserMixin` from Flask-Login, used for managing user sessions.
+- **Routes**:
+  - `/authenticate`: Displays the login form and handles the login process.
+  - `/exit`: Logs out the current user and clears their session data.
 
 ```python
 @auth.route('/authenticate', methods=['GET', 'POST'])
 def authenticate():
-    # Authentication logic
+    # Authentication logic here
+    return render_template("authenticate.html")
 ```
 
-`/exit`
+### `views.py`
 
-Logs out the current user and clears their session.
+The `views.py` file defines general routes and views for the application. It contains the following:
 
-```python
-@auth.route('/exit')
-@login_required
-def logout():
-    # Logout logic
-Session Management
-```
-
-
-**Session data is used to store:**
-
-- User's client_id after successful login.
-
-- CrowdStrike API token for subsequent authorized requests.
-
-
-
-### `views.py` ###
-
-This module handles the main views and routes for the application, including rendering templates and securing routes.
-
-
-#### Components ####
-
-
-*Routes*
-
-`/`
-
-The home route, which requires user login (@login_required) and renders the home.html template, passing the user's IP address, port, and current user object.
+- **Home Route**: The home route (`/`) renders the `home.html` template, passing in the user's IP address and port. This route is secured with the `@login_required` decorator, ensuring that only authenticated users can access it.
 
 ```python
 @views.route('/')
 @login_required
 def home():
-    return render_template("home.html", ip_address=g.ip_address, port=g.port, user=current_user)
+    return render_template("home.html")
 ```
 
+## Dependencies
 
-*Dependencies*
-- flask: For route and template rendering.
-- flask_login: For securing routes and managing user sessions.
-- requests: For making API requests to CrowdStrike.
-- pandas: For data manipulation.
-- falconpy: To interact with CrowdStrike's RealTimeResponse.
+- `flask`: For creating routes and rendering templates.
+- `flask_login`: For managing user sessions and securing routes.
+- `flask_session`: For managing server-side sessions.
+- `requests`: For making API calls to CrowdStrike's endpoints.
+- `falconpy`: Python SDK to interact with CrowdStrike's APIs.
 
-
-***For more detailed information about the project structure and other files, please refer to the main [README.md](https://github.com/zayeemZaki/FullStackCrowdStrikeAutomation/blob/main/README.md).***
-
+For more detailed information about the project structure and other files, please refer to the main [README.md](../README.md).
