@@ -1,6 +1,6 @@
 # Falcon Admin Management Tool
 
-Falcon Admin Management Tool is a Flask-based web application designed to interact with CrowdStrike's Falcon APIs. The tool automates various administrative tasks, providing an interface to manage and monitor devices, user accounts, and other endpoints, streamlining the management of a CrowdStrike environment.
+Falcon Admin Management Tool is a Flask-based web application designed to interact with CrowdStrike's Falcon APIs. The tool automates various administrative tasks, viewing and modifying containment status, providing an interface to remove users' admin rights, searching IOCs, detections, and other endpoints, and streamlining the management of a CrowdStrike environment.
 
 ## Table of Contents
 
