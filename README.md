@@ -76,23 +76,56 @@ The project is structured as follows:
 
 ```
 FullStackCrowdStrikeAutomation/
-├── static/                          # Contains static files (CSS, images)
-├── templates/                       # HTML templates for Flask rendering
-├── blueprints/
-│   ├── auth.py                      # Handles user authentication and session management
-│   ├── home.py                      # Contains routes and logic for the homepage
-│   └── __init__.py                  # Initializes Flask blueprints
-├── scripts/
-│   ├── adminRights.py               # Script for automating the removal of admin rights
-│   ├── containment.py               # Manages containment status of hosts and groups
-│   ├── endpoint.py                  # Endpoint-related operations (IOCs, detections, incidents)
-│   ├── stale.py                     # Loads and processes stale accounts
-│   └── utils.py                     # Utility functions for API interactions and data handling
-├── requirements.txt                 # Lists the required Python packages
-├── config.py                        # Configuration settings (e.g., API keys, database URIs)
-├── main.py                          # Main entry point of the application
-├── README.md                        # General README (this file)
-└── LICENSE                          # License information
+├── .venv
+├── website
+|   ├── scripts/
+|   |   ├── endPoint/
+|   |   |   ├──crowdScore.py
+|   |   |   ├──endPoint.py
+|   |   |   ├──manageAlerts.py.py
+|   |   |   ├──manageBehaviors.py
+|   |   |   ├──manageDetections.py
+|   |   |   ├──manageIncidents.py
+|   |   |   ├──searchIOCs.py
+|   │   ├── adminRights.py               # Script for automating the removal of admin rights
+|   │   ├── containment.py               # Manages containment status of hosts and groups
+|   │   ├── stale.py                     # Loads and processes stale accounts
+|   ├── templates/
+|   |   ├── adminRights/
+|   |   |   ├── adminRights.py
+|   |   ├── endPoint/
+|   |   |   ├── crowdScore/
+|   |   |   |   ├── crowd_score.html
+|   |   |   ├── manageAlerts/
+|   |   |   |   ├── manage_alerts.html
+|   |   |   ├── manageBehaviors/
+|   |   |   |   ├── manage_behaviors.html
+|   |   |   ├── manageDetections/
+|   |   |   |   ├── manage_detections.html
+|   |   |   ├── manageIncidents/
+|   |   |   |   ├── manage_incidents.html
+|   |   |   ├── searchIOCs/
+|   |   |   |   ├── ioc_filter_page.html
+|   |   |   |   ├── ioc_results.html
+|   |   |   ├── endPointView.html
+|   |   ├── falcon_containment/
+|   |   |   ├── contain_group.html
+|   |   |   ├── contain_host.html
+|   |   |   ├── containment.html
+|   |   ├── stale_accounts/
+|   |   |   ├── stale_accounts.html
+|   |   ├── authenticate.html
+|   |   ├── base.html
+|   |   ├── home.html
+|   ├── README.md
+|   ├── __init__.py
+|   ├── auth.py
+|   ├── views.py
+├── .gitignore
+├── README.md
+├── main.py
+├── requirements.txt
+
 ```
 
 ## Usage
