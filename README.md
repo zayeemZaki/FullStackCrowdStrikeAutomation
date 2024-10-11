@@ -11,7 +11,6 @@ Falcon Admin Management Tool is a Flask-based web application designed to intera
 - [Project Structure](#project-structure)
 - [Usage](#usage)
 - [Contributing](#contributing)
-- [License](#license)
 
 ## Overview
 
