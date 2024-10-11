@@ -1,7 +1,3 @@
-Sure! Here's the same content formatted with appropriate syntax for a GitHub README, using headings, bullet points, and code blocks for a more polished look:
-
----
-
 # Falcon Admin Management Tool
 
 Falcon Admin Management Tool is a Flask-based web application designed to interact with CrowdStrike's Falcon APIs. The tool automates various administrative tasks, providing an interface to manage and monitor devices, user accounts, and other endpoints, streamlining the management of a CrowdStrike environment.
@@ -113,11 +109,3 @@ The application also provides detailed logs and alerts for each operation perfor
 ## Contributing
 
 Contributions are welcome! If you find a bug or have an idea for a new feature, please open an issue or submit a pull request. Make sure to follow the coding standards and write clear, concise commit messages.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
-
----
-
-This version follows a well-structured approach with syntax specific for GitHub, including proper code blocks, bullet points, and file structure formatting. Let me know if this works for you or if you'd like any further adjustments!
