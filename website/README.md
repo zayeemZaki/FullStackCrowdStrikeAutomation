@@ -12,8 +12,8 @@ For general details, features, prerequisites, and installation instructions, ple
   - [Scripts Folder](#scripts-folder)
   - [Templates Folder](#templates-folder)
   - [__init__.py](#__init__.py)
-  - [auth.py](#auth.py)
-  - [views.py](#views.py)
+  - [auth.py](#authpy)
+  - [views.py](#viewspy)
 
 ## Overview
 
@@ -21,7 +21,7 @@ The `/website` directory contains the following primary components:
 
 1. **Scripts**: This folder contains Python scripts that handle automation tasks such as admin rights management, containment operations, and handling stale accounts.
 2. **Templates**: This folder contains HTML templates rendered by Flask for various routes.
-3. **Blueprints and Flask Configuration Files**: Files such as `__init__.py`, `auth.py`, and `views.py` handle user authentication, session management, and the overall application structure.
+3. **Blueprints and Flask Configuration Files**: Files such as [`__init__.py`](./__init__.py), [`auth.py`](./auth.py), and [`views.py`](./views.py) handle user authentication, session management, and the overall application structure.
 
 ## Directory Structure
 
@@ -63,9 +63,9 @@ The `/website` directory contains the following primary components:
 │   ├── base.html                     # Base template for common layout structure
 │   ├── home.html                     # Homepage template
 │
-├── __init__.py                       # Initializes the Flask application and blueprints
-├── auth.py                           # Handles user authentication and session management
-├── views.py                          # Defines general routes and main views for the application
+├── [__init__.py](./__init__.py)                       # Initializes the Flask application and blueprints
+├── [auth.py](./auth.py)                           # Handles user authentication and session management
+├── [views.py](./views.py)                          # Defines general routes and main views for the application
 ```
 
 ## Components
@@ -88,7 +88,7 @@ The `templates/` folder holds all the HTML files that are rendered by Flask for 
 - **falcon_containment Folder**: Contains templates to handle host and group containment views.
 - **stale_accounts Folder**: Templates for displaying stale accounts and handling related actions.
 
-### `__init__.py`
+### [`__init__.py`](./__init__.py)
 
 The `__init__.py` file is the entry point for initializing and configuring the Flask application. It handles the following:
 
@@ -118,7 +118,7 @@ def create_app():
     return app
 ```
 
-### `auth.py`
+### [`auth.py`](./auth.py)
 
 The `auth.py` file manages user authentication and session handling using CrowdStrike's API. It includes the following components:
 
@@ -134,7 +134,7 @@ def authenticate():
     return render_template("authenticate.html")
 ```
 
-### `views.py`
+### [`views.py`](./views.py)
 
 The `views.py` file defines general routes and views for the application. It contains the following:
 
