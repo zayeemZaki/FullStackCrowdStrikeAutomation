@@ -20,7 +20,7 @@ This tool leverages CrowdStrike's Falcon APIs to perform a variety of administra
 
 - **Admin Rights Management**: Automate the removal of admin rights from specific devices using the RealTimeResponse API.
 - **Containment Status Check**: View the containment status of hosts or groups.
-- **Host/Group Containment**: Contain or lift containment for hosts and groups based on certain criteria.
+- **Host/Group Containment**: Contain or lift containment for hosts and groups.
 - **Stale Account Management**: Identify and handle stale accounts within your environment using CrowdStrike's API.
 - **User Authentication**: Secure login, logout, and session management.
 - **IOC and Detection Lookup**: Search for IOCs and detections, view related incidents, alerts, and CrowdScore data.
@@ -133,7 +133,7 @@ Once the application is running, you can navigate to the various pages to perfor
 - Viewing the list of stale accounts.
 - Checking and modifying the containment status of hosts/groups.
 - Searching IOCs, detections, and incidents.
-- Managing user authentication and roles.
+- Removing admin rights from hosts.
 
 The application also provides detailed logs and alerts for each operation performed.
 
