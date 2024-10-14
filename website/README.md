@@ -70,7 +70,7 @@ The `/website` directory contains the following primary components:
 
 ## Components
 
-### Scripts Folder
+### Scripts Folder [README.md](./scripts/README.md)
 
 The `scripts/` folder contains the main Python files that handle the back-end logic for different administrative functionalities. The folder is further divided into subdirectories like `endPoint/`, which holds scripts specifically related to endpoint operations.
 
@@ -79,7 +79,7 @@ The `scripts/` folder contains the main Python files that handle the back-end lo
 - **stale.py**: Loads and processes stale accounts from CrowdStrike.
 - **endPoint Folder**: Contains scripts for handling IOCs, detections, alerts, incidents, behaviors, and CrowdScores.
 
-### Templates Folder
+### Templates Folder [README.md](./templates/README.md)
 
 The `templates/` folder holds all the HTML files that are rendered by Flask for different web pages. These templates are organized to correspond with the scripts and routes defined in the application.
 
