@@ -56,8 +56,19 @@ To set up and run the application locally, follow these steps:
    Edit the `main.py` file to configure the IP address and port for the Flask server:
 
     ```python
-    if __name__ == "__main__":
-        app.run(host="0.0.0.0", port=5000)
+    from flask import Flask, render_template, g
+    from website import create_app
+
+    app = create_app()
+    @app.before_request
+    def before_request():
+        g.ip_address = '0.0.0.0
+        g.port = '0000'
+    
+    if __name__ == '__main__':
+        ip_address = '0.0.0.0'
+        port = 0000
+        app.run(host=ip_address, port=port, debug=True)
     ```
 
 4. **Run the Flask application:**
