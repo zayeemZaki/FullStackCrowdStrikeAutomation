@@ -119,6 +119,7 @@ def stale_accounts_table():
     }
 
     df = pd.DataFrame(data)
+    df = df.reset_index(drop=True)
     print(f"[DEBUG] DataFrame created with {len(df)} records")
 
     # Perform sorting based on user input
