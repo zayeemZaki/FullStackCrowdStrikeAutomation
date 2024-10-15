@@ -5,4 +5,9 @@ website/templates/logs/
 flask_session
 main.py
 *.pyc
-__pycache__/
+website/__pycache__/
+website/scripts/__pycache__/
+.git
+.venv
+
+
