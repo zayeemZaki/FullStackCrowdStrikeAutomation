@@ -1,5 +1,8 @@
-website/templates/logs/group_containment_log.txt
-website/templates/logs/hosts_containment_log.txt
-flask_session
+# Ignore the logs directory
+website/templates/logs/
 
+# Other ignores
+flask_session
 main.py
+*.pyc
+__pycache__/
