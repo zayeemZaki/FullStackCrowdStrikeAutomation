@@ -24,8 +24,22 @@
     </div>
 </div>
 
-<!-- Chat Button and Popup -->
-<button class="chat-button" onclick="toggleChat()">💬</button>
+<!-- Buttons Container -->
+<div class="action-buttons">
+    <!-- Doc Button -->
+    <button class="doc-button" onclick="openDocument()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book" viewBox="0 0 16 16">
+            <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/>
+          </svg>
+    </button>
+
+    <!-- Chat Button -->
+    <button class="chat-button" onclick="toggleChat()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-fill" viewBox="0 0 16 16">
+            <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9 9 0 0 0 8 15"/>
+          </svg>
+    </button>
+</div>
 
 <div class="chat-popup" id="chatPopup">
     <div class="chat-header">
@@ -55,26 +69,39 @@
 </div>
 
 <style>
-    .chat-button {
+    .action-buttons {
         position: fixed;
         bottom: 20px;
         right: 20px;
-        background-color: #28a745;
-        color: #ffffff;
-        border: none;
+        display: flex;
+        gap: 10px; /* Space between the buttons */
+    }
+
+    .chat-button, .doc-button {
+        width: 70px;
+        height: 70px;
         border-radius: 50%;
-        width: 60px;
-        height: 60px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border: none;
+        color: black;
         cursor: pointer;
-        font-size: 24px;
         transition: transform 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        font-size: 24px;
+    }
+
+    .doc-button {
+        background-color: #DDDDDD;
     }
     
-    .chat-button:hover {
+    .chat-button {
+        background-color: #DDDDDD;
+    }
+
+    .chat-button:hover, .doc-button:hover {
         transform: scale(1.1);
+        background-color:  #D1D8C5;
     }
-    
+
     .chat-popup {
         position: fixed;
         bottom: 80px;
@@ -89,13 +116,13 @@
         z-index: 1000;
         transition: opacity 0.3s ease, visibility 0.3s ease;
     }
-    
+
     .chat-popup.show {
         display: block;
         opacity: 1;
         visibility: visible;
     }
-    
+
     .chat-header {
         background-color: #007bff;
         color: #ffffff;
@@ -105,7 +132,7 @@
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
     }
-    
+
     .chat-body {
         padding: 15px;
         overflow-y: auto;
@@ -114,13 +141,13 @@
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
     }
-    
+
     .question-list {
         list-style-type: none;
         padding: 0;
         margin: 0;
     }
-    
+
     .question-item {
         padding: 10px;
         cursor: pointer;
@@ -133,17 +160,17 @@
         transition: background-color 0.3s ease, color 0.3s ease;
         position: relative;
     }
-    
+
     .question-item:before {
         content: '❓';
         font-size: 20px;
     }
-    
+
     .question-item:hover {
         background-color: #f1f1f1;
         color: #0056b3;
     }
-    
+
     .answer-item {
         background-color: #e9ecef;
         padding: 15px;
@@ -155,7 +182,7 @@
         word-wrap: break-word;
         position: relative;
     }
-    
+
     .answer-item:before {
         content: '💬';
         position: absolute;
@@ -164,7 +191,7 @@
         font-size: 24px;
         color: #007bff;
     }
-    
+
     .answer-detail {
         background-color: #fff;
         border: 1px solid #ddd;
@@ -173,11 +200,11 @@
         margin: 5px 0;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
-    
+
     .answer-item strong {
         color: #212529;
     }
-    
+
     .close-btn {
         background-color: transparent;
         border: none;
@@ -187,7 +214,7 @@
         cursor: pointer;
         transition: color 0.3s ease;
     }
-    
+
     .close-btn:hover {
         color: #ddd;
     }
@@ -202,6 +229,11 @@
         } else {
             chatPopup.classList.add("show");
         }
+    }
+
+    function openDocument() {
+        // Placeholder function to handle the document button click
+        window.open('https://github.com/zayeemZaki/FullStackCrowdStrikeAutomation/blob/main/README.md', '_blank');
     }
 
     // Show answer in chat body when a question is clicked
