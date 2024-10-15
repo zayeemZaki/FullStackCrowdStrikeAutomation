@@ -64,6 +64,13 @@
     </div>
 
     <script>
+        function scrollToBottom() {
+            document.getElementById('bottom-anchor').scrollIntoView({
+                behavior: 'smooth',
+                block: 'end'
+            });
+        }
+
         // JavaScript function to show the loading spinner and reload the page after 60 seconds
         function showLoadingSpinner() {
             document.getElementById('loadingSpinner').style.display = 'flex';
@@ -83,13 +90,16 @@
         document.getElementById('hostForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent default form submission
 
+            // Get the form action URL from the form's action attribute
+            const formActionURL = this.action;
+
             // Submit the form programmatically
-            fetch('{{ url_for('containment.hosts_containment_status') }}', {
+            fetch(formActionURL, {
                 method: 'POST',
                 body: new FormData(this)
             }).then(function() {
                 // Scroll to the bottom after form submission
-                document.getElementById('bottom-anchor').scrollIntoView({ behavior: 'smooth', block: 'end' });
+                scrollToBottom();
             }).catch(function(error) {
                 console.error('Error:', error);
             });

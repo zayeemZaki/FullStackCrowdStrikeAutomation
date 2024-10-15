@@ -206,31 +206,13 @@ def lift_containment_group(hostNames, hostIds, falcon_hosts):
 @containment.route('/hosts-containment-logs', methods=['GET'])
 @login_required
 def view_host_containment_logs():
-    return send_file('templates/logs/hosts_containment_log.csv', mimetype='text/csv')
+    return send_file('templates/logs/hosts_containment_log.txt', mimetype='text/plain')
 
 def host_log_containment_action(hostname, host_id, action, status):
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    log_data = {
-        'Timestamp': [timestamp],
-        'Hostname': [hostname],
-        'Host ID': [host_id],
-        'Action': [action],
-        'Status': [status]
-    }
-    
-    df_log = pd.DataFrame(log_data)
-    log_file_path = "website/templates/logs/hosts_containment_log.csv"
-    
-    file_exists = os.path.isfile(log_file_path) and os.path.getsize(log_file_path) > 0
-    
-    if not file_exists:
-        # Create the CSV with headers if file doesn't exist or is empty
-        df_log.to_csv(log_file_path, index=False)
-    else:
-        # Append data to the existing file
-        df_existing = pd.read_csv(log_file_path)
-        df_combined = pd.concat([df_existing, df_log], ignore_index=True)
-        df_combined.to_csv(log_file_path, index=False)
+    log_message = f"{timestamp} - Hostname: {hostname}, Host ID: {host_id}, Action: {action}, Status: {status}\n"
+    with open("website/templates/logs/hosts_containment_log.txt", "a") as log_file:
+        log_file.write(log_message)
 
 
 
