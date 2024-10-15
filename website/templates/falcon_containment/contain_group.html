@@ -20,12 +20,14 @@
 
 <br>
 
+<a id="group-form"></a>
+
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8"> 
             <div class="form-group text-center">
                 <label for="group-id"><h2 style="color: #ffffff;">Enter the Group ID to Check Its Members</h2></label>
-                <form action="{{ url_for('containment.list_groups') }}" method="post">
+                <form action="{{ url_for('containment.list_groups') }}#group-form" method="post">
                     <input
                         type="text"
                         class="form-control mt-3"
@@ -133,18 +135,28 @@
                             });
                             table.appendChild(tr);
                         });
-    
                         logContentElement.appendChild(table);
                     })
                     .catch(error => console.error('Error fetching logs:', error));
             });
         });
     </script>
-    
 
 {% endif %}
 
 <br>
+
+<script>
+    // When the page loads, check for a hash in the URL and scroll to it smoothly
+    document.addEventListener('DOMContentLoaded', function() {
+        if(window.location.hash) {
+            let targetElement = document.querySelector(window.location.hash);
+            if(targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            }
+        }
+    });
+</script>
 
 <style>
     .white-text-table {
