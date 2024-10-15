@@ -2,12 +2,10 @@ from flask import Blueprint, render_template, session, request, redirect, url_fo
 from flask_login import login_required, current_user
 from falconpy import Hosts, HostGroup, APIError, APIHarnessV2
 import pandas as pd
-import io
 from datetime import datetime
 containment = Blueprint('containment', __name__)
-import os
 import time
-
+import os
 
 
 @containment.route('/containment', methods=['GET', 'POST'])
@@ -72,7 +70,7 @@ def list_host_group_members(group_id):
         members = response['body']['resources']
         hostNames, hostIds = list(), list()
         group_members_status_data = list()
-        
+
         for member in members:
             hostNames.append(member.get('hostname', 'Unknown hostname'))
             hostIds.append(member.get('device_id', 'Unknown ID'))
@@ -103,16 +101,36 @@ def list_host_group_members(group_id):
 
 
 
+
 @containment.route('/group-containment-logs', methods=['GET'])
 @login_required
 def view_group_containment_logs():
-    return send_file('templates/logs/group_containment_log.txt', mimetype='text/plain')
+    return send_file('templates/logs/group_containment_log.csv', mimetype='text/csv')
 
 def group_log_containment_action(hostname, host_id, action, status):
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    log_message = f"{timestamp} - Hostname: {hostname}, Host ID: {host_id}, Action: {action}, Status: {status}\n"
-    with open("website/templates/logs/group_containment_log.txt", "a") as log_file:
-        log_file.write(log_message)
+    log_data = {
+        'Timestamp': [timestamp],
+        'Hostname': [hostname],
+        'Host ID': [host_id],
+        'Action': [action],
+        'Status': [status]
+    }
+    
+    df_log = pd.DataFrame(log_data)
+    log_file_path = "website/templates/logs/group_containment_log.csv"
+    
+    file_exists = os.path.isfile(log_file_path) and os.path.getsize(log_file_path) > 0
+    
+    if not file_exists:
+        # Create the CSV with headers if file doesn't exist or is empty
+        df_log.to_csv(log_file_path, index=False)
+    else:
+        # Append data to the existing file
+        df_existing = pd.read_csv(log_file_path)
+        df_combined = pd.concat([df_existing, df_log], ignore_index=True)
+        df_combined.to_csv(log_file_path, index=False)
+
 
 
 
@@ -188,13 +206,31 @@ def lift_containment_group(hostNames, hostIds, falcon_hosts):
 @containment.route('/hosts-containment-logs', methods=['GET'])
 @login_required
 def view_host_containment_logs():
-    return send_file('templates/logs/hosts_containment_log.txt', mimetype='text/plain')
+    return send_file('templates/logs/hosts_containment_log.csv', mimetype='text/csv')
 
 def host_log_containment_action(hostname, host_id, action, status):
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    log_message = f"{timestamp} - Hostname: {hostname}, Host ID: {host_id}, Action: {action}, Status: {status}\n"
-    with open("website/templates/logs/hosts_containment_log.txt", "a") as log_file:
-        log_file.write(log_message)
+    log_data = {
+        'Timestamp': [timestamp],
+        'Hostname': [hostname],
+        'Host ID': [host_id],
+        'Action': [action],
+        'Status': [status]
+    }
+    
+    df_log = pd.DataFrame(log_data)
+    log_file_path = "website/templates/logs/hosts_containment_log.csv"
+    
+    file_exists = os.path.isfile(log_file_path) and os.path.getsize(log_file_path) > 0
+    
+    if not file_exists:
+        # Create the CSV with headers if file doesn't exist or is empty
+        df_log.to_csv(log_file_path, index=False)
+    else:
+        # Append data to the existing file
+        df_existing = pd.read_csv(log_file_path)
+        df_combined = pd.concat([df_existing, df_log], ignore_index=True)
+        df_combined.to_csv(log_file_path, index=False)
 
 
 
