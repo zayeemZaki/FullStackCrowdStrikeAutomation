@@ -9,7 +9,7 @@
         <div class="col-md-8">
             <div class="form-group text-center">
                 <label for="host-name"><h4>Enter the host-ids (each in one line) to check containment status</h4></label>
-                <form action="{{ url_for('containment.hosts_containment_status') }}" method="post">
+                <form id="hostForm" action="{{ url_for('containment.hosts_containment_status') }}" method="post">
                     <textarea
                         class="form-control mt-3"
                         id="host-name"
@@ -39,7 +39,7 @@
     <div class="container mt-5">
         <div class="card p-4 shadow-sm" style="background-color: #2f353b; border: none;">
             <h4 class="text-center mb-4" style="color: #ffffff;">Select Action</h4>
-            <form action="{{ url_for('containment.hosts_containment_action') }}" method="post" onsubmit="showLoadingSpinner()">
+            <form id="actionForm" action="{{ url_for('containment.hosts_containment_action') }}#bottom-anchor" method="post" onsubmit="showLoadingSpinner()">
                 <div class="form-check mb-3">
                     <input class="form-check-input" type="radio" name="action" id="contain" value="contain" required>
                     <label class="form-check-label" for="contain" style="color: #ffffff;">
@@ -60,16 +60,100 @@
     <!-- Spinner container -->
     <div class="spinner-container" id="loadingSpinner">
         <div class="spinner"></div>
-        <div class="spinner-text"> <b>60 sec delay</b></div>
+        <div class="spinner-text"><b>60 sec delay</b></div>
     </div>
 
     <script>
-        // JavaScript function to show the loading spinner
+        // JavaScript function to show the loading spinner and reload the page after 60 seconds
         function showLoadingSpinner() {
             document.getElementById('loadingSpinner').style.display = 'flex';
             document.getElementById('loadingSpinner').style.flexDirection = 'column';
             document.getElementById('loadingSpinner').style.alignItems = 'center';
+
+            // Set a flag in local storage to indicate the action was submitted
+            localStorage.setItem('containmentActionSubmitted', 'true');
+            
+            // Reload the page after 60 seconds
+            setTimeout(() => {
+                location.reload();
+            }, 60000);
         }
+
+        // JavaScript to scroll to the bottom on form submission
+        document.getElementById('hostForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Submit the form programmatically
+            fetch('{{ url_for('containment.hosts_containment_status') }}', {
+                method: 'POST',
+                body: new FormData(this)
+            }).then(function() {
+                // Scroll to the bottom after form submission
+                document.getElementById('bottom-anchor').scrollIntoView({ behavior: 'smooth', block: 'end' });
+            }).catch(function(error) {
+                console.error('Error:', error);
+            });
+        });
+
+        document.getElementById('actionForm').addEventListener('submit', function(event) {
+            showLoadingSpinner();
+        });
+
+        // Function to fetch logs and return a promise
+        function fetchLogs() {
+            return fetch('/hosts-containment-logs')
+                .then(response => response.text())
+                .then(data => {
+                    const logContentElement = document.getElementById('logContent');
+                    logContentElement.innerHTML = ''; // Clear any previous content
+
+                    const rows = data.split('\n');
+                    const table = document.createElement('table');
+                    table.classList.add('table', 'table-dark');
+                    rows.forEach((row, index) => {
+                        const tr = document.createElement('tr');
+                        const cells = row.split(',');
+                        cells.forEach(cell => {
+                            const td = document.createElement(index === 0 ? 'th' : 'td');
+                            td.innerText = cell;
+                            tr.appendChild(td);
+                        });
+                        table.appendChild(tr);
+                    });
+                    logContentElement.appendChild(table);
+                })
+                .catch(error => console.error('Error fetching logs:', error));
+        }
+
+        // Function to check if the logs should be displayed and show the modal
+        function checkAndShowLogs() {
+            if (localStorage.getItem('containmentActionSubmitted') === 'true') {
+                localStorage.removeItem('containmentActionSubmitted'); // Remove flag
+
+                // Fetch logs and then show the modal
+                fetchLogs().then(() => {
+                    $('#logsModal').modal('show');
+                });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Smooth scrolling to hash anchors
+            if (window.location.hash) {
+                let targetElement = document.querySelector(window.location.hash);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                }
+            }
+
+            // Check if containment action was submitted and show logs if necessary
+            checkAndShowLogs();
+
+            // Fetch logs when modal is shown
+            $('#logsModal').on('show.bs.modal', function () {
+                fetchLogs();
+            });
+        });
     </script>
 
     <button type="button" class="btn btn-info" style="position: fixed; bottom: 20px; right: 20px;" data-toggle="modal" data-target="#logsModal">
@@ -85,25 +169,13 @@
                         <span aria-hidden="true" style="color: #ffffff;">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body" id="logContent">
-                </div>
+                <div class="modal-body" id="logContent"></div>
             </div>
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            $('#logsModal').on('show.bs.modal', function () {
-                fetch('/hosts-containment-logs')
-                    .then(response => response.text())
-                    .then(data => {
-                        document.getElementById('logContent').innerText = data;
-                    })
-                    .catch(error => console.error('Error fetching logs:', error));
-            });
-        });
-    </script>
-
+    <!-- Anchor at the bottom of the page -->
+    <a id="bottom-anchor"></a>
 {% endif %}
 
 <br><br>
