@@ -77,6 +77,7 @@ The project is structured as follows:
 ```
 FullStackCrowdStrikeAutomation/
 ├── .venv/
+|
 ├── website/
 │   ├── scripts/
 │   │   ├── endPoint/
@@ -90,6 +91,7 @@ FullStackCrowdStrikeAutomation/
 │   │   ├── adminRights.py               # Script for automating the removal of admin rights
 │   │   ├── containment.py               # Manages containment status of hosts and groups
 │   │   ├── stale.py                     # Loads and processes stale accounts
+|   |
 │   ├── templates/
 │   │   ├── adminRights/
 │   │   │   ├── adminRights.html
@@ -117,13 +119,21 @@ FullStackCrowdStrikeAutomation/
 │   │   ├── authenticate.html
 │   │   ├── base.html
 │   │   ├── home.html
+|   |
 │   ├── README.md
+|   |
 │   ├── __init__.py
+|   |
 │   ├── auth.py
+|   |
 │   ├── views.py
+|
 ├── .gitignore
+|
 ├── README.md
+|
 ├── main.py
+|
 ├── requirements.txt
 ```
 
