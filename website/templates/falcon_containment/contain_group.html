@@ -61,7 +61,7 @@
     <div class="d-flex justify-content-center mt-5">
         <div class="card p-4 shadow-sm" style="background-color: #2f353b; border: none; width: 100%; max-width: 500px;">
             <h4 class="text-center mb-4" style="color: #ffffff;">Select Action</h4>
-            <form action="{{ url_for('containment.group_containment_action') }}" method="post" onsubmit="showLoadingSpinner()">
+            <form action="{{ url_for('containment.group_containment_action') }}#group-members" method="post" onsubmit="showLoadingSpinner()">
                 <div class="form-check mb-3">
                     <input class="form-check-input" type="radio" name="action" id="contain" value="contain" required>
                     <label class="form-check-label" for="contain" style="color: #ffffff;">
@@ -86,12 +86,76 @@
     </div>
 
     <script>
-        // JavaScript function to show the loading spinner
+        // JavaScript function to show the loading spinner and reload the page after 60 seconds
         function showLoadingSpinner() {
             document.getElementById('loadingSpinner').style.display = 'flex';
             document.getElementById('loadingSpinner').style.flexDirection = 'column';
             document.getElementById('loadingSpinner').style.alignItems = 'center';
+
+            // Set a flag in local storage to indicate the action was submitted
+            localStorage.setItem('containmentActionSubmitted', 'true');
+
+            // Reload the page after 60 seconds
+            setTimeout(() => {
+                location.reload();
+            }, 60000);
         }
+
+        // Function to fetch logs and return a promise
+        function fetchLogs() {
+            return fetch('/group-containment-logs')
+                .then(response => response.text())
+                .then(data => {
+                    const logContentElement = document.getElementById('logContent');
+                    logContentElement.innerHTML = ''; // Clear any previous content
+
+                    const rows = data.split('\n');
+                    const table = document.createElement('table');
+                    table.classList.add('table', 'table-dark');
+                    rows.forEach((row, index) => {
+                        const tr = document.createElement('tr');
+                        const cells = row.split(',');
+                        cells.forEach(cell => {
+                            const td = document.createElement(index === 0 ? 'th' : 'td');
+                            td.innerText = cell;
+                            tr.appendChild(td);
+                        });
+                        table.appendChild(tr);
+                    });
+                    logContentElement.appendChild(table);
+                })
+                .catch(error => console.error('Error fetching logs:', error));
+        }
+
+        // Function to check if the logs should be displayed and show the modal
+        function checkAndShowLogs() {
+            if (localStorage.getItem('containmentActionSubmitted') === 'true') {
+                localStorage.removeItem('containmentActionSubmitted'); // Remove flag
+
+                // Fetch logs and then show the modal
+                fetchLogs().then(() => {
+                    $('#logsModal').modal('show');
+                });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Smooth scrolling to hash anchors
+            if (window.location.hash) {
+                let targetElement = document.querySelector(window.location.hash);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                }
+            }
+
+            // Check if containment action was submitted and show logs if necessary
+            checkAndShowLogs();
+
+            // Fetch logs when modal is shown
+            $('#logsModal').on('show.bs.modal', function () {
+                fetchLogs();
+            });
+        });
     </script>
 
     <button type="button" class="btn btn-info" style="position: fixed; bottom: 20px; right: 20px;" data-toggle="modal" data-target="#logsModal">
@@ -113,41 +177,12 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            $('#logsModal').on('show.bs.modal', function () {
-                fetch('/group-containment-logs')
-                    .then(response => response.text())
-                    .then(data => {
-                        const logContentElement = document.getElementById('logContent');
-                        logContentElement.innerHTML = ''; // Clear any previous content
-    
-                        const rows = data.split('\n');
-                        const table = document.createElement('table');
-                        table.classList.add('table', 'table-dark');
-                        rows.forEach((row, index) => {
-                            const tr = document.createElement('tr');
-                            const cells = row.split(',');
-                            cells.forEach(cell => {
-                                const td = document.createElement(index === 0 ? 'th' : 'td');
-                                td.innerText = cell;
-                                tr.appendChild(td);
-                            });
-                            table.appendChild(tr);
-                        });
-                        logContentElement.appendChild(table);
-                    })
-                    .catch(error => console.error('Error fetching logs:', error));
-            });
-        });
-    </script>
-
 {% endif %}
 
 <br>
 
 <script>
-    // When the page loads, check for a hash in the URL and scroll to it smoothly
+    // Smooth scrolling to hash anchors on page load
     document.addEventListener('DOMContentLoaded', function() {
         if(window.location.hash) {
             let targetElement = document.querySelector(window.location.hash);
