@@ -5,11 +5,11 @@ app = create_app()
 
 @app.before_request
 def before_request():
-    ip_address = '10.1.81.45'
+    ip_address = '#.#.#.#'
     g.ip_address = ip_address
-    g.port = '8000'
+    g.port = '####'
 
 if __name__ == '__main__':
-    ip_address = '10.1.81.45'
-    port = 8000
+    ip_address = '#.#.#.#'
+    port = ####
     app.run(host=ip_address, port=port, debug=True)
