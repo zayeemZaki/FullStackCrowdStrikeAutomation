@@ -79,7 +79,7 @@ The `scripts/` folder contains the main Python files that handle the back-end lo
 - **stale.py**: Loads and processes stale accounts from CrowdStrike.
 - **endPoint Folder**: Contains scripts for handling IOCs, detections, alerts, incidents, behaviors, and CrowdScores.
 
-### [Templates Folder] [README.md](./templates/README.md)
+### Templates Folder [README.md](./templates/README.md)
 
 The `templates/` folder holds all the HTML files that are rendered by Flask for different web pages. These templates are organized to correspond with the scripts and routes defined in the application.
 
