@@ -4,26 +4,6 @@
 {% block content %}
 <h1 class="text-center text-white" style="padding: 20px 0;">Malicious Files</h1> 
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="form-group text-center">
-                <label for="device-names"><h4 style="color: #ffffff;">Enter the host-ids (each in one line) to check malicious files. Leave blank for all files!</h4></label>
-                <form id="hostForm" action="{{ url_for('maliciousFiles.malicious_files') }}" method="post">
-                    <textarea
-                        class="form-control mt-3"
-                        id="device-names"
-                        name="device-names"
-                        placeholder="Enter one host name per line"
-                        rows="5"
-                    ></textarea>
-                    <button type="submit" class="btn btn-primary mt-3">Submit</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
 {% if tables %}
     <div class="container-fluid mt-5">
         <div class="table-responsive">
@@ -35,9 +15,89 @@
         </div>
     </div>
 {% else %}
-    <p class="text-center text-white">No malicious files found.</p>
+    <div class="card p-4 shadow-sm mx-auto" style="background-color: #2f353b; border: none; max-width: 500px;">
+        <h4 class="text-center mb-4" style="color: #ffffff;">Select Filter Criteria</h4>
+        <form action="{{ url_for('maliciousFiles.get_malicious_files') }}" method="POST">
+            <div class="form-group mb-4" style="padding: 0 140px;">
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" id="no_filter" name="sorting" value="no_filter" checked="checked">
+                    <label class="form-check-label" for="no_filter" style="font-size: 1.2em;">No filter</label>
+                </div>
+
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" id="file_id" name="sorting" value="file_id">
+                    <label class="form-check-label" for="file_id" style="font-size: 1.2em;">File id</label>
+                </div>
+                
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" id="host_id" name="sorting" value="host_id">
+                    <label class="form-check-label" for="host_id" style="font-size: 1.2em;">Host id</label>
+                </div>
+                        
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" id="file_name" name="sorting" value="file_name">
+                    <label class="form-check-label" for="file_name" style="font-size: 1.2em;">File Name</label>
+                </div>
+                    
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" id="severity" name="sorting" value="severity">
+                    <label class="form-check-label" for="severity" style="font-size: 1.2em;">Severity</label>
+                </div>
+
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" id="quarantined" name="sorting" value="quarantined">
+                    <label class="form-check-label" for="quarantined" style="font-size: 1.2em;">Quarantined</label>
+                </div>
+            </div>
+            
+            <!-- Input Fields for Filters -->
+            <div class="form-group text-center" id="filter-inputs">
+                <input type="text" class="form-control mb-3 d-none w-50 mx-auto" id="filter-file-id" name="filter_file_id" placeholder="Enter File ID">
+                <input type="text" class="form-control mb-3 d-none w-50 mx-auto" id="filter-host-id" name="filter_host_id" placeholder="Enter Host ID">
+                <input type="text" class="form-control mb-3 d-none w-50 mx-auto" id="filter-file-name" name="filter_file_name" placeholder="Enter File Name">
+                <input type="text" class="form-control mb-3 d-none w-50 mx-auto" id="filter-severity" name="filter_severity" placeholder="Enter Severity (int)">
+                <input type="text" class="form-control mb-3 d-none w-50 mx-auto" id="filter-quarantined" name="filter_quarantined" placeholder="Quarantine Status (true or false)">
+            </div>
+
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-primary w-50">Submit</button>
+            </div>
+        </form>
+    </div>
 {% endif %}
 
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const radioButtons = document.querySelectorAll('input[name="sorting"]');
+        const filterInputs = document.getElementById('filter-inputs');
+
+        radioButtons.forEach(radio => {
+            radio.addEventListener('change', function () {
+                // Hide all input fields initially
+                filterInputs.querySelectorAll('input').forEach(input => {
+                    input.classList.add('d-none');
+                });
+
+                // Show specific input field based on selected radio button
+                if (this.id === 'file_id') {
+                    document.getElementById('filter-file-id').classList.remove('d-none');
+                } else if (this.id === 'host_id') {
+                    document.getElementById('filter-host-id').classList.remove('d-none');
+                } else if (this.id === 'file_name') {
+                    document.getElementById('filter-file-name').classList.remove('d-none');
+                } else if (this.id === 'severity') {
+                    document.getElementById('filter-severity').classList.remove('d-none');
+                } else if (this.id === 'quarantined') {
+                    document.getElementById('filter-quarantined').classList.remove('d-none');
+                }
+            });
+        });
+
+        // Trigger change event on page load to show the correct input field
+        document.querySelector('input[name="sorting"]:checked').dispatchEvent(new Event('change'));
+    });
+</script>
 
 <style>
     .white-text-table {
@@ -87,6 +147,8 @@
     }
 
 </style>
+
+
 
 {% endblock %}
 
