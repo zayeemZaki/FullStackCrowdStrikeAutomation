@@ -39,6 +39,7 @@ def create_app():
     from .scripts.endPoint.manageIncidents import manageIncidents
     from .scripts.endPoint.manageBehaviors import manageBehaviors
     from .scripts.endPoint.crowdScore import crowdscores
+    from .scripts.getMaliciousFiles import maliciousFiles
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
@@ -52,6 +53,7 @@ def create_app():
     app.register_blueprint(manageIncidents, url_prefix='/')
     app.register_blueprint(manageBehaviors, url_prefix='/')
     app.register_blueprint(crowdscores, url_prefix='/')
+    app.register_blueprint(maliciousFiles, url_prefix='/')
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.authenticate'

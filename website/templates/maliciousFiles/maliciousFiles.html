@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}Malicious Files{% endblock %}
+
+{% block content %}
+<h1 class="text-center text-white" style="padding: 20px 0;">Malicious Files</h1> 
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="form-group text-center">
+                <label for="device-names"><h4 style="color: #ffffff;">Enter the host-ids (each in one line) to check malicious files. Leave blank for all files!</h4></label>
+                <form id="hostForm" action="{{ url_for('maliciousFiles.malicious_files') }}" method="post">
+                    <textarea
+                        class="form-control mt-3"
+                        id="device-names"
+                        name="device-names"
+                        placeholder="Enter one host name per line"
+                        rows="5"
+                    ></textarea>
+                    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if tables %}
+    <div class="container-fluid mt-5">
+        <div class="table-responsive">
+            {% for table in tables %}
+                <div class="white-text-table mx-2" style="overflow-x: auto; white-space: nowrap;">
+                    {{ table|safe }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% else %}
+    <p class="text-center text-white">No malicious files found.</p>
+{% endif %}
+
+
+<style>
+    .white-text-table {
+        overflow-x: auto; /* Enable horizontal scrolling */
+        white-space: nowrap; /* Prevent line breaks */
+        display: block; /* Make container scrollable */
+    }
+
+    .white-text-table table,
+    .white-text-table th,
+    .white-text-table td {
+        color: white;
+        width: auto; /* Allow table to dynamically adjust width */
+    }
+
+    .table-responsive {
+        overflow-x: auto; /* Enable horizontal scrolling */
+    }
+
+    .container-fluid {
+        padding-left: 10px;  /* Reduce container left padding */
+        padding-right: 10px; /* Reduce container right padding */
+    }
+
+    .container {
+        max-width: 100%; /* Allow container to take full width */
+        padding: 0;
+    }
+
+    .card {
+        border: none;
+        margin-top: 20px;
+    }
+
+    .card-header {
+        background-color: #343a40;
+    }
+
+    .list-group-item {
+        border: none;
+        padding: 10px 20px;
+    }
+
+    /* Custom CSS to align table headers to the left */
+    .left-align-headers th {
+        text-align: left;
+    }
+
+</style>
+
+{% endblock %}
+
