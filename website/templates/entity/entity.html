@@ -8,6 +8,21 @@
         <!-- Title -->
         <h4 class="text-center mb-4">Filter and Sort Entities</h4>
         <form action="{{ url_for('entity.entity_table') }}" method="POST">
+            <!-- Matching condition radio buttons -->
+            <div class="row mb-3">
+                <div class="col-md-12 d-flex align-items-center">
+                    <span class="mr-2" style="color: #FFC107;">Match Conditions:</span>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="matchCondition" id="matchAll" value="all" checked>
+                        <label class="form-check-label" for="matchAll" style="color: #FFC107;">All</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="matchCondition" id="matchAny" value="any">
+                        <label class="form-check-label" for="matchAny" style="color: #FFC107;">Any</label>
+                    </div>
+                </div>
+            </div>
+
             <!-- Filters -->
             <div class="row">
                 <!-- Filter 1 -->
