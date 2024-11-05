@@ -14,13 +14,17 @@ def malicious_files():
 @maliciousFiles.route('/get-malicious-files', methods=['GET', 'POST'])
 @login_required
 def get_malicious_files():
-    filter_type = request.form.get('sorting')
-    filter_value = request.form.get('filter_' + filter_type, '')
+    # Default pagination parameters
+    page = int(request.args.get('page', 1))
+    per_page = 50
+    offset = (page - 1) * per_page
+
+    filter_type = request.form.get('sorting', 'no_filter')
+    filter_value = request.form.get(f'filter_{filter_type}', '')
     token = session.get('token')
     client_id = session.get('client_id')
     client_secret = session.get('client_secret')
-    print("Filter Type:", filter_type)
-    print("Filter value:", filter_value)
+
     if not token or not client_id or not client_secret:
         flash("Missing required session credentials.")
         return render_template("maliciousFiles/maliciousFiles.html", user=current_user)
@@ -29,34 +33,33 @@ def get_malicious_files():
         url = "https://api.crowdstrike.com/devices/queries/devices/v1"
         headers = {
             "Authorization": f"Bearer {token}"
-            }
+        }
         params = {
             "filter": f"hostname:'{hostname}'"
-            }
+        }
         response = requests.get(url, headers=headers, params=params)
         response.raise_for_status()
         devices = response.json()["resources"]
         return devices[0] if devices else None
 
-    def query_malicious_files(falcon, filter_criteria, filter_type):
-        
+    def query_malicious_files(falcon, filter_criteria, filter_type, offset, limit):
         if filter_type == "host_id":
             filters = f"host_id:'{filter_criteria}'"
         elif filter_type == "file_id":
             filters = f"id:'{filter_criteria}'"
         elif filter_type == "file_name":
-            print("----",filter_criteria)
             filters = f"filename:'{filter_criteria}'"
         elif filter_type == "severity":
             filters = f"severity:'{filter_criteria}'"
         elif filter_type == "quarantined":
-            print(filter_criteria)
             filters = f"quarantined:'{filter_criteria}'"
         else:
             filters = ""
-        
-        response = falcon.command("query_malicious_files", filter=filters)
 
+        response = falcon.command("query_malicious_files",
+                                  filter=filters,
+                                  offset=offset,
+                                  limit=limit)
         if response['status_code'] == 200 and 'resources' in response['body']:
             ids = response['body']['resources']
             if ids:
@@ -68,7 +71,6 @@ def get_malicious_files():
 
         return []
 
-        
     def get_file_details(falcon, file_id):
         """ Get details about a specific file ID """
         try:
@@ -95,42 +97,31 @@ def get_malicious_files():
         client_secret=client_secret
     )
 
-    device_id = []
-    file_id = []
-    file_name = []
-    severity = 0
-    quarantined = True
-
     all_files_ids = []
-
 
     if filter_type == "host_id":
         device_id = getDeviceId(token, filter_value)
-        print(device_id)
-        files = query_malicious_files(falcon, device_id, filter_type)
+        files = query_malicious_files(falcon, device_id, filter_type, offset, per_page)
         all_files_ids.extend(files)
     elif filter_type == "file_id":
-        print(filter_value)
         file_id = filter_value
-        files = query_malicious_files(falcon, file_id, filter_type)
+        files = query_malicious_files(falcon, file_id, filter_type, offset, per_page)
         all_files_ids.extend(files)
     elif filter_type == "file_name":
         file_name = filter_value
-        files = query_malicious_files(falcon, file_name, filter_type)
+        files = query_malicious_files(falcon, file_name, filter_type, offset, per_page)
         all_files_ids.extend(files)
     elif filter_type == "severity":
         severity = filter_value
-        files = query_malicious_files(falcon, severity, filter_type)
+        files = query_malicious_files(falcon, severity, filter_type, offset, per_page)
         all_files_ids.extend(files)
     elif filter_type == "quarantined":
-        print("--",filter_value)
         quarantined = filter_value
-        files = query_malicious_files(falcon, quarantined, filter_type)
+        files = query_malicious_files(falcon, quarantined, filter_type, offset, per_page)
         all_files_ids.extend(files)
     else:
-        files = query_malicious_files(falcon, "", filter_type)
+        files = query_malicious_files(falcon, "", filter_type, offset, per_page)
         all_files_ids.extend(files)
-
 
     all_files = []
     for file_id in all_files_ids:
@@ -141,4 +132,12 @@ def get_malicious_files():
     df = pd.DataFrame(all_files)
     table_html = df.to_html(classes='table table-striped left-align-headers')
 
-    return render_template("maliciousFiles/maliciousFiles.html", tables=[table_html], titles=df.columns.values, user=current_user)
+    # Check if there are more items for the next page
+    more_files = len(all_files_ids) == per_page
+
+    return render_template("maliciousFiles/maliciousFiles.html", 
+                           tables=[table_html], 
+                           titles=df.columns.values, 
+                           user=current_user, 
+                           page=page, 
+                           more_files=more_files)

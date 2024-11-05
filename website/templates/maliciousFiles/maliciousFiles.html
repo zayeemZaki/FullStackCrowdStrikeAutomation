@@ -14,6 +14,14 @@
             {% endfor %}
         </div>
     </div>
+    <div class="text-center mt-3">
+        {% if page > 1 %}
+            <a href="{{ url_for('maliciousFiles.get_malicious_files', page=page-1, sorting=request.form['sorting'], filter_file_id=request.form['filter_file_id'], filter_host_id=request.form['filter_host_id'], filter_file_name=request.form['filter_file_name'], filter_severity=request.form['filter_severity'], filter_quarantined=request.form['filter_quarantined']) }}" class="btn btn-primary">Previous</a>
+        {% endif %}
+        {% if more_files %}
+            <a href="{{ url_for('maliciousFiles.get_malicious_files', page=page+1, sorting=request.form['sorting'], filter_file_id=request.form['filter_file_id'], filter_host_id=request.form['filter_host_id'], filter_file_name=request.form['filter_file_name'], filter_severity=request.form['filter_severity'], filter_quarantined=request.form['filter_quarantined']) }}" class="btn btn-primary">Next</a>
+        {% endif %}
+    </div>
 {% else %}
     <div class="card p-4 shadow-sm mx-auto" style="background-color: #2f353b; border: none; max-width: 500px;">
         <h4 class="text-center mb-4" style="color: #ffffff;">Select Filter Criteria</h4>
@@ -65,7 +73,6 @@
         </form>
     </div>
 {% endif %}
-
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -145,10 +152,6 @@
     .left-align-headers th {
         text-align: left;
     }
-
 </style>
 
-
-
 {% endblock %}
-
