@@ -9,5 +9,9 @@ graphqlUrl = 'https://api.crowdstrike.com/identity-protection/combined/graphql/v
 @entity.route('/entities', methods=['GET', 'POST'])
 @login_required
 def entities():
-    
     return render_template("entity/entity.html", user=current_user)
+
+@entity.route('/entity-table', methods=['GET', 'POST'])
+@login_required
+def entity_table():
+    pass
