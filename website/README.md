@@ -36,10 +36,11 @@ The `/website` directory contains the following primary components:
 │   │   ├── manageDetections.py       # Handles detection management and actions
 │   │   ├── manageIncidents.py        # Manages incidents within the CrowdStrike environment
 │   │   ├── searchIOCs.py             # Searches and filters Indicators of Compromise (IOCs)
+|   ├── entity.py                     # Retrieves entities applying specific filters
 │   ├── adminRights.py                # Automates the removal of admin rights
 │   ├── containment.py                # Manages containment status of hosts and groups
 │   ├── stale.py                      # Loads and processes stale accounts
-│
+│   ├── getMaliciousFiles.py          # Gets all the malicious files based on filters
 ├── templates/                        # HTML templates for rendering pages in Flask
 │   ├── adminRights/                  # Contains templates for admin rights management
 │   ├── endPoint/                     # Contains templates for endpoint management
@@ -57,15 +58,23 @@ The `/website` directory contains the following primary components:
 │   │   │   ├── ioc_filter_page.html
 │   │   │   ├── ioc_results.html
 │   │   ├── endPointView.html
+|   ├── entity/
+|   |   ├── entity.html
+|   |   ├── entity.html
 │   ├── falcon_containment/           # Templates for host and group containment
+|   |   ├── contain_group.html
+|   |   ├── contain_host.html
+|   |   ├── containment.html
+|   ├── maliciousFiles/
+|   |   ├── maliciousFiles.html
 │   ├── stale_accounts/               # Templates for displaying and managing stale accounts
+|   |   ├── stale_accounts.html
 │   ├── authenticate.html             # User authentication form
 │   ├── base.html                     # Base template for common layout structure
 │   ├── home.html                     # Homepage template
-│
-├── [__init__.py](./__init__.py)                       # Initializes the Flask application and blueprints
-├── [auth.py](./auth.py)                           # Handles user authentication and session management
-├── [views.py](./views.py)                          # Defines general routes and main views for the application
+├── [__init__.py](./__init__.py)      # Initializes the Flask application and blueprints
+├── [auth.py](./auth.py)              # Handles user authentication and session management
+├── [views.py](./views.py)            # Defines general routes and main views for the application
 ```
 
 ## Components
@@ -78,6 +87,8 @@ The `scripts/` folder contains the main Python files that handle the back-end lo
 - **containment.py**: Manages the containment status of hosts and groups, including applying or lifting containment.
 - **stale.py**: Loads and processes stale accounts from CrowdStrike.
 - **endPoint Folder**: Contains scripts for handling IOCs, detections, alerts, incidents, behaviors, and CrowdScores.
+- **entity.py**: Searches for entities with specific filters.
+- **getMaliciousFiles.py**: Gets all the malicious files fitting the criteria selected.
 
 ### Templates Folder [README.md](./templates/README.md)
 
@@ -87,6 +98,8 @@ The `templates/` folder holds all the HTML files that are rendered by Flask for 
 - **endPoint Folder**: Templates for displaying and managing various endpoint-related operations like detections, incidents, and CrowdScores.
 - **falcon_containment Folder**: Contains templates to handle host and group containment views.
 - **stale_accounts Folder**: Templates for displaying stale accounts and handling related actions.
+- **entity Folder**: Template for displaying filters and then retrieves entities.
+- **maliciousFiles Folder**: Template for maliciousFiles filters which they generates list of maliciousFiles after submitting.
 
 ### [`__init__.py`](./__init__.py)
 
@@ -155,4 +168,4 @@ def home():
 - `requests`: For making API calls to CrowdStrike's endpoints.
 - `falconpy`: Python SDK to interact with CrowdStrike's APIs.
 
-For more detailed information about the project structure and other files, please refer to the main [README.md](../README.md).
+For more general information about the project structure and other files, please refer to the main [README.md](../README.md).

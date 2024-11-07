@@ -18,6 +18,8 @@ The `/scripts` folder contains all the Python scripts responsible for automating
     - [manageDetections.py](#managedetectionspy)
     - [manageIncidents.py](#manageincidentspy)
     - [searchIOCs.py](#searchiocspy)
+    - [entity.py](#entitypy)
+    - [getMaliciousFiles.py](#getMaliciousFilespy)
 - [Dependencies](#dependencies)
 
 ## Overview
@@ -28,7 +30,8 @@ The scripts in this directory enable the core functionalities of the Falcon Admi
 - **Managing host and group containment**
 - **Processing stale accounts**
 - **Handling detections, incidents, and alerts**
-
+- **Seaches for entities with specific filters**
+- **Searches for malicious files based on specific filters**
 These scripts are designed to work together with the Flask application to provide an interface for administrators to monitor and manage the CrowdStrike environment.
 
 ## Directory Structure
@@ -46,6 +49,8 @@ These scripts are designed to work together with the Flask application to provid
 │   ├── manageDetections.py       # Handles detection management and actions
 │   ├── manageIncidents.py        # Manages incidents within the CrowdStrike environment
 │   ├── searchIOCs.py             # Searches and filters Indicators of Compromise (IOCs)
+├── entity.py                     # Searches for entities after applying specific filters
+├── getMaliciousFiles.py          # Searches for malicious files based on certain filters
 ```
 
 ## Script Descriptions
@@ -76,6 +81,21 @@ The `stale.py` script processes stale accounts within the CrowdStrike environmen
 - **Key Functions:**
   - `stale_accounts_table`: Retrieves and displays a table of stale accounts.
   - `download_table`: Exports the data in CSV or TXT format.
+    
+### entity.py
+
+The `entity.py` script processes entities within the CrowdStrike environment. It identifies accounts with specific filters applied and displays them in a table format. It also allows exporting this data as CSV or TXT files.
+
+- **Key Functions:**
+  - `entity_table`: Retrieves and displays a table of entities.
+  - `entity_filters`: Allows users to apply filters.
+ 
+### getMaliciousFiles.py
+
+The `getMaliciousFiles.py` script processes malicious within the CrowdStrike environment and displays them in a table format.
+
+- **Key Functions:**
+  - `getMaliciousFiles`: Allows selection of filters and displays files in list format.
 
 ### EndPoint Folder
 
