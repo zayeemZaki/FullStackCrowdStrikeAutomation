@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 
@@ -69,6 +70,12 @@
             </li>
             <li class="question-item" onclick="showAnswer('How can I search for IOCs and detections related to it, alerts, detections, incidents, behaviors and crowdscore?', '<div class=\'answer-detail\'><p><strong>API Scope Required:</strong> <span class=\'badge badge-primary\'>IOC Management</span></p><p>Navigate to the link below where you can find different endpoint scripts!</p><a class=\'btn btn-link\' href=\'http://{{ ip_address }}:{{ port }}/end-point\' target=\'_blank\'>http://{{ ip_address }}:{{ port }}/end-point</a></div>')">
                 How can I search for IOCs and detections related to it, alerts, detections, incidents, behaviors and crowdscore?
+            </li>
+            <li class="question-item" onclick="showAnswer('How can I find Malicious Files?', '<div class=\'answer-detail\'><p><strong>API Scope Required:</strong> <span class=\'badge badge-primary\'>On-demand scans (ODS)</span></p><p>Navigate to the link below where you can set filters for malicious files that you want to check!</p><a class=\'btn btn-link\' href=\'http://{{ ip_address }}:{{ port }}/malicious-files\' target=\'_blank\'>http://{{ ip_address }}:{{ port }}/malicious-files</a></div>')">
+                How can I find Malicious Files?
+            </li>
+            <li class="question-item" onclick="showAnswer('How can I find entities?', '<div class=\'answer-detail\'><p><strong>API Scope Required:</strong> <span class=\'badge badge-primary\'>entities</span></p><p>Navigate to the link below where you can set filters for entities that you want to retrieve!</p><a class=\'btn btn-link\' href=\'http://{{ ip_address }}:{{ port }}/entities\' target=\'_blank\'>http://{{ ip_address }}:{{ port }}/entities</a></div>')">
+                How can I find entities?
             </li>
         </ul>
         <div id="answerContainer"></div>

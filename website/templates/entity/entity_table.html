@@ -1,0 +1,37 @@
+
+{% extends "base.html" %}
+{% block title %}Entity Table{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="table-container">
+            <h2 class="my-4">Entity Table</h2>
+            <table class="table table-bordered table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Primary Name</th>
+                        <th scope="col">Secondary Name</th>
+                        <th scope="col">Is Human</th>
+                        <th scope="col">Risk Score</th>
+                        <th scope="col">Risk Severity</th>
+                        <th scope="col">Domain</th>
+                        <th scope="col">Inactive Period (days)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in data %}
+                    <tr>
+                        <td>{{ row['Primary Name'] }}</td>
+                        <td>{{ row['Secondary Name'] }}</td>
+                        <td>{{ row['Is Human'] }}</td>
+                        <td>{{ row['Risk Score'] }}</td>
+                        <td>{{ row['Risk Severity'] }}</td>
+                        <td>{{ row['Domain'] }}</td>
+                        <td>{{ row['Inactive Period (days)'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
