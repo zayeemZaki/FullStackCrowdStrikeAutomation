@@ -29,18 +29,36 @@ def entity_table():
         }
 
         # Capture form data securely
-        form_data = {k: v.strip() for k, v in request.form.items() if v.strip()}
+        form_data = request.form
+
+        # Convert checkbox values to boolean
+        checkbox_fields = ['accountLocked', 'archived', 'hasAgedPassword', 'hasExposedPassword', 'impersonator', 
+                           'hasNeverExpiringPassword', 'hasOpenIncidents', 'hasVulnerableOs', 'inactive', 'stale', 
+                           'hasWeakPassword', 'isMarked', 'cloudEnabled', 'cloudOnly', 'hasAccount']
+        
+        filters = {field: (form_data.get(field) == 'on') for field in checkbox_fields}
+        
+        # Include additional non-checkbox form parameters
+        filters.update({
+            'maxRiskScoreSeverity': form_data.get('maxRiskScoreSeverity', ''),
+            'accountCreationEndTime': form_data.get('accountCreationEndTime', ''),
+            'accountCreationStartTime': form_data.get('accountCreationStartTime', ''),
+            'accountExpirationEndTime': form_data.get('accountExpirationEndTime', ''),
+            'accountExpirationStartTime': form_data.get('accountExpirationStartTime', ''),
+            'agentIds': form_data.get('agentIds', ''),
+            'businessRoles': form_data.get('businessRoles', ''),
+            'domains': form_data.get('domains', ''),
+            'entityIds': form_data.get('entityIds', '')
+        })
 
         # Construct filters based on form input
         query_filters = []
-        for key, value in form_data.items():
+        for key, value in filters.items():
             if value:
-                if key in ["first", "last"]:
-                    query_filters.append(f'{key}: {value}')
-                elif key == "types":
-                    query_filters.append(f'{key}: [{value}]')
+                if isinstance(value, bool):
+                    query_filters.append(f'{key}: {str(value).lower()}')
                 else:
-                    query_filters.append(f'{key}: {"true" if value.lower() == "true" else "false" if value.lower() == "false" else value}')
+                    query_filters.append(f'{key}: "{value}"')
 
         query_filters_string = ", ".join(query_filters)
 

@@ -14,13 +14,47 @@
                     <span class="mr-2" style="color: #FFC107;">Match Conditions:</span>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="matchCondition" id="matchAll" value="all" checked>
-                        <label class="form-check-label" for="matchAll" style="color: #FFC107;">All</label>
+                        <label class="form-check-label" for="matchAll" style="color: #FFC107;">all</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="matchCondition" id="matchAny" value="any">
-                        <label class="form-check-label" for="matchAny" style="color: #FFC107;">Any</label>
+                        <label class="form-check-label" for="matchAny" style="color: #FFC107;">any</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="matchCondition" id="matchNot" value="not">
+                        <label class="form-check-label" for="matchNot" style="color: #FFC107;">not</label>
                     </div>
                 </div>
+            </div>
+
+            <div class="row">
+                <!-- Max Risk Score Severity -->
+                <div class="col-md-6 mb-3 d-flex align-items-center">
+                    <label for="sortKey" class="form-label me-2" style="color: #FFC107;">Sort Key</label>
+                    <input type="text" class="form-control" id="sortKey" name="sortKey" placeholder="Sort Key" style="width: 40%;">
+                </div>
+
+                <!-- Min Risk Score Severity -->
+                <div class="col-md-6 mb-3 d-flex align-items-center">
+                    <label for="sortOrder" class="form-label me-2" style="color: #FFC107;">Sort Order</label>
+                    <input type="text" class="form-control" id="sortOrder" name="sortOrder" placeholder="Sort Order" style="width: 40%;">
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Max Risk Score Severity -->
+                <div class="col-md-6 mb-3 d-flex align-items-center">
+                    <label for="maxRiskScoreSeverity" class="form-label me-2" style="color: #FFC107;">Max Risk Score Severity</label>
+                    <input type="text" class="form-control" id="maxRiskScoreSeverity" name="maxRiskScoreSeverity" placeholder="Score Severity" style="width: 40%;">
+                </div>
+
+                <!-- Min Risk Score Severity -->
+                <div class="col-md-6 mb-3 d-flex align-items-center">
+                    <label for="minRiskScoreSeverity" class="form-label me-2" style="color: #FFC107;">Min Risk Score Severity</label>
+                    <input type="text" class="form-control" id="minRiskScoreSeverity" name="minRiskScoreSeverity" placeholder="Score Severity" style="width: 40%;">
+                </div>
+
+
             </div>
 
             <!-- Filters -->
@@ -132,14 +166,6 @@
                 </div>
             </div>
 
-            <!-- Max Risk Score Severity -->
-            <div class="row mb-3">
-                <div class="col-md-12 d-flex align-items-center">
-                    <label for="maxRiskScoreSeverity" class="form-label me-2" style="color: #FFC107;">Max Risk Score Severity</label>
-                    <input type="text" class="form-control" id="maxRiskScoreSeverity" name="maxRiskScoreSeverity" placeholder="Score Severity" style="width: 40%;">
-                </div>
-            </div>
-
             <!-- Secondary Filters (Hidden by default) -->
             <div id="secondary-filters" style="display: none;">
                 <div class="row">
@@ -169,6 +195,35 @@
                         <input type="datetime-local" class="form-control" id="accountExpirationStartTime" name="accountExpirationStartTime" style="width: 40%;">
                     </div>
                 </div>
+
+                <div class="row">
+                    <!-- Secondary Filter 3 -->
+                    <div class="col-md-6 mb-3 d-flex align-items-center">
+                        <label for="mostRecentActivityEndTime" class="form-label me-2" style="color: #FFC107;">Most Recent Activity End Time</label>
+                        <input type="datetime-local" class="form-control" id="mostRecentActivityEndTime" name="mostRecentActivityEndTime" style="width: 40%;">
+                    </div>
+
+                    <!-- Secondary Filter 4 -->
+                    <div class="col-md-6 mb-3 d-flex align-items-center">
+                        <label for="mostRecentActivityStartTime" class="form-label me-2" style="color: #FFC107;">Most Recent Activity Start Time</label>
+                        <input type="datetime-local" class="form-control" id="mostRecentActivityStartTime" name="mostRecentActivityStartTime" style="width: 40%;">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Secondary Filter 3 -->
+                    <div class="col-md-6 mb-3 d-flex align-items-center">
+                        <label for="passwordLastChangeEndTime" class="form-label me-2" style="color: #FFC107;">Password Last Change End Time</label>
+                        <input type="datetime-local" class="form-control" id="passwordLastChangeEndTime" name="passwordLastChangeEndTime" style="width: 40%;">
+                    </div>
+
+                    <!-- Secondary Filter 4 -->
+                    <div class="col-md-6 mb-3 d-flex align-items-center">
+                        <label for="passwordLastChangeStartTime" class="form-label me-2" style="color: #FFC107;">Password Last Change Start Time</label>
+                        <input type="datetime-local" class="form-control" id="passwordLastChangeStartTime" name="passwordLastChangeStartTime" style="width: 40%;">
+                    </div>
+                </div>
+
 
                 <div class="row">
                     <!-- Secondary Filter 5 -->
@@ -212,6 +267,24 @@
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="cloudOnly" name="cloudOnly">
                             <label class="form-check-label" for="cloudOnly" style="color: #FFC107;">Cloud Only</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Secondary Filter 9 -->
+                    <div class="col-md-6 mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="unmanaged" name="unmanaged">
+                            <label class="form-check-label" for="unmanaged" style="color: #FFC107;">Unmanaged</label>
+                        </div>
+                    </div>
+
+                    <!-- Secondary Filter 10 -->
+                    <div class="col-md-6 mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="watched" name="watched">
+                            <label class="form-check-label" for="watched" style="color: #FFC107;">Watched</label>
                         </div>
                     </div>
                 </div>
