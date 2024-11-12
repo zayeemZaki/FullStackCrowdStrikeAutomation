@@ -3,31 +3,33 @@
 
 {% block content %}
 <div class="container mt-5">
-    <div class="card p-4 shadow-sm" style="background-color: #2f353b; border: none;">
-        <h4 class="text-center mb-4" style="color: #ffffff;">End Point Actions</h4>
-
+    <div class="card p-4 shadow-sm bg-dark border-0 text-light">
+        <div class="card-header text-center border-0 bg-transparent mb-4">
+            <h4 class="mb-0">End Point Actions</h4>
+        </div>
+        
         <form action="{{ url_for('searchIOCs.search_IOCs_view') }}" method="post" class="mb-3">
-            <button type="submit" class="btn btn-secondary btn-block">searchIOCs</button>
+            <button type="submit" class="btn btn-primary btn-block rounded-pill">Search IOCs</button>
         </form>
 
         <form action="{{ url_for('manageAlerts.manage_alert') }}" method="post" class="mb-3">
-            <button type="submit" class="btn btn-secondary btn-block">Manage Alerts</button>
+            <button type="submit" class="btn btn-primary btn-block rounded-pill">Manage Alerts</button>
         </form>
 
         <form action="{{ url_for('manageDetections.manage_detections') }}" method="post" class="mb-3">
-            <button type="submit" class="btn btn-secondary btn-block">Manage Detections</button>
+            <button type="submit" class="btn btn-primary btn-block rounded-pill">Manage Detections</button>
         </form>
 
         <form action="{{ url_for('manageIncidents.manage_incidents') }}" method="post" class="mb-3">
-            <button type="submit" class="btn btn-secondary btn-block">Manage Incidents</button>
+            <button type="submit" class="btn btn-primary btn-block rounded-pill">Manage Incidents</button>
         </form>
 
         <form action="{{ url_for('manageBehaviors.manage_behaviors') }}" method="post" class="mb-3">
-            <button type="submit" class="btn btn-secondary btn-block">Manage Behaviors</button>
+            <button type="submit" class="btn btn-primary btn-block rounded-pill">Manage Behaviors</button>
         </form>
 
         <form action="{{ url_for('crowdscores.crowd_score') }}" method="post" class="mb-3">
-            <button type="submit" class="btn btn-secondary btn-block">Crowd Score</button>
+            <button type="submit" class="btn btn-primary btn-block rounded-pill">Crowd Score</button>
         </form>
     </div>
 </div>
