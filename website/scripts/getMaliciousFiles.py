@@ -78,13 +78,13 @@ def get_malicious_files():
             if response['status_code'] == 200 and 'resources' in response['body']:
                 file_details = response['body']['resources'][0]
                 return {
-                    'file_id': file_id,
                     'file_name': file_details.get('filename', 'Unknown'),
-                    'file_path': file_details.get('filepath', 'Unknown'),
-                    'hash': file_details.get('hash', 'Unknown'),
                     'severity': file_details.get('severity', 'Unknown'),
                     'quarantined': file_details.get('quarantined', False),
-                    'last_updated': file_details.get('last_updated', 'Unknown')
+                    'last_updated': file_details.get('last_updated', 'Unknown'),
+                    'file_path': file_details.get('filepath', 'Unknown'),
+                    'file_id': file_id,
+                    'hash': file_details.get('hash', 'Unknown')
                 }
             else:
                 flash(f"Unexpected response or no resources found: {response}")
