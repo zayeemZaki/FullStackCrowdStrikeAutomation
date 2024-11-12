@@ -3,10 +3,10 @@
 
 {% block content %}
 <div class="container my-5">
-    <h1 class="text-center text-light py-4">Malicious Files</h1> 
+    <h1 class="text-center title py-4">Malicious Files</h1> 
 
     {% if tables %}
-        <div class="table-responsive bg-dark p-4 rounded shadow">
+        <div class="table-responsive card-custom p-4 rounded shadow">
             {% for table in tables %}
                 <div class="white-text-table mb-4">
                     {{ table|safe }}
@@ -17,41 +17,41 @@
         <div class="text-center mt-4">
             <div class="btn-group">
                 {% if page > 1 %}
-                    <a href="{{ url_for('maliciousFiles.get_malicious_files', page=page-1, sorting=request.form['sorting'], filter_file_id=request.form['filter_file_id'], filter_host_id=request.form['filter_host_id'], filter_file_name=request.form['filter_file_name'], filter_severity=request.form['filter_severity'], filter_quarantined=request.form['filter_quarantined']) }}" class="btn btn-outline-primary">Previous</a>
+                    <a href="{{ url_for('maliciousFiles.get_malicious_files', page=page-1, sorting=request.form['sorting'], filter_file_id=request.form['filter_file_id'], filter_host_id=request.form['filter_host_id'], filter_file_name=request.form['filter_file_name'], filter_severity=request.form['filter_severity'], filter_quarantined=request.form['filter_quarantined']) }}" class="btn btn-outline-custom">Previous</a>
                 {% endif %}
                 {% if more_files %}
-                    <a href="{{ url_for('maliciousFiles.get_malicious_files', page=page+1, sorting=request.form['sorting'], filter_file_id=request.form['filter_file_id'], filter_host_id=request.form['filter_host_id'], filter_file_name=request.form['filter_file_name'], filter_severity=request.form['filter_severity'], filter_quarantined=request.form['filter_quarantined']) }}" class="btn btn-outline-primary">Next</a>
+                    <a href="{{ url_for('maliciousFiles.get_malicious_files', page=page+1, sorting=request.form['sorting'], filter_file_id=request.form['filter_file_id'], filter_host_id=request.form['filter_host_id'], filter_file_name=request.form['filter_file_name'], filter_severity=request.form['filter_severity'], filter_quarantined=request.form['filter_quarantined']) }}" class="btn btn-outline-custom">Next</a>
                 {% endif %}
             </div>
         </div>
     {% else %}
-        <div class="card p-4 shadow-sm mx-auto bg-light" style="max-width: 500px;">
+        <div class="card container-custom p-4 shadow-sm card-center">
             <h4 class="text-center mb-4">Select Filter Criteria</h4>
             <form action="{{ url_for('maliciousFiles.get_malicious_files') }}" method="POST">
                 <div class="form-group">
-                    <div class="form-check mb-2">
+                    <div class="form-check mb-2 d-flex align-items-center">
                         <input class="form-check-input" type="radio" id="no_filter" name="sorting" value="no_filter" checked="checked">
-                        <label class="form-check-label" for="no_filter">No filter</label>
+                        <label class="form-check-label ms-2" for="no_filter">No filter</label>
                     </div>
-                    <div class="form-check mb-2">
+                    <div class="form-check mb-2 d-flex align-items-center">
                         <input class="form-check-input" type="radio" id="file_id" name="sorting" value="file_id">
-                        <label class="form-check-label" for="file_id">File id</label>
+                        <label class="form-check-label ms-2" for="file_id">File id</label>
                     </div>
-                    <div class="form-check mb-2">
+                    <div class="form-check mb-2 d-flex align-items-center">
                         <input class="form-check-input" type="radio" id="host_id" name="sorting" value="host_id">
-                        <label class="form-check-label" for="host_id">Host id</label>
+                        <label class="form-check-label ms-2" for="host_id">Host id</label>
                     </div>
-                    <div class="form-check mb-2">
+                    <div class="form-check mb-2 d-flex align-items-center">
                         <input class="form-check-input" type="radio" id="file_name" name="sorting" value="file_name">
-                        <label class="form-check-label" for="file_name">File Name</label>
+                        <label class="form-check-label ms-2" for="file_name">File Name</label>
                     </div>
-                    <div class="form-check mb-2">
+                    <div class="form-check mb-2 d-flex align-items-center">
                         <input class="form-check-input" type="radio" id="severity" name="sorting" value="severity">
-                        <label class="form-check-label" for="severity">Severity</label>
+                        <label class="form-check-label ms-2" for="severity">Severity</label>
                     </div>
-                    <div class="form-check mb-2">
+                    <div class="form-check mb-2 d-flex align-items-center">
                         <input class="form-check-input" type="radio" id="quarantined" name="sorting" value="quarantined">
-                        <label class="form-check-label" for="quarantined">Quarantined</label>
+                        <label class="form-check-label ms-2" for="quarantined">Quarantined</label>
                     </div>
                 </div>
 
@@ -65,7 +65,7 @@
                 </div>
 
                 <div class="form-group text-center">
-                    <button type="submit" class="btn btn-primary w-100">Submit</button>
+                    <button type="submit" class="btn btn-custom w-100">Submit</button>
                 </div>
             </form>
         </div>
@@ -105,70 +105,122 @@
 </script>
 
 <style>
+    body {
+        background-color: #0f4c81; /* Classic Blue */
+        color: #ffffff; /* White text */
+    }
+
+    .container {
+        max-width: 98%;
+        padding: 15px;
+        color: #ffffff; /* White text */
+    }
+
+    .title {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        color: #ffffff; /* White text */
+    }
+
+    .card-custom {
+        background-color: #007d79; /* Turquoise */
+        color: #ffffff; /* White text */
+    }
+
+    .container-custom {
+        max-width: 500px;
+        margin: 0 auto;
+        text-align: center; /* Center align the text */
+        background-color: #007d79; /* Turquoise */
+        color: #ffffff; /* White text */
+    }
+
+    .card-center {
+        margin: 0 auto; /* Center the card */
+    }
+
+    .btn-custom {
+        background-color: #ffb400; /* Gold */
+        border: none;
+        color: #ffffff; /* White text */
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+        border-radius: 10px;
+    }
+
+    .btn-custom:hover {
+        background-color: #0f4c81; /* Classic Blue */
+        color: #ffffff; /* White text */
+    }
+
+    .btn-outline-custom {
+        border-color: #ffb400; /* Gold */
+        color: #ffb400; /* Gold */
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .btn-outline-custom:hover {
+        background-color: #ffb400; /* Gold */
+        color: #ffffff; /* White text */
+    }
+
     .white-text-table {
         overflow-x: auto; /* Enable horizontal scrolling */
-        color: white;
+        color: #ffffff; /* White text */
     }
 
     .table-responsive {
         overflow-x: auto; /* Enable horizontal scrolling */
     }
 
-    .container {
-        max-width: 98%;
-        padding: 15px;
-    }
-
-    .card {
-        border: none;
-        background-color: #f8f9fa; /* light background */
-    }
-
-    .table thead th {
-        background-color: #343a40;
-        color: white;
-    }
-
-    .table tbody tr:nth-child(even) {
-        background-color: #2f353b;
-        color: white;
-    }
-
-    .table tbody tr:nth-child(odd) {
-        background-color: #3a3f44;
-        color: white;
-    }
-
     .form-check-label {
         font-size: 1.1em;
+        color: #ffffff; /* White text */
     }
 
     .d-none {
         display: none !important;
     }
 
-    /* Added hover effect for better interactivity */
+    .table thead th {
+        background-color: #007d79; /* Turquoise */
+        color: white;
+    }
+
+    .table tbody tr:nth-child(even) {
+        background-color: #007d79; /* Turquoise */
+        color: white;
+    }
+
+    .table tbody tr:nth-child(odd) {
+        background-color: #343a40;
+        color: white;
+    }
+
     .table tbody tr:hover {
         background-color: #495057;
     }
 
-    /* Polished submit button and form inputs */
     .form-control {
         border-radius: 0.3rem;
+        background-color: #495057; /* Dark background for input fields */
+        color: #ffffff; /* White text for input fields */
+        border: 1px solid #ced4da;
     }
 
-    .btn-primary {
-        border-radius: 0.3rem;
-        transition: background-color 0.3s ease;
+    .form-check-input {
+        margin-right: 10px;
     }
 
-    .btn-primary:hover {
-        background-color: #0056b3;
+    .d-flex {
+        display: flex;
     }
 
-    /* Custom CSS to align table headers to the left */
-    .left-align-headers th {
-        text-align: left;
+    .align-items-center {
+        align-items: center;
+    }
+
+    .ms-2 {
+        margin-left: 0.5rem; /* Margin left for spacing purpose */
     }
 </style>
 
