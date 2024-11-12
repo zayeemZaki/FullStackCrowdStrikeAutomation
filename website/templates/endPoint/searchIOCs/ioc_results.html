@@ -3,12 +3,12 @@
 
 {% block content %}
 <div class="container-fluid mt-5">
-    <h4 class="text-center mb-4" style="color: #ffffff;">IOC Search Results</h4>
+    <h4 class="text-center mb-4 title">IOC Search Results</h4>
     
     {% if tables and not details %}
         <div class="table-responsive">
             {% for table in tables %}
-                <div class="white-text-table mx-2" style="overflow-x: auto; white-space: nowrap;">
+                <div class="white-text-table mx-2">
                     {{ table|safe }}
                 </div>
             {% endfor %}
@@ -32,7 +32,7 @@
                             placeholder="IOC ID"
                             style="text-align: center;"
                         />
-                        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                        <button type="submit" class="btn btn-custom mt-3">Submit</button>
                     </form>
                 </div>
             </div>
@@ -42,12 +42,12 @@
 
     <div class="container mt-5">
         {% if details %}
-            <div class="card text-light bg-dark mb-3">
+            <div class="card text-white mb-3 card-custom">
                 <div class="card-header text-center"><h4>IOC Details</h4></div>
                 <div class="card-body">
                     <ul class="list-group text-light">
                         {% for detail in details %}
-                            <li class="list-group-item bg-dark">
+                            <li class="list-group-item card-custom">
                                 <strong>{{ detail.key }}:</strong> {{ detail.value }}
                             </li>
                         {% endfor %}
@@ -56,11 +56,11 @@
             </div>
         {% endif %}
         {% if detection_tables %}
-            <div class="card text-light bg-dark mb-3">
+            <div class="card text-white mb-3 card-custom">
                 <div class="card-header text-center"><h4>Related Detection Details</h4></div>
                 <div class="card-body">
                     {% for table in detection_tables %}
-                        <div class="white-text-table" style="overflow-x: auto; white-space: nowrap;">
+                        <div class="white-text-table">
                             {{ table|safe }}
                         </div>
                     {% endfor %}
@@ -71,31 +71,77 @@
 </div>
 
 <style>
-    .white-text-table {
-        overflow-x: auto; /* Enable horizontal scrolling */
-        white-space: nowrap; /* Prevent line breaks */
-        display: block; /* Make container scrollable */
-    }
-
-    .white-text-table table,
-    .white-text-table th,
-    .white-text-table td {
-        color: white;
-        width: auto; /* Allow table to dynamically adjust width */
-    }
-
-    .table-responsive {
-        overflow-x: auto; /* Enable horizontal scrolling */
+    body {
+        background-color: #0f4c81; /* Classic Blue */
+        color: #ffffff; /* White text */
     }
 
     .container-fluid {
         padding-left: 10px;  /* Reduce container left padding */
         padding-right: 10px; /* Reduce container right padding */
+        color: #ffffff; /* White text */
     }
 
     .container {
         max-width: 100%; /* Allow container to take full width */
         padding: 0;
+        color: #ffffff; /* White text */
+    }
+
+    .title {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        color: #ffffff; /* White text */
+    }
+
+    .form-group label {
+        font-weight: bold;
+        color: #ffffff; /* White text */
+    }
+
+    .form-control {
+        background-color: #495057;
+        color: #ffffff;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+    }
+
+    .form-control::placeholder {
+        color: #ced4da;
+    }
+
+    .form-control:focus {
+        background-color: #556072;
+        color: #ffffff;
+    }
+
+    .btn-custom {
+        background-color: #ffb400; /* Gold */
+        border: none;
+        color: #ffffff; /* White text */
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-custom:hover {
+        background-color: #0f4c81; /* Classic Blue */
+        color: #ffffff; /* White text */
+    }
+
+    .white-text-table {
+        overflow-x: auto; /* Enable horizontal scrolling */
+        white-space: nowrap; /* Prevent line breaks */
+        display: block; /* Make container scrollable */
+        color: #ffffff; /* White text */
+    }
+
+    .white-text-table table,
+    .white-text-table th,
+    .white-text-table td {
+        color: #ffffff; /* White text */
+    }
+
+    .table-responsive {
+        overflow-x: auto; /* Enable horizontal scrolling */
     }
 
     .card {
@@ -103,18 +149,20 @@
         margin-top: 20px;
     }
 
+    .card-custom {
+        background-color: #007d79; /* Turquoise */
+        color: #ffffff; /* White text */
+    }
+
     .card-header {
-        background-color: #343a40;
+        background-color: #007d79; /* Turquoise */
+        color: #ffffff; /* White text */
     }
 
     .list-group-item {
         border: none;
         padding: 10px 20px;
-    }
-
-    /* Custom CSS to align table headers to the left */
-    .left-align-headers th {
-        text-align: left;
+        background-color: #007d79; /* Turquoise */
     }
 </style>
 {% endblock %}
