@@ -3,34 +3,77 @@
 
 {% block content %}
 <div class="container mt-5">
-    <div class="card p-4 shadow-sm bg-dark border-0 text-light">
+    <div class="card p-4 shadow-sm border-0">
         <div class="card-header text-center border-0 bg-transparent mb-4">
-            <h4 class="mb-0">End Point Actions</h4>
+            <h4 class="mb-0 title">End Point Actions</h4>
         </div>
         
         <form action="{{ url_for('searchIOCs.search_IOCs_view') }}" method="post" class="mb-3">
-            <button type="submit" class="btn btn-primary btn-block rounded-pill">Search IOCs</button>
+            <button type="submit" class="btn btn-custom btn-block rounded-pill">Search IOCs</button>
         </form>
 
         <form action="{{ url_for('manageAlerts.manage_alert') }}" method="post" class="mb-3">
-            <button type="submit" class="btn btn-primary btn-block rounded-pill">Manage Alerts</button>
+            <button type="submit" class="btn btn-custom btn-block rounded-pill">Manage Alerts</button>
         </form>
 
         <form action="{{ url_for('manageDetections.manage_detections') }}" method="post" class="mb-3">
-            <button type="submit" class="btn btn-primary btn-block rounded-pill">Manage Detections</button>
+            <button type="submit" class="btn btn-custom btn-block rounded-pill">Manage Detections</button>
         </form>
 
         <form action="{{ url_for('manageIncidents.manage_incidents') }}" method="post" class="mb-3">
-            <button type="submit" class="btn btn-primary btn-block rounded-pill">Manage Incidents</button>
+            <button type="submit" class="btn btn-custom btn-block rounded-pill">Manage Incidents</button>
         </form>
 
         <form action="{{ url_for('manageBehaviors.manage_behaviors') }}" method="post" class="mb-3">
-            <button type="submit" class="btn btn-primary btn-block rounded-pill">Manage Behaviors</button>
+            <button type="submit" class="btn btn-custom btn-block rounded-pill">Manage Behaviors</button>
         </form>
 
         <form action="{{ url_for('crowdscores.crowd_score') }}" method="post" class="mb-3">
-            <button type="submit" class="btn btn-primary btn-block rounded-pill">Crowd Score</button>
+            <button type="submit" class="btn btn-custom btn-block rounded-pill">Crowd Score</button>
         </form>
     </div>
 </div>
+
+<!-- Additional Styling -->
+<style>
+    body {
+        background-color: #0f4c81; /* Classic Blue */
+        color: #ffffff; /* White text */
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .card {
+        background-color: #007d79; /* Turquoise */
+        color: #ffffff; /* White text */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        border: none;
+    }
+
+    .title {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        color: #ffffff; /* White text */
+    }
+
+    .btn-custom {
+        background-color: #ffb400; /* Gold */
+        color: #ffffff; /* White text */
+        font-weight: 600;
+        border-radius: 5px;
+    }
+
+    .btn-custom:hover {
+        background-color: #0f4c81; /* Classic Blue */
+        color: #ffffff; /* White text */
+    }
+
+    .rounded-pill {
+        border-radius: 30px; /* More rounded corners for buttons */
+    }
+</style>
 {% endblock %}
