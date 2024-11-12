@@ -3,8 +3,8 @@
 
 {% block content %}
 <div class="container my-5">
-    <div class="card p-4 shadow-sm bg-dark text-light" style="border: none;">
-        <h4 class="text-center mb-4">Filter IOC Search</h4>
+    <div class="card p-4 shadow-sm border-0">
+        <h4 class="text-center mb-4 title">Filter IOC Search</h4>
         <form action="{{ url_for('searchIOCs.process_ioc_search') }}" method="POST">
             
             <div class="form-group mb-4">
@@ -58,7 +58,7 @@
             </div>
             
             <div class="form-group">
-                <button type="submit" class="btn btn-primary w-100">Submit</button>
+                <button type="submit" class="btn btn-custom w-100 rounded-pill">Submit</button>
             </div>
 
         </form>
@@ -91,9 +91,15 @@
 </script>
 
 <style>
+    body {
+        background-color: #0f4c81; /* Classic Blue */
+        color: #ffffff; /* White text */
+    }
+
     .container {
         max-width: 600px; /* Limit the container width */
         padding: 20px;
+        color: #ffffff; /* White text */
     }
 
     .form-check-label {
@@ -107,15 +113,30 @@
 
     .form-control {
         border-radius: 20px; /* Rounded input fields */
+        background-color: #495057; /* Dark background for input fields */
+        color: #ffffff; /* White text for input fields */
+        border: 1px solid #ced4da; /* Border for input fields */
     }
 
-    .btn-primary {
+    .form-control::placeholder {
+        color: #ced4da;
+    }
+
+    .form-control:focus {
+        background-color: #556072;
+        color: #ffffff;
+    }
+
+    .btn-custom {
         border-radius: 20px; /* Rounded buttons */
         transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effects */
+        background-color: #ffb400; /* Gold */
+        color: #ffffff; /* White text */
+        font-weight: bold;
     }
 
-    .btn-primary:hover {
-        background-color: #0056b3; /* Darker primary color on hover */
+    .btn-custom:hover {
+        background-color: #0f4c81; /* Classic Blue */
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow effect on hover */
     }
 
@@ -126,7 +147,7 @@
     /* Style the card */
     .card {
         border: none;
-        background-color: #2f353b; /* Use the same dark background color consistently */
+        background-color: #007d79; /* Turquoise */
         color: #ffffff; /* White color for text */
     }
 
