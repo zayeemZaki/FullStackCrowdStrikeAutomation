@@ -7,13 +7,13 @@
         <div class="white-text-table">
             {% for table in tables %}
                 <div class="white-text-table mb-4">
-                    {{ table|safe }} 
+                    {{ table|safe }}
                 </div>
             {% endfor %}
         </div>
         <div class="text-center mt-4">
-            <a href="{{ url_for('stale.download_table', file_format='csv') }}" class="btn btn-success mx-2">Download CSV</a>
-            <a href="{{ url_for('stale.download_table', file_format='txt') }}" class="btn btn-success mx-2">Download Text</a>
+            <a href="{{ url_for('stale.download_table', file_format='csv') }}" class="btn btn-custom mx-2">Download CSV</a>
+            <a href="{{ url_for('stale.download_table', file_format='txt') }}" class="btn btn-custom mx-2">Download Text</a>
         </div>
 
         <div class="text-center mt-4">
@@ -22,8 +22,8 @@
             {% endif %}
         </div>
     {% else %}
-        <div class="card p-4 shadow-sm bg-dark text-white border-0">
-            <h4 class="text-center mb-4">Sort Stale Accounts</h4>
+        <div class="card p-4 shadow-sm border-0">
+            <h4 class="text-center mb-4 title">Sort Stale Accounts</h4>
             <form action="{{ url_for('stale.stale_accounts_table') }}" method="POST">
                 <h5 class="mb-4">Please select how you want to sort the stale accounts:</h5>
 
@@ -42,7 +42,7 @@
                     <label class="form-check-label" for="domain">Domain</label>
                 </div>
                 
-                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                <button type="submit" class="btn btn-custom btn-block">Submit</button>
             </form>
         </div>
     {% endif %}
@@ -50,13 +50,14 @@
 
 <style>
     body {
-        background-color: #f8f9fa;
+        background-color: #0f4c81; /* Classic Blue */
+        color: #ffffff; /* White text */
     }
 
     .white-text-table table,
     .white-text-table th,
     .white-text-table td {
-        color: white;
+        color: #ffffff; /* White text */
     }
 
     .white-text-table {
@@ -66,16 +67,32 @@
     .card {
         max-width: 600px;
         margin: 0 auto;
-        background-color: #343a40;
+        background-color: #007d79; /* Turquoise */
+        color: #ffffff; /* White text */
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border: none;
     }
 
     .text-center {
         text-align: center;
     }
 
-    .btn {
+    .btn-custom {
+        background-color: #ffb400; /* Gold */
+        color: #ffffff; /* White text */
+        font-weight: 600;
+        border-radius: 5px;
         margin: 5px;
+    }
+
+    .btn-custom:hover {
+        background-color: #0f4c81; /* Classic Blue */
+        color: #ffffff; /* White text */
+    }
+
+    .btn-secondary:hover {
+        background-color: #0f4c81; /* Classic Blue */
+        color: #ffffff; /* White text */
     }
 
     .form-check-input {
@@ -96,6 +113,7 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
+        color: #ffffff; /* White text */
     }
 </style>
 

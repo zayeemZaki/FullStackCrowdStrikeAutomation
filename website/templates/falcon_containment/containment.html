@@ -3,22 +3,23 @@
 
 {% block content %}
 <div class="container mt-5">
-    <div class="card p-4 shadow-sm bg-dark text-white border-0">
-        <h4 class="text-center mb-4">Falcon Containment Actions</h4>
+    <div class="card p-4 shadow-sm border-0">
+        <h4 class="text-center mb-4 title">Falcon Containment Actions</h4>
 
         <form action="{{ url_for('containment.list_groups') }}" method="post" class="mb-3">
-            <button type="submit" class="btn btn-primary btn-block btn-lg">Contain Group</button>
+            <button type="submit" class="btn btn-custom btn-block btn-lg">Contain Group</button>
         </form>
 
         <form action="{{ url_for('containment.hosts_containment_status') }}" method="post">
-            <button type="submit" class="btn btn-primary btn-block btn-lg">Contain Host</button>
+            <button type="submit" class="btn btn-custom btn-block btn-lg">Contain Host</button>
         </form>
     </div>
 </div>
 
 <style>
     body {
-        background-color: #f8f9fa;
+        background-color: #0f4c81; /* Classic Blue */
+        color: #ffffff; /* White text */
     }
 
     .container {
@@ -28,14 +29,16 @@
     }
 
     .card {
-        background-color: #343a40;
+        background-color: #007d79; /* Turquoise */
+        color: #ffffff; /* White text */
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         border-radius: 10px;
+        border: none;
     }
 
-    h4 {
+    .title {
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        color: #ffffff;
+        color: #ffffff; /* White text */
     }
 
     .btn {
@@ -46,15 +49,15 @@
         transition: background-color 0.3s ease, transform 0.3s ease;
     }
 
-    .btn-primary {
-        background-color: #007bff;
-        border-color: #007bff;
-        color: white;
+    .btn-custom {
+        background-color: #ffb400; /* Gold */
+        border: none;
+        color: #ffffff; /* White text */
     }
 
-    .btn-primary:hover {
-        background-color: #0056b3;
-        border-color: #004085;
+    .btn-custom:hover {
+        background-color: #0f4c81; /* Classic Blue */
+        color: #ffffff; /* White text */
         transform: scale(1.05);
     }
 </style>

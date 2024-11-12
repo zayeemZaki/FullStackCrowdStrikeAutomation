@@ -7,14 +7,14 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card p-4 shadow-sm bg-dark text-white border-0">
+            <div class="card p-4 shadow-sm border-0">
                 <div class="form-group text-center">
                     <label for="host-name">
-                        <h4>Enter the host-ids (each in one line) to check containment status</h4>
+                        <h4 style="color: #ffffff;">Enter the host-ids (each in one line) to check containment status</h4>
                     </label>
                     <form id="hostForm" action="{{ url_for('containment.hosts_containment_status') }}" method="post">
-                        <textarea class="form-control mt-3" id="host-name" name="host-name" placeholder="Enter one host name per line" rows="5"></textarea>
-                        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                        <textarea class="form-control mt-3" id="host-name" name="host-name" placeholder="Enter one host name per line" rows="5" style="text-align: center;"></textarea>
+                        <button type="submit" class="btn btn-custom mt-3">Submit</button>
                     </form>
                 </div>
             </div>
@@ -26,8 +26,8 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <div class="card p-4 shadow-sm bg-dark text-white border-0">
-                <h2 class="text-center mb-4">Hosts Containment Status</h2>
+            <div class="card p-4 shadow-sm border-0">
+                <h2 class="text-center mb-4" style="color: #ffffff;">Hosts Containment Status</h2>
                 <div class="white-text-table">
                     {{ host_status_table|safe }}
                 </div>
@@ -37,18 +37,18 @@
 </div>
 
 <div class="container mt-5">
-    <div class="card p-4 shadow-sm bg-dark text-white border-0">
-        <h4 class="text-center mb-4">Select Action</h4>
+    <div class="card p-4 shadow-sm border-0 card-custom">
+        <h4 class="text-center mb-4 title">Select Action</h4>
         <form id="actionForm" action="{{ url_for('containment.hosts_containment_action') }}#bottom-anchor" method="post" onsubmit="showLoadingSpinner()">
             <div class="form-check mb-3">
                 <input class="form-check-input" type="radio" name="action" id="contain" value="contain" required>
-                <label class="form-check-label" for="contain">Contain Hosts</label>
+                <label class="form-check-label" for="contain" style="color: #ffffff;">Contain Hosts</label>
             </div>
             <div class="form-check mb-4">
                 <input class="form-check-input" type="radio" name="action" id="lift" value="lift" required>
-                <label class="form-check-label" for="lift">Lift Containment</label>
+                <label class="form-check-label" for="lift" style="color: #ffffff;">Lift Containment</label>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Submit Action</button>
+            <button type="submit" class="btn btn-custom btn-block">Submit Action</button>
         </form>
     </div>
 </div>
@@ -56,11 +56,11 @@
 
 <div class="modal fade" id="logsModal" tabindex="-1" aria-labelledby="logsModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
-        <div class="modal-content bg-dark text-white">
+        <div class="modal-content" style="background-color: #2f353b; color: #ffffff;">
             <div class="modal-header">
                 <h5 class="modal-title" id="logsModalLabel">Saved Logs</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true" class="text-white">&times;</span>
+                    <span aria-hidden="true" style="color: #ffffff;">&times;</span>
                 </button>
             </div>
             <div class="modal-body" id="logContent"></div>
@@ -68,7 +68,7 @@
     </div>
 </div>
 
-<button type="button" class="btn btn-info" style="position: fixed; bottom: 20px; right: 20px;" data-toggle="modal" data-target="#logsModal">
+<button type="button" class="btn btn-custom" style="position: fixed; bottom: 20px; right: 20px;" data-toggle="modal" data-target="#logsModal">
     View Logs
 </button>
 
@@ -81,51 +81,39 @@
 
 <style>
     body {
-        background-color: #f8f9fa;
+        background-color: #0f4c81; /* Classic Blue */
+        color: #ffffff; /* White text */
     }
     
-    h1 {
+    h1, h4, h2, h5 {
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        color: #343a40;
-    }
-
-    h4, h2, h5 {
-        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        color: #ffffff; /* White text */
     }
 
     .card {
-        background-color: #343a40;
+        background-color: #007d79; /* Turquoise */
+        color: #ffffff; /* White text */
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         border-radius: 10px;
+        border: none;
     }
 
-    .btn-primary {
-        background-color: #007bff;
-        border-color: #007bff;
-        color: white;
+    .btn-custom {
+        background-color: #ffb400; /* Gold */
+        color: #ffffff; /* White text */
+        font-weight: 600;
+        border-radius: 5px;
+        margin: 5px;
     }
 
-    .btn-primary:hover {
-        background-color: #0056b3;
-        border-color: #004085;
-        transform: scale(1.05);
-    }
-
-    .btn-info {
-        background-color: #17a2b8;
-        border-color: #17a2b8;
-        color: white;
-    }
-
-    .btn-info:hover {
-        background-color: #117a8b;
-        border-color: #0f5c7d;
-        transform: scale(1.05);
+    .btn-custom:hover {
+        background-color: #0f4c81; /* Classic Blue */
+        color: #ffffff; /* White text */
     }
 
     .form-check-label {
         cursor: pointer;
-        color: #ffffff;
+        color: #ffffff; /* White text */
     }
 
     .form-check-input {
@@ -136,7 +124,7 @@
     .white-text-table table,
     .white-text-table th,
     .white-text-table td {
-        color: white;
+        color: #ffffff; /* White text */
     }
 
     .spinner-container {
@@ -165,7 +153,7 @@
     }
     
     .spinner-text {
-        color: #ff0000;
+        color: #ffffff;
         font-size: 1.5rem;
         text-align: center;
     }
