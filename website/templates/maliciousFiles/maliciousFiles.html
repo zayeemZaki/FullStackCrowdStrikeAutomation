@@ -2,77 +2,75 @@
 {% block title %}Malicious Files{% endblock %}
 
 {% block content %}
-<h1 class="text-center text-white" style="padding: 20px 0;">Malicious Files</h1> 
+<div class="container my-5">
+    <h1 class="text-center text-light py-4">Malicious Files</h1> 
 
-{% if tables %}
-    <div class="container-fluid mt-5">
-        <div class="table-responsive">
+    {% if tables %}
+        <div class="table-responsive bg-dark p-4 rounded shadow">
             {% for table in tables %}
-                <div class="white-text-table mx-2" style="overflow-x: auto; white-space: nowrap;">
+                <div class="white-text-table mb-4">
                     {{ table|safe }}
                 </div>
             {% endfor %}
         </div>
-    </div>
-    <div class="text-center mt-3">
-        {% if page > 1 %}
-            <a href="{{ url_for('maliciousFiles.get_malicious_files', page=page-1, sorting=request.form['sorting'], filter_file_id=request.form['filter_file_id'], filter_host_id=request.form['filter_host_id'], filter_file_name=request.form['filter_file_name'], filter_severity=request.form['filter_severity'], filter_quarantined=request.form['filter_quarantined']) }}" class="btn btn-primary">Previous</a>
-        {% endif %}
-        {% if more_files %}
-            <a href="{{ url_for('maliciousFiles.get_malicious_files', page=page+1, sorting=request.form['sorting'], filter_file_id=request.form['filter_file_id'], filter_host_id=request.form['filter_host_id'], filter_file_name=request.form['filter_file_name'], filter_severity=request.form['filter_severity'], filter_quarantined=request.form['filter_quarantined']) }}" class="btn btn-primary">Next</a>
-        {% endif %}
-    </div>
-{% else %}
-    <div class="card p-4 shadow-sm mx-auto" style="background-color: #2f353b; border: none; max-width: 500px;">
-        <h4 class="text-center mb-4" style="color: #ffffff;">Select Filter Criteria</h4>
-        <form action="{{ url_for('maliciousFiles.get_malicious_files') }}" method="POST">
-            <div class="form-group mb-4" style="padding: 0 140px;">
-                <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" id="no_filter" name="sorting" value="no_filter" checked="checked">
-                    <label class="form-check-label" for="no_filter" style="font-size: 1.2em;">No filter</label>
+
+        <div class="text-center mt-4">
+            <div class="btn-group">
+                {% if page > 1 %}
+                    <a href="{{ url_for('maliciousFiles.get_malicious_files', page=page-1, sorting=request.form['sorting'], filter_file_id=request.form['filter_file_id'], filter_host_id=request.form['filter_host_id'], filter_file_name=request.form['filter_file_name'], filter_severity=request.form['filter_severity'], filter_quarantined=request.form['filter_quarantined']) }}" class="btn btn-outline-primary">Previous</a>
+                {% endif %}
+                {% if more_files %}
+                    <a href="{{ url_for('maliciousFiles.get_malicious_files', page=page+1, sorting=request.form['sorting'], filter_file_id=request.form['filter_file_id'], filter_host_id=request.form['filter_host_id'], filter_file_name=request.form['filter_file_name'], filter_severity=request.form['filter_severity'], filter_quarantined=request.form['filter_quarantined']) }}" class="btn btn-outline-primary">Next</a>
+                {% endif %}
+            </div>
+        </div>
+    {% else %}
+        <div class="card p-4 shadow-sm mx-auto bg-light" style="max-width: 500px;">
+            <h4 class="text-center mb-4">Select Filter Criteria</h4>
+            <form action="{{ url_for('maliciousFiles.get_malicious_files') }}" method="POST">
+                <div class="form-group">
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" id="no_filter" name="sorting" value="no_filter" checked="checked">
+                        <label class="form-check-label" for="no_filter">No filter</label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" id="file_id" name="sorting" value="file_id">
+                        <label class="form-check-label" for="file_id">File id</label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" id="host_id" name="sorting" value="host_id">
+                        <label class="form-check-label" for="host_id">Host id</label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" id="file_name" name="sorting" value="file_name">
+                        <label class="form-check-label" for="file_name">File Name</label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" id="severity" name="sorting" value="severity">
+                        <label class="form-check-label" for="severity">Severity</label>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" id="quarantined" name="sorting" value="quarantined">
+                        <label class="form-check-label" for="quarantined">Quarantined</label>
+                    </div>
                 </div>
 
-                <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" id="file_id" name="sorting" value="file_id">
-                    <label class="form-check-label" for="file_id" style="font-size: 1.2em;">File id</label>
-                </div>
-                
-                <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" id="host_id" name="sorting" value="host_id">
-                    <label class="form-check-label" for="host_id" style="font-size: 1.2em;">Host id</label>
-                </div>
-                        
-                <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" id="file_name" name="sorting" value="file_name">
-                    <label class="form-check-label" for="file_name" style="font-size: 1.2em;">File Name</label>
-                </div>
-                    
-                <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" id="severity" name="sorting" value="severity">
-                    <label class="form-check-label" for="severity" style="font-size: 1.2em;">Severity</label>
+                <!-- Input Fields for Filters -->
+                <div class="form-group text-center" id="filter-inputs">
+                    <input type="text" class="form-control mb-3 d-none" id="filter-file-id" name="filter_file_id" placeholder="Enter File ID">
+                    <input type="text" class="form-control mb-3 d-none" id="filter-host-id" name="filter_host_id" placeholder="Enter Host ID">
+                    <input type="text" class="form-control mb-3 d-none" id="filter-file-name" name="filter_file_name" placeholder="Enter File Name">
+                    <input type="text" class="form-control mb-3 d-none" id="filter-severity" name="filter_severity" placeholder="Enter Severity">
+                    <input type="text" class="form-control mb-3 d-none" id="filter-quarantined" name="filter_quarantined" placeholder="Quarantine Status (true/false)">
                 </div>
 
-                <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" id="quarantined" name="sorting" value="quarantined">
-                    <label class="form-check-label" for="quarantined" style="font-size: 1.2em;">Quarantined</label>
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-primary w-100">Submit</button>
                 </div>
-            </div>
-            
-            <!-- Input Fields for Filters -->
-            <div class="form-group text-center" id="filter-inputs">
-                <input type="text" class="form-control mb-3 d-none w-50 mx-auto" id="filter-file-id" name="filter_file_id" placeholder="Enter File ID">
-                <input type="text" class="form-control mb-3 d-none w-50 mx-auto" id="filter-host-id" name="filter_host_id" placeholder="Enter Host ID">
-                <input type="text" class="form-control mb-3 d-none w-50 mx-auto" id="filter-file-name" name="filter_file_name" placeholder="Enter File Name">
-                <input type="text" class="form-control mb-3 d-none w-50 mx-auto" id="filter-severity" name="filter_severity" placeholder="Enter Severity (int)">
-                <input type="text" class="form-control mb-3 d-none w-50 mx-auto" id="filter-quarantined" name="filter_quarantined" placeholder="Quarantine Status (true or false)">
-            </div>
-
-            <div class="form-group text-center">
-                <button type="submit" class="btn btn-primary w-50">Submit</button>
-            </div>
-        </form>
-    </div>
-{% endif %}
+            </form>
+        </div>
+    {% endif %}
+</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -109,48 +107,63 @@
 <style>
     .white-text-table {
         overflow-x: auto; /* Enable horizontal scrolling */
-        white-space: nowrap; /* Prevent line breaks */
-        display: block; /* Make container scrollable */
-    }
-
-    .white-text-table table,
-    .white-text-table th,
-    .white-text-table td {
         color: white;
-        width: auto; /* Allow table to dynamically adjust width */
     }
 
     .table-responsive {
         overflow-x: auto; /* Enable horizontal scrolling */
     }
 
-    .container-fluid {
-        padding-left: 10px;  /* Reduce container left padding */
-        padding-right: 10px; /* Reduce container right padding */
-    }
-
     .container {
-        max-width: 100%; /* Allow container to take full width */
-        padding: 0;
+        max-width: 98%;
+        padding: 15px;
     }
 
     .card {
         border: none;
-        margin-top: 20px;
+        background-color: #f8f9fa; /* light background */
     }
 
-    .card-header {
+    .table thead th {
         background-color: #343a40;
+        color: white;
     }
 
-    .list-group-item {
-        border: none;
-        padding: 10px 20px;
+    .table tbody tr:nth-child(even) {
+        background-color: #2f353b;
+        color: white;
     }
 
-    /* Custom CSS to align table headers to the left */
-    .left-align-headers th {
-        text-align: left;
+    .table tbody tr:nth-child(odd) {
+        background-color: #3a3f44;
+        color: white;
+    }
+
+    .form-check-label {
+        font-size: 1.1em;
+    }
+
+    .d-none {
+        display: none !important;
+    }
+
+    /* Added hover effect for better interactivity */
+    .table tbody tr:hover {
+        background-color: #495057;
+    }
+
+    /* Polished submit button and form inputs */
+    .form-control {
+        border-radius: 0.3rem;
+    }
+
+    .btn-primary {
+        border-radius: 0.3rem;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
     }
 </style>
 
