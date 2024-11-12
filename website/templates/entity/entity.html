@@ -3,312 +3,207 @@
 
 {% block content %}
 <div class="container mt-5">
-    <!-- Card -->
-    <div class="card p-4 shadow-sm bg-dark text-white">
-        <!-- Title -->
-        <h4 class="text-center mb-4">Filter and Sort Entities</h4>
+    <div class="card p-4 shadow-sm card-custom">
+        <h4 class="text-center mb-4 title">Filter and Sort Entities</h4>
         <form action="{{ url_for('entity.entity_table') }}" method="POST">
-            <!-- Matching condition radio buttons -->
             <div class="row mb-3">
                 <div class="col-md-12 d-flex align-items-center">
-                    <span class="mr-2" style="color: #FFC107;">Match Conditions:</span>
+                    <span class="me-2" style="color: #ffb400;">Match Conditions:</span>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="matchCondition" id="matchAll" value="all" checked>
-                        <label class="form-check-label" for="matchAll" style="color: #FFC107;">all</label>
+                        <label class="form-check-label" for="matchAll" style="color: #ffb400;">all</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="matchCondition" id="matchAny" value="any">
-                        <label class="form-check-label" for="matchAny" style="color: #FFC107;">any</label>
+                        <label class="form-check-label" for="matchAny" style="color: #ffb400;">any</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="matchCondition" id="matchNot" value="not">
-                        <label class="form-check-label" for="matchNot" style="color: #FFC107;">not</label>
+                        <label class="form-check-label" for="matchNot" style="color: #ffb400;">not</label>
                     </div>
                 </div>
             </div>
 
             <div class="row">
-                <!-- Max Risk Score Severity -->
                 <div class="col-md-6 mb-3 d-flex align-items-center">
-                    <label for="sortKey" class="form-label me-2" style="color: #FFC107;">Sort Key</label>
-                    <input type="text" class="form-control" id="sortKey" name="sortKey" placeholder="Sort Key" style="width: 40%;">
+                    <label for="sortKey" class="form-label me-2" style="color: #ffb400;">Sort Key</label>
+                    <input type="text" class="form-control" id="sortKey" name="sortKey" placeholder="Sort Key">
                 </div>
-
-                <!-- Min Risk Score Severity -->
                 <div class="col-md-6 mb-3 d-flex align-items-center">
-                    <label for="sortOrder" class="form-label me-2" style="color: #FFC107;">Sort Order</label>
-                    <input type="text" class="form-control" id="sortOrder" name="sortOrder" placeholder="Sort Order" style="width: 40%;">
+                    <label for="sortOrder" class="form-label me-2" style="color: #ffb400;">Sort Order</label>
+                    <input type="text" class="form-control" id="sortOrder" name="sortOrder" placeholder="Sort Order">
                 </div>
             </div>
 
             <div class="row">
-                <!-- Max Risk Score Severity -->
                 <div class="col-md-6 mb-3 d-flex align-items-center">
-                    <label for="maxRiskScoreSeverity" class="form-label me-2" style="color: #FFC107;">Max Risk Score Severity</label>
-                    <input type="text" class="form-control" id="maxRiskScoreSeverity" name="maxRiskScoreSeverity" placeholder="Score Severity" style="width: 40%;">
+                    <label for="maxRiskScoreSeverity" class="form-label me-2" style="color: #ffb400;">Max Risk Score Severity</label>
+                    <input type="text" class="form-control" id="maxRiskScoreSeverity" name="maxRiskScoreSeverity" placeholder="Score Severity">
                 </div>
-
-                <!-- Min Risk Score Severity -->
                 <div class="col-md-6 mb-3 d-flex align-items-center">
-                    <label for="minRiskScoreSeverity" class="form-label me-2" style="color: #FFC107;">Min Risk Score Severity</label>
-                    <input type="text" class="form-control" id="minRiskScoreSeverity" name="minRiskScoreSeverity" placeholder="Score Severity" style="width: 40%;">
-                </div>
-
-
-            </div>
-
-            <!-- Filters -->
-            <div class="row">
-                <!-- Filter 1 -->
-                <div class="col-md-6 mb-3">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="accountLocked" name="accountLocked">
-                        <label class="form-check-label" for="accountLocked" style="color: #FFC107;">Account Locked</label>
-                    </div>
-                </div>
-
-                <!-- Filter 2 -->
-                <div class="col-md-6 mb-3">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="archived" name="archived">
-                        <label class="form-check-label" for="archived" style="color: #FFC107;">Archived</label>
-                    </div>
+                    <label for="minRiskScoreSeverity" class="form-label me-2" style="color: #ffb400;">Min Risk Score Severity</label>
+                    <input type="text" class="form-control" id="minRiskScoreSeverity" name="minRiskScoreSeverity" placeholder="Score Severity">
                 </div>
             </div>
 
             <div class="row">
-                <!-- Filter 3 -->
-                <div class="col-md-6 mb-3">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="hasAgedPassword" name="hasAgedPassword">
-                        <label class="form-check-label" for="hasAgedPassword" style="color: #FFC107;">Has Aged Password</label>
-                    </div>
+                <div class="col-md-6 mb-3 d-flex align-items-center">
+                    <input class="form-check-input" type="checkbox" id="accountLocked" name="accountLocked">
+                    <label class="form-check-label ms-2" for="accountLocked" style="color: #ffb400;">Account Locked</label>
                 </div>
-
-                <!-- Filter 4 -->
-                <div class="col-md-6 mb-3">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="hasExposedPassword" name="hasExposedPassword">
-                        <label class="form-check-label" for="hasExposedPassword" style="color: #FFC107;">Has Exposed Password</label>
-                    </div>
+                <div class="col-md-6 mb-3 d-flex align-items-center">
+                    <input class="form-check-input" type="checkbox" id="archived" name="archived">
+                    <label class="form-check-label ms-2" for="archived" style="color: #ffb400;">Archived</label>
                 </div>
             </div>
-
             <div class="row">
-                <!-- Filter 5 -->
-                <div class="col-md-6 mb-3">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="impersonator" name="impersonator">
-                        <label class="form-check-label" for="impersonator" style="color: #FFC107;">Impersonator</label>
-                    </div>
+                <div class="col-md-6 mb-3 d-flex align-items-center">
+                    <input class="form-check-input" type="checkbox" id="hasAgedPassword" name="hasAgedPassword">
+                    <label class="form-check-label ms-2" for="hasAgedPassword" style="color: #ffb400;">Has Aged Password</label>
                 </div>
-
-                <!-- Filter 6 -->
-                <div class="col-md-6 mb-3">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="hasNeverExpiringPassword" name="hasNeverExpiringPassword">
-                        <label class="form-check-label" for="hasNeverExpiringPassword" style="color: #FFC107;">Has Never Expiring Password</label>
-                    </div>
+                <div class="col-md-6 mb-3 d-flex align-items-center">
+                    <input class="form-check-input" type="checkbox" id="hasExposedPassword" name="hasExposedPassword">
+                    <label class="form-check-label ms-2" for="hasExposedPassword" style="color: #ffb400;">Has Exposed Password</label>
                 </div>
             </div>
-
             <div class="row">
-                <!-- Filter 7 -->
-                <div class="col-md-6 mb-3">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="hasOpenIncidents" name="hasOpenIncidents">
-                        <label class="form-check-label" for="hasOpenIncidents" style="color: #FFC107;">Has Open Incidents</label>
-                    </div>
+                <div class="col-md-6 mb-3 d-flex align-items-center">
+                    <input class="form-check-input" type="checkbox" id="impersonator" name="impersonator">
+                    <label class="form-check-label ms-2" for="impersonator" style="color: #ffb400;">Impersonator</label>
                 </div>
-
-                <!-- Filter 8 -->
-                <div class="col-md-6 mb-3">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="hasVulnerableOs" name="hasVulnerableOs">
-                        <label class="form-check-label" for="hasVulnerableOs" style="color: #FFC107;">Has Vulnerable OS</label>
-                    </div>
+                <div class="col-md-6 mb-3 d-flex align-items-center">
+                    <input class="form-check-input" type="checkbox" id="hasNeverExpiringPassword" name="hasNeverExpiringPassword">
+                    <label class="form-check-label ms-2" for="hasNeverExpiringPassword" style="color: #ffb400;">Has Never Expiring Password</label>
                 </div>
             </div>
-
             <div class="row">
-                <!-- Filter 9 -->
-                <div class="col-md-6 mb-3">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="inactive" name="inactive">
-                        <label class="form-check-label" for="inactive" style="color: #FFC107;">Inactive</label>
-                    </div>
+                <div class="col-md-6 mb-3 d-flex align-items-center">
+                    <input class="form-check-input" type="checkbox" id="hasOpenIncidents" name="hasOpenIncidents">
+                    <label class="form-check-label ms-2" for="hasOpenIncidents" style="color: #ffb400;">Has Open Incidents</label>
                 </div>
-
-                <!-- Filter 10 -->
-                <div class="col-md-6 mb-3">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="stale" name="stale">
-                        <label class="form-check-label" for="stale" style="color: #FFC107;">Stale</label>
-                    </div>
+                <div class="col-md-6 mb-3 d-flex align-items-center">
+                    <input class="form-check-input" type="checkbox" id="hasVulnerableOs" name="hasVulnerableOs">
+                    <label class="form-check-label ms-2" for="hasVulnerableOs" style="color: #ffb400;">Has Vulnerable OS</label>
                 </div>
             </div>
-
             <div class="row">
-                <!-- Filter 11 -->
-                <div class="col-md-6 mb-3">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="hasWeakPassword" name="hasWeakPassword">
-                        <label class="form-check-label" for="hasWeakPassword" style="color: #FFC107;">Has Weak Password</label>
-                    </div>
+                <div class="col-md-6 mb-3 d-flex align-items-center">
+                    <input class="form-check-input" type="checkbox" id="inactive" name="inactive">
+                    <label class="form-check-label ms-2" for="inactive" style="color: #ffb400;">Inactive</label>
                 </div>
-
-                <!-- Filter 12 -->
-                <div class="col-md-6 mb-3">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="isMarked" name="isMarked">
-                        <label class="form-check-label" for="isMarked" style="color: #FFC107;">Is Marked</label>
-                    </div>
+                <div class="col-md-6 mb-3 d-flex align-items-center">
+                    <input class="form-check-input" type="checkbox" id="stale" name="stale">
+                    <label class="form-check-label ms-2" for="stale" style="color: #ffb400;">Stale</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3 d-flex align-items-center">
+                    <input class="form-check-input" type="checkbox" id="hasWeakPassword" name="hasWeakPassword">
+                    <label class="form-check-label ms-2" for="hasWeakPassword" style="color: #ffb400;">Has Weak Password</label>
+                </div>
+                <div class="col-md-6 mb-3 d-flex align-items-center">
+                    <input class="form-check-input" type="checkbox" id="isMarked" name="isMarked">
+                    <label class="form-check-label ms-2" for="isMarked" style="color: #ffb400;">Is Marked</label>
                 </div>
             </div>
 
-            <!-- Secondary Filters (Hidden by default) -->
             <div id="secondary-filters" style="display: none;">
                 <div class="row">
-                    <!-- Secondary Filter 1 -->
                     <div class="col-md-6 mb-3 d-flex align-items-center">
-                        <label for="accountCreationEndTime" class="form-label me-2" style="color: #FFC107;">Account Creation End Time</label>
-                        <input type="datetime-local" class="form-control" id="accountCreationEndTime" name="accountCreationEndTime" style="width: 40%;">
+                        <label for="accountCreationEndTime" class="form-label me-2" style="color: #ffb400;">Account Creation End Time</label>
+                        <input type="datetime-local" class="form-control" id="accountCreationEndTime" name="accountCreationEndTime">
                     </div>
-
-                    <!-- Secondary Filter 2 -->
                     <div class="col-md-6 mb-3 d-flex align-items-center">
-                        <label for="accountCreationStartTime" class="form-label me-2" style="color: #FFC107;">Account Creation Start Time</label>
-                        <input type="datetime-local" class="form-control" id="accountCreationStartTime" name="accountCreationStartTime" style="width: 40%;">
+                        <label for="accountCreationStartTime" class="form-label me-2" style="color: #ffb400;">Account Creation Start Time</label>
+                        <input type="datetime-local" class="form-control" id="accountCreationStartTime" name="accountCreationStartTime">
                     </div>
                 </div>
-
                 <div class="row">
-                    <!-- Secondary Filter 3 -->
                     <div class="col-md-6 mb-3 d-flex align-items-center">
-                        <label for="accountExpirationEndTime" class="form-label me-2" style="color: #FFC107;">Account Expiration End Time</label>
-                        <input type="datetime-local" class="form-control" id="accountExpirationEndTime" name="accountExpirationEndTime" style="width: 40%;">
+                        <label for="accountExpirationEndTime" class="form-label me-2" style="color: #ffb400;">Account Expiration End Time</label>
+                        <input type="datetime-local" class="form-control" id="accountExpirationEndTime" name="accountExpirationEndTime">
                     </div>
-
-                    <!-- Secondary Filter 4 -->
                     <div class="col-md-6 mb-3 d-flex align-items-center">
-                        <label for="accountExpirationStartTime" class="form-label me-2" style="color: #FFC107;">Account Expiration Start Time</label>
-                        <input type="datetime-local" class="form-control" id="accountExpirationStartTime" name="accountExpirationStartTime" style="width: 40%;">
+                        <label for="accountExpirationStartTime" class="form-label me-2" style="color: #ffb400;">Account Expiration Start Time</label>
+                        <input type="datetime-local" class="form-control" id="accountExpirationStartTime" name="accountExpirationStartTime">
                     </div>
                 </div>
-
                 <div class="row">
-                    <!-- Secondary Filter 3 -->
                     <div class="col-md-6 mb-3 d-flex align-items-center">
-                        <label for="mostRecentActivityEndTime" class="form-label me-2" style="color: #FFC107;">Most Recent Activity End Time</label>
-                        <input type="datetime-local" class="form-control" id="mostRecentActivityEndTime" name="mostRecentActivityEndTime" style="width: 40%;">
+                        <label for="mostRecentActivityEndTime" class="form-label me-2" style="color: #ffb400;">Most Recent Activity End Time</label>
+                        <input type="datetime-local" class="form-control" id="mostRecentActivityEndTime" name="mostRecentActivityEndTime">
                     </div>
-
-                    <!-- Secondary Filter 4 -->
                     <div class="col-md-6 mb-3 d-flex align-items-center">
-                        <label for="mostRecentActivityStartTime" class="form-label me-2" style="color: #FFC107;">Most Recent Activity Start Time</label>
-                        <input type="datetime-local" class="form-control" id="mostRecentActivityStartTime" name="mostRecentActivityStartTime" style="width: 40%;">
+                        <label for="mostRecentActivityStartTime" class="form-label me-2" style="color: #ffb400;">Most Recent Activity Start Time</label>
+                        <input type="datetime-local" class="form-control" id="mostRecentActivityStartTime" name="mostRecentActivityStartTime">
                     </div>
                 </div>
-
                 <div class="row">
-                    <!-- Secondary Filter 3 -->
                     <div class="col-md-6 mb-3 d-flex align-items-center">
-                        <label for="passwordLastChangeEndTime" class="form-label me-2" style="color: #FFC107;">Password Last Change End Time</label>
-                        <input type="datetime-local" class="form-control" id="passwordLastChangeEndTime" name="passwordLastChangeEndTime" style="width: 40%;">
+                        <label for="passwordLastChangeEndTime" class="form-label me-2" style="color: #ffb400;">Password Last Change End Time</label>
+                        <input type="datetime-local" class="form-control" id="passwordLastChangeEndTime" name="passwordLastChangeEndTime">
                     </div>
-
-                    <!-- Secondary Filter 4 -->
                     <div class="col-md-6 mb-3 d-flex align-items-center">
-                        <label for="passwordLastChangeStartTime" class="form-label me-2" style="color: #FFC107;">Password Last Change Start Time</label>
-                        <input type="datetime-local" class="form-control" id="passwordLastChangeStartTime" name="passwordLastChangeStartTime" style="width: 40%;">
+                        <label for="passwordLastChangeStartTime" class="form-label me-2" style="color: #ffb400;">Password Last Change Start Time</label>
+                        <input type="datetime-local" class="form-control" id="passwordLastChangeStartTime" name="passwordLastChangeStartTime">
                     </div>
                 </div>
-
-
                 <div class="row">
-                    <!-- Secondary Filter 5 -->
                     <div class="col-md-6 mb-3 d-flex align-items-center">
-                        <label for="agentIds" class="form-label me-2" style="color: #FFC107;">Agent IDs</label>
-                        <input type="text" class="form-control" id="agentIds" name="agentIds" placeholder="[AgentId!]" style="width: 40%;">
+                        <label for="agentIds" class="form-label me-2" style="color: #ffb400;">Agent IDs</label>
+                        <input type="text" class="form-control" id="agentIds" name="agentIds" placeholder="[AgentId!]">
                     </div>
-
-                    <!-- Secondary Filter 6 -->
                     <div class="col-md-6 mb-3 d-flex align-items-center">
-                        <label for="businessRoles" class="form-label me-2" style="color: #FFC107;">Business Roles</label>
-                        <input type="text" class="form-control" id="businessRoles" name="businessRoles" placeholder="[BusinessRole]" style="width: 40%;">
+                        <label for="businessRoles" class="form-label me-2" style="color: #ffb400;">Business Roles</label>
+                        <input type="text" class="form-control" id="businessRoles" name="businessRoles" placeholder="[BusinessRole]">
                     </div>
                 </div>
-
                 <div class="row">
-                    <!-- Secondary Filter 7 -->
                     <div class="col-md-6 mb-3 d-flex align-items-center">
-                        <label for="domains" class="form-label me-2" style="color: #FFC107;">Domains</label>
-                        <input type="text" class="form-control" id="domains" name="domains" placeholder="[String]" style="width: 40%;">
+                        <label for="domains" class="form-label me-2" style="color: #ffb400;">Domains</label>
+                        <input type="text" class="form-control" id="domains" name="domains" placeholder="[String]">
                     </div>
-
-                    <!-- Secondary Filter 8 -->
                     <div class="col-md-6 mb-3 d-flex align-items-center">
-                        <label for="entityIds" class="form-label me-2" style="color: #FFC107;">Entity IDs</label>
-                        <input type="text" class="form-control" id="entityIds" name="entityIds" placeholder="[UUID]" style="width: 40%;">
+                        <label for="entityIds" class="form-label me-2" style="color: #ffb400;">Entity IDs</label>
+                        <input type="text" class="form-control" id="entityIds" name="entityIds" placeholder="[UUID]">
                     </div>
                 </div>
-
                 <div class="row">
-                    <!-- Secondary Filter 9 -->
-                    <div class="col-md-6 mb-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="cloudEnabled" name="cloudEnabled">
-                            <label class="form-check-label" for="cloudEnabled" style="color: #FFC107;">Cloud Enabled</label>
-                        </div>
+                    <div class="col-md-6 mb-3 d-flex align-items-center">
+                        <input class="form-check-input" type="checkbox" id="cloudEnabled" name="cloudEnabled">
+                        <label class="form-check-label ms-2" for="cloudEnabled" style="color: #ffb400;">Cloud Enabled</label>
                     </div>
-
-                    <!-- Secondary Filter 10 -->
-                    <div class="col-md-6 mb-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="cloudOnly" name="cloudOnly">
-                            <label class="form-check-label" for="cloudOnly" style="color: #FFC107;">Cloud Only</label>
-                        </div>
+                    <div class="col-md-6 mb-3 d-flex align-items-center">
+                        <input class="form-check-input" type="checkbox" id="cloudOnly" name="cloudOnly">
+                        <label class="form-check-label ms-2" for="cloudOnly" style="color: #ffb400;">Cloud Only</label>
                     </div>
                 </div>
-
                 <div class="row">
-                    <!-- Secondary Filter 9 -->
-                    <div class="col-md-6 mb-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="unmanaged" name="unmanaged">
-                            <label class="form-check-label" for="unmanaged" style="color: #FFC107;">Unmanaged</label>
-                        </div>
+                    <div class="col-md-6 mb-3 d-flex align-items-center">
+                        <input class="form-check-input" type="checkbox" id="unmanaged" name="unmanaged">
+                        <label class="form-check-label ms-2" for="unmanaged" style="color: #ffb400;">Unmanaged</label>
                     </div>
-
-                    <!-- Secondary Filter 10 -->
-                    <div class="col-md-6 mb-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="watched" name="watched">
-                            <label class="form-check-label" for="watched" style="color: #FFC107;">Watched</label>
-                        </div>
+                    <div class="col-md-6 mb-3 d-flex align-items-center">
+                        <input class="form-check-input" type="checkbox" id="watched" name="watched">
+                        <label class="form-check-label ms-2" for="watched" style="color: #ffb400;">Watched</label>
                     </div>
                 </div>
-
                 <div class="row mb-3">
-                    <div class="col-md-6 mb-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="hasAccount" name="hasAccount">
-                            <label class="form-check-label" for="hasAccount" style="color: #FFC107;">Has Account</label>
-                        </div>
+                    <div class="col-md-6 mb-3 d-flex align-items-center">
+                        <input class="form-check-input" type="checkbox" id="hasAccount" name="hasAccount">
+                        <label class="form-check-label ms-2" for="hasAccount" style="color: #ffb400;">Has Account</label>
                     </div>
                 </div>
             </div>
 
-            <!-- Toggle Icon for Advanced Filters -->
             <div class="d-flex justify-content-end mb-3">
                 <button type="button" class="btn btn-link text-white" onclick="toggleAdvancedFilters()" style="font-size: 1.25rem;">
                     <span class="dropdown-icon">▼</span>
                 </button>
             </div>
 
-            <!-- Submit Button -->
             <div class="d-grid">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-custom">Submit</button>
             </div>
         </form>
     </div>
@@ -330,16 +225,83 @@
 </script>
 
 <style>
-    .dropdown-icon {
-        font-size: 24px;
-        color: white;
+    body {
+        background-color: #0f4c81; /* Classic Blue */
+        color: #ffffff; /* White text */
     }
+
+    .container {
+        max-width: 98%;
+        padding: 15px;
+    }
+
+    .title {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        color: #ffffff; /* White text */
+    }
+
+    .card-custom {
+        background-color: #007d79; /* Turquoise */
+        color: #ffffff; /* White text */
+    }
+
+    .container-custom {
+        max-width: 500px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
     .form-label {
         flex-shrink: 0;
         margin-right: 1rem;
+        color: #ffb400;
     }
+
     .form-control {
         flex: 1;
+        border-radius: 0.3rem;
+        background-color: #495057; /* Dark background for input fields */
+        color: #ffffff; /* White text for input fields */
+        border: 1px solid #ced4da;
+    }
+
+    .btn-custom {
+        background-color: #ffb400; /* Gold */
+        color: #ffffff; /* White text */
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+        border-radius: 10px;
+        border: none;
+    }
+
+    .btn-custom:hover {
+        background-color: #0f4c81; /* Classic Blue */
+        color: #ffffff; /* White text */
+    }
+
+    .form-check-input {
+        margin-right: 10px;
+    }
+
+    .form-check-label {
+        font-size: 1.1em;
+    }
+
+    .d-flex {
+        display: flex;
+    }
+
+    .align-items-center {
+        align-items: center;
+    }
+
+    .ms-2 {
+        margin-left: 0.5rem; /* Margin left for spacing */
+    }
+
+    .dropdown-icon {
+        font-size: 24px;
+        color: white;
     }
 </style>
 
