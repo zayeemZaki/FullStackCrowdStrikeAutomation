@@ -60,7 +60,7 @@
                     <input type="text" class="form-control mb-3 d-none" id="filter-file-id" name="filter_file_id" placeholder="Enter File ID">
                     <input type="text" class="form-control mb-3 d-none" id="filter-host-id" name="filter_host_id" placeholder="Enter Host ID">
                     <input type="text" class="form-control mb-3 d-none" id="filter-file-name" name="filter_file_name" placeholder="Enter File Name">
-                    <input type="text" class="form-control mb-3 d-none" id="filter-severity" name="filter_severity" placeholder="Enter Severity">
+                    <input type="text" class="form-control mb-3 d-none" id="filter-severity" name="filter_severity" placeholder="Enter Severity (int)">
                     <input type="text" class="form-control mb-3 d-none" id="filter-quarantined" name="filter_quarantined" placeholder="Quarantine Status (true/false)">
                 </div>
 
@@ -164,6 +164,11 @@
 
     .btn-primary:hover {
         background-color: #0056b3;
+    }
+
+    /* Custom CSS to align table headers to the left */
+    .left-align-headers th {
+        text-align: left;
     }
 </style>
 
