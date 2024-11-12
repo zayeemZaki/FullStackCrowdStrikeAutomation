@@ -5,25 +5,25 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-lg-8"> 
-            <div class="card p-5 bg-dark text-white shadow-sm border-0">
-                <h4 class="text-center mb-4">Actions</h4>
+            <div class="card p-5 shadow-sm border-0">
+                <h4 class="text-center mb-4 title">Actions</h4>
                 <form action="{{ url_for('stale.stale_accounts') }}" method="post" class="mb-3">
-                    <button type="submit" class="btn btn-light btn-block btn-lg">Stale Accounts</button>
+                    <button type="submit" class="btn btn-custom btn-block btn-lg">Stale Accounts</button>
                 </form>
                 <form action="{{ url_for('containment.falcon_containment') }}" method="post" class="mb-3">
-                    <button type="submit" class="btn btn-light btn-block btn-lg">Falcon Containment</button>
+                    <button type="submit" class="btn btn-custom btn-block btn-lg">Falcon Containment</button>
                 </form>
                 <form action="{{ url_for('adminRights.admin_rights_view') }}" method="post" class="mb-3">
-                    <button type="submit" class="btn btn-light btn-block btn-lg">Admin Rights</button>
+                    <button type="submit" class="btn btn-custom btn-block btn-lg">Admin Rights</button>
                 </form>
                 <form action="{{ url_for('endPoint.end_point_view') }}" method="post" class="mb-3">
-                    <button type="submit" class="btn btn-light btn-block btn-lg">End Point</button>
+                    <button type="submit" class="btn btn-custom btn-block btn-lg">End Point</button>
                 </form>
                 <form action="{{ url_for('maliciousFiles.malicious_files') }}" method="post" class="mb-3">
-                    <button type="submit" class="btn btn-light btn-block btn-lg">Malicious Files</button>
+                    <button type="submit" class="btn btn-custom btn-block btn-lg">Malicious Files</button>
                 </form>
                 <form action="{{ url_for('entity.entities') }}" method="post" class="mb-3">
-                    <button type="submit" class="btn btn-light btn-block btn-lg">Entities</button>
+                    <button type="submit" class="btn btn-custom btn-block btn-lg">Entities</button>
                 </form>
             </div>
         </div>
@@ -83,23 +83,25 @@
 
 <style>
     body {
-        background-color: #f5f5f5;
+        background-color: #0f4c81; /* Classic Blue */
     }
 
     .card {
-        background-color: #343a40;
-        color: white;
+        background-color: #007d79; /* Turquoise */
+        color: #ffffff; /* White text */
         border: none;
     }
 
-    .btn-light {
-        color: #343a40;
-        border: 1px solid #ccc;
+    .btn-custom {
+        background-color: #ffb400; /* Gold */
+        color: #ffffff; /* White text */
+        font-weight: 600;
+        border-radius: 5px;
     }
 
-    .btn-light:hover {
-        background-color: #e6e6e6;
-        color: #343a40;
+    .btn-custom:hover {
+        background-color: #0f4c81; /* Classic Blue */
+        color: #ffffff; /* White text */
     }
 
     .action-buttons {
@@ -124,11 +126,11 @@
     }
 
     .doc-button {
-        background-color: #007bff;
+        background-color: #ffb400; /* Gold */
     }
     
     .chat-button {
-        background-color: #28a745;
+        background-color: #007d79; /* Turquoise */
     }
 
     .chat-button:hover, .doc-button:hover {
@@ -154,8 +156,8 @@
     }
 
     .chat-header {
-        background-color: #007bff;
-        color: #ffffff;
+        background-color: #ffb400; /* Gold */
+        color: #ffffff; /* White text */
         padding: 10px; /* Reduced padding */
         text-align: center;
         font-weight: bold;
@@ -178,7 +180,7 @@
     .question-item {
         padding: 10px;
         cursor: pointer;
-        color: #007bff;
+        color: #007d79; /* Turquoise */
         font-weight: 600;
         border-bottom: 1px solid #ddd;
         transition: background-color 0.3s ease, color 0.3s ease;
