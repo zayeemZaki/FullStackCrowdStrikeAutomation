@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card p-4 shadow-sm border-0">
+        <h4 class="text-center mb-4 title">ODS Scan</h4>
+        <form action="{{ url_for('adminRights.remove_admin_rights') }}" method="POST">
+            <!-- User Name Input -->
+            <div class="form-group">
+                <label for="user-name">Host ids:</label>
+                <textarea
+                    class="form-control"
+                    id="host-id"
+                    name="host-id"
+                    placeholder="One in each line"
+                    rows="1"
+                ></textarea>
+            </div>
+
+            <!-- Device Name Input -->
+            <div class="form-group">
+                <label for="device-name">Group id:</label>
+                <textarea
+                    class="form-control"
+                    id="group-id"
+                    name="group-id"
+                    placeholder="Enter group id"
+                    rows="1"
+                ></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-custom btn-block">Submit</button>
+        </form>
+    </div>
+</div>
+
+<!-- Additional Styling -->
+<style>
+    body {
+        background-color: #0f4c81; /* Classic Blue */
+        color: #ffffff; /* White text */
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .card {
+        background-color: #007d79; /* Turquoise */
+        color: #ffffff; /* White text */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        border: none;
+    }
+
+    .title {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        color: #ffffff; /* White text */
+    }
+
+    .form-group label {
+        font-weight: bold;
+        color: #ffffff; /* White text */
+    }
+
+    .form-control {
+        background-color: #495057;
+        color: #ffffff;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+    }
+
+    .form-control::placeholder {
+        color: #ced4da;
+    }
+
+    .form-control:focus {
+        background-color: #556072;
+        color: #ffffff;
+    }
+
+    .btn-custom {
+        background-color: #ffb400; /* Gold */
+        border: none;
+        color: #000000; /* White text */
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-custom:hover {
+        background-color: #0f4c81; /* Classic Blue */
+        color: #ffffff; /* White text */
+    }
+</style>
+{% endblock %}
