@@ -1,13 +1,12 @@
-
 {% extends "base.html" %}
 {% block title %}Entity Table{% endblock %}
 
 {% block content %}
-    <div class="container">
+    <div class="container my-5">
         <div class="table-container">
-            <h2 class="my-4">Entity Table</h2>
+            <h2 class="my-4 title">Entity Table</h2>
             <table class="table table-bordered table-hover">
-                <thead class="thead-dark">
+                <thead class="thead-dark-custom">
                     <tr>
                         <th scope="col">Primary Name</th>
                         <th scope="col">Secondary Name</th>
@@ -20,7 +19,7 @@
                 </thead>
                 <tbody>
                     {% for row in data %}
-                    <tr>
+                    <tr class="table-row-custom">
                         <td>{{ row['Primary Name'] }}</td>
                         <td>{{ row['Secondary Name'] }}</td>
                         <td>{{ row['Is Human'] }}</td>
@@ -34,4 +33,61 @@
             </table>
         </div>
     </div>
+
+<style>
+    body {
+        background-color: #0f4c81; /* Classic Blue */
+        color: #ffffff; /* White text */
+    }
+
+    .container {
+        max-width: 98%;
+        padding: 15px;
+        color: #ffffff; /* White text */
+    }
+
+    .title {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        color: #ffffff; /* White text */
+        text-align: center;
+    }
+
+    .thead-dark-custom {
+        background-color: #007d79; /* Turquoise */
+        color: #ffffff; /* White text */
+    }
+
+    .table-row-custom:nth-child(even) {
+        background-color: #007d79; /* Turquoise */
+        color: #ffffff; /* White text */
+    }
+
+    .table-row-custom:nth-child(odd) {
+        background-color: #343a40;
+        color: #ffffff; /* White text */
+    }
+
+    .table-row-custom:hover {
+        background-color: #495057;
+        color: #ffffff; /* White text */
+    }
+
+    .table thead th {
+        text-align: left;
+    }
+
+    .table-bordered {
+        border: 1px solid #ced4da;
+    }
+
+    .table-bordered th,
+    .table-bordered td {
+        border: 1px solid #ced4da;
+    }
+
+    .table-hover tbody tr:hover td,
+    .table-hover tbody tr:hover th {
+        background-color: #495057;
+    }
+</style>
 {% endblock %}
