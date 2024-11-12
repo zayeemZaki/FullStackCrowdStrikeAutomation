@@ -2,202 +2,145 @@
 {% block title %}Contain Falcon Host/s{% endblock %}
 
 {% block content %}
-<h1 class="text-center" style="padding: 20px 0;">Contain Falcon Host/s</h1>
+<h1 class="text-center py-4">Contain Falcon Host/s</h1>
 
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="form-group text-center">
-                <label for="host-name"><h4>Enter the host-ids (each in one line) to check containment status</h4></label>
-                <form id="hostForm" action="{{ url_for('containment.hosts_containment_status') }}" method="post">
-                    <textarea
-                        class="form-control mt-3"
-                        id="host-name"
-                        name="host-name"
-                        placeholder="Enter one host name per line"
-                        rows="5"
-                    ></textarea>
-                    <button type="submit" class="btn btn-primary mt-3">Submit</button>
-                </form>
+            <div class="card p-4 shadow-sm bg-dark text-white border-0">
+                <div class="form-group text-center">
+                    <label for="host-name">
+                        <h4>Enter the host-ids (each in one line) to check containment status</h4>
+                    </label>
+                    <form id="hostForm" action="{{ url_for('containment.hosts_containment_status') }}" method="post">
+                        <textarea class="form-control mt-3" id="host-name" name="host-name" placeholder="Enter one host name per line" rows="5"></textarea>
+                        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 {% if host_status_table %}
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <h2 class="text-center">Hosts Containment Status</h2>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="card p-4 shadow-sm bg-dark text-white border-0">
+                <h2 class="text-center mb-4">Hosts Containment Status</h2>
                 <div class="white-text-table">
                     {{ host_status_table|safe }}
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="container mt-5">
-        <div class="card p-4 shadow-sm" style="background-color: #2f353b; border: none;">
-            <h4 class="text-center mb-4" style="color: #ffffff;">Select Action</h4>
-            <form id="actionForm" action="{{ url_for('containment.hosts_containment_action') }}#bottom-anchor" method="post" onsubmit="showLoadingSpinner()">
-                <div class="form-check mb-3">
-                    <input class="form-check-input" type="radio" name="action" id="contain" value="contain" required>
-                    <label class="form-check-label" for="contain" style="color: #ffffff;">
-                        Contain Hosts
-                    </label>
-                </div>
-                <div class="form-check mb-4">
-                    <input class="form-check-input" type="radio" name="action" id="lift" value="lift" required>
-                    <label class="form-check-label" for="lift" style="color: #ffffff;">
-                        Lift Containment
-                    </label>
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">Submit Action</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Spinner container -->
-    <div class="spinner-container" id="loadingSpinner">
-        <div class="spinner"></div>
-        <div class="spinner-text"><b>60 sec delay</b></div>
-    </div>
-
-    <script>
-        function scrollToBottom() {
-            document.getElementById('bottom-anchor').scrollIntoView({
-                behavior: 'smooth',
-                block: 'end'
-            });
-        }
-
-        // JavaScript function to show the loading spinner and reload the page after 60 seconds
-        function showLoadingSpinner() {
-            document.getElementById('loadingSpinner').style.display = 'flex';
-            document.getElementById('loadingSpinner').style.flexDirection = 'column';
-            document.getElementById('loadingSpinner').style.alignItems = 'center';
-
-            // Set a flag in local storage to indicate the action was submitted
-            localStorage.setItem('containmentActionSubmitted', 'true');
-            
-            // Reload the page after 60 seconds
-            setTimeout(() => {
-                location.reload();
-            }, 60000);
-        }
-
-        // JavaScript to scroll to the bottom on form submission
-        document.getElementById('hostForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent default form submission
-
-            // Get the form action URL from the form's action attribute
-            const formActionURL = this.action;
-
-            // Submit the form programmatically
-            fetch(formActionURL, {
-                method: 'POST',
-                body: new FormData(this)
-            }).then(function() {
-                // Scroll to the bottom after form submission
-                scrollToBottom();
-            }).catch(function(error) {
-                console.error('Error:', error);
-            });
-        });
-
-        document.getElementById('actionForm').addEventListener('submit', function(event) {
-            showLoadingSpinner();
-        });
-
-        // Function to fetch logs and return a promise
-        function fetchLogs() {
-            return fetch('/hosts-containment-logs')
-                .then(response => response.text())
-                .then(data => {
-                    const logContentElement = document.getElementById('logContent');
-                    logContentElement.innerHTML = ''; // Clear any previous content
-
-                    const rows = data.split('\n');
-                    const table = document.createElement('table');
-                    table.classList.add('table', 'table-dark');
-                    rows.forEach((row, index) => {
-                        const tr = document.createElement('tr');
-                        const cells = row.split(',');
-                        cells.forEach(cell => {
-                            const td = document.createElement(index === 0 ? 'th' : 'td');
-                            td.innerText = cell;
-                            tr.appendChild(td);
-                        });
-                        table.appendChild(tr);
-                    });
-                    logContentElement.appendChild(table);
-                })
-                .catch(error => console.error('Error fetching logs:', error));
-        }
-
-        // Function to check if the logs should be displayed and show the modal
-        function checkAndShowLogs() {
-            if (localStorage.getItem('containmentActionSubmitted') === 'true') {
-                localStorage.removeItem('containmentActionSubmitted'); // Remove flag
-
-                // Fetch logs and then show the modal
-                fetchLogs().then(() => {
-                    $('#logsModal').modal('show');
-                });
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // Smooth scrolling to hash anchors
-            if (window.location.hash) {
-                let targetElement = document.querySelector(window.location.hash);
-                if (targetElement) {
-                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                }
-            }
-
-            // Check if containment action was submitted and show logs if necessary
-            checkAndShowLogs();
-
-            // Fetch logs when modal is shown
-            $('#logsModal').on('show.bs.modal', function () {
-                fetchLogs();
-            });
-        });
-    </script>
-
-    <button type="button" class="btn btn-info" style="position: fixed; bottom: 20px; right: 20px;" data-toggle="modal" data-target="#logsModal">
-        View Logs
-    </button>
-
-    <div class="modal fade" id="logsModal" tabindex="-1" aria-labelledby="logsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content" style="background-color: #2f353b; color: #ffffff;">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="logsModalLabel">Saved Logs</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true" style="color: #ffffff;">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="logContent"></div>
+<div class="container mt-5">
+    <div class="card p-4 shadow-sm bg-dark text-white border-0">
+        <h4 class="text-center mb-4">Select Action</h4>
+        <form id="actionForm" action="{{ url_for('containment.hosts_containment_action') }}#bottom-anchor" method="post" onsubmit="showLoadingSpinner()">
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="radio" name="action" id="contain" value="contain" required>
+                <label class="form-check-label" for="contain">Contain Hosts</label>
             </div>
-        </div>
+            <div class="form-check mb-4">
+                <input class="form-check-input" type="radio" name="action" id="lift" value="lift" required>
+                <label class="form-check-label" for="lift">Lift Containment</label>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Submit Action</button>
+        </form>
     </div>
-
-    <!-- Anchor at the bottom of the page -->
-    <a id="bottom-anchor"></a>
+</div>
 {% endif %}
 
-<br><br>
+<div class="modal fade" id="logsModal" tabindex="-1" aria-labelledby="logsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logsModalLabel">Saved Logs</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="text-white">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="logContent"></div>
+        </div>
+    </div>
+</div>
+
+<button type="button" class="btn btn-info" style="position: fixed; bottom: 20px; right: 20px;" data-toggle="modal" data-target="#logsModal">
+    View Logs
+</button>
+
+<div class="spinner-container" id="loadingSpinner">
+    <div class="spinner"></div>
+    <div class="spinner-text"><b>60 sec delay</b></div>
+</div>
+
+<a id="bottom-anchor"></a>
 
 <style>
+    body {
+        background-color: #f8f9fa;
+    }
+    
+    h1 {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        color: #343a40;
+    }
+
+    h4, h2, h5 {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    .card {
+        background-color: #343a40;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+        transform: scale(1.05);
+    }
+
+    .btn-info {
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+        color: white;
+    }
+
+    .btn-info:hover {
+        background-color: #117a8b;
+        border-color: #0f5c7d;
+        transform: scale(1.05);
+    }
+
+    .form-check-label {
+        cursor: pointer;
+        color: #ffffff;
+    }
+
+    .form-check-input {
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
     .white-text-table table,
     .white-text-table th,
     .white-text-table td {
         color: white;
     }
+
     .spinner-container {
-        display: none; /* Initially hidden */
+        display: none;
         position: fixed;
         z-index: 9999;
         top: 50%;
@@ -205,7 +148,7 @@
         transform: translate(-50%, -50%);
         text-align: center;
     }
-    
+
     .spinner {
         width: 3rem;
         height: 3rem;
@@ -215,20 +158,102 @@
         animation: spin 1s linear infinite;
         margin-bottom: 1rem;
     }
-    
+
     @keyframes spin {
-        0% {
-            transform: rotate(0deg);
-        }
-        100% {
-            transform: rotate(360deg);
-        }
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
     }
     
     .spinner-text {
         color: #ff0000;
-        font-size: 3rem;
+        font-size: 1.5rem;
         text-align: center;
     }
 </style>
+
+<script>
+    function scrollToBottom() {
+        document.getElementById('bottom-anchor').scrollIntoView({
+            behavior: 'smooth',
+            block: 'end'
+        });
+    }
+
+    function showLoadingSpinner() {
+        document.getElementById('loadingSpinner').style.display = 'flex';
+        document.getElementById('loadingSpinner').style.flexDirection = 'column';
+        document.getElementById('loadingSpinner').style.alignItems = 'center';
+        localStorage.setItem('containmentActionSubmitted', 'true');
+        
+        setTimeout(() => { location.reload(); }, 60000);
+    }
+
+    document.getElementById('hostForm').addEventListener('submit', function(event) {
+        event.preventDefault(); 
+
+        const formActionURL = this.action;
+
+        fetch(formActionURL, {
+            method: 'POST',
+            body: new FormData(this)
+        }).then(function() {
+            scrollToBottom();
+        }).catch(function(error) {
+            console.error('Error:', error);
+        });
+    });
+
+    document.getElementById('actionForm').addEventListener('submit', function(event) {
+        showLoadingSpinner();
+    });
+
+    function fetchLogs() {
+        return fetch('/hosts-containment-logs')
+            .then(response => response.text())
+            .then(data => {
+                const logContentElement = document.getElementById('logContent');
+                logContentElement.innerHTML = '';
+                const rows = data.split('\n');
+                const table = document.createElement('table');
+                table.classList.add('table', 'table-dark');
+                rows.forEach((row, index) => {
+                    const tr = document.createElement('tr');
+                    const cells = row.split(',');
+                    cells.forEach(cell => {
+                        const td = document.createElement(index === 0 ? 'th' : 'td');
+                        td.innerText = cell;
+                        tr.appendChild(td);
+                    });
+                    table.appendChild(tr);
+                });
+                logContentElement.appendChild(table);
+            })
+            .catch(error => console.error('Error fetching logs:', error));
+    }
+
+    function checkAndShowLogs() {
+        if (localStorage.getItem('containmentActionSubmitted') === 'true') {
+            localStorage.removeItem('containmentActionSubmitted');
+            fetchLogs().then(() => {
+                $('#logsModal').modal('show');
+            });
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.location.hash) {
+            let targetElement = document.querySelector(window.location.hash);
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            }
+        }
+
+        checkAndShowLogs();
+
+        $('#logsModal').on('show.bs.modal', function () {
+            fetchLogs();
+        });
+    });
+</script>
+
 {% endblock %}
