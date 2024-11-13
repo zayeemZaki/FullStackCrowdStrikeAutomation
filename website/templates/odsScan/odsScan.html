@@ -4,7 +4,7 @@
 <div class="container mt-5">
     <div class="card p-4 shadow-sm border-0">
         <h4 class="text-center mb-4 title">ODS Scan</h4>
-        <form action="{{ url_for('adminRights.remove_admin_rights') }}" method="POST">
+        <form action="{{ url_for('odsScan.ods_scan') }}" method="POST">
             <!-- User Name Input -->
             <div class="form-group">
                 <label for="user-name">Host ids:</label>
@@ -13,7 +13,7 @@
                     id="host-id"
                     name="host-id"
                     placeholder="One in each line"
-                    rows="1"
+                    rows="3"
                 ></textarea>
             </div>
 
