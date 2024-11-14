@@ -41,6 +41,7 @@ The `/website` directory contains the following primary components:
 │   ├── containment.py                # Manages containment status of hosts and groups
 │   ├── stale.py                      # Loads and processes stale accounts
 │   ├── getMaliciousFiles.py          # Gets all the malicious files based on filters
+|   ├── odsScan.py                   # Scans devices using on demand scan
 ├── templates/                        # HTML templates for rendering pages in Flask
 │   ├── adminRights/                  # Contains templates for admin rights management
 │   ├── endPoint/                     # Contains templates for endpoint management
@@ -67,6 +68,8 @@ The `/website` directory contains the following primary components:
 |   |   ├── containment.html
 |   ├── maliciousFiles/
 |   |   ├── maliciousFiles.html
+|   ├── odsScan/
+|   |   ├── odsScan.html
 │   ├── stale_accounts/               # Templates for displaying and managing stale accounts
 |   |   ├── stale_accounts.html
 │   ├── authenticate.html             # User authentication form
@@ -89,6 +92,7 @@ The `scripts/` folder contains the main Python files that handle the back-end lo
 - **endPoint Folder**: Contains scripts for handling IOCs, detections, alerts, incidents, behaviors, and CrowdScores.
 - **entity.py**: Searches for entities with specific filters.
 - **getMaliciousFiles.py**: Gets all the malicious files fitting the criteria selected.
+- **odsScan.py**: Scans devices using ODS scan.
 
 ### Templates Folder [README.md](./templates/README.md)
 
@@ -100,6 +104,7 @@ The `templates/` folder holds all the HTML files that are rendered by Flask for 
 - **stale_accounts Folder**: Templates for displaying stale accounts and handling related actions.
 - **entity Folder**: Template for displaying filters and then retrieves entities.
 - **maliciousFiles Folder**: Template for maliciousFiles filters which they generates list of maliciousFiles after submitting.
+- **odsScan Folder**: Template for input fields of ODS scan.
 
 ### [`__init__.py`](./__init__.py)
 

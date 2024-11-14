@@ -10,6 +10,9 @@ The `/scripts` folder contains all the Python scripts responsible for automating
   - [adminRights.py](#adminrightspy)
   - [containment.py](#containmentpy)
   - [stale.py](#stalepy)
+  - [entity.py](#entitypy)
+  - [getMaliciousFiles.py](#getMaliciousFilespy)
+  - [odsScan.py](#odsScanpy)
   - [endPoint Folder](#endpoint-folder)
     - [crowdScore.py](#crowdscorepy)
     - [endPoint.py](#endpointpy)
@@ -18,8 +21,6 @@ The `/scripts` folder contains all the Python scripts responsible for automating
     - [manageDetections.py](#managedetectionspy)
     - [manageIncidents.py](#manageincidentspy)
     - [searchIOCs.py](#searchiocspy)
-    - [entity.py](#entitypy)
-    - [getMaliciousFiles.py](#getMaliciousFilespy)
 - [Dependencies](#dependencies)
 
 ## Overview
@@ -32,6 +33,7 @@ The scripts in this directory enable the core functionalities of the Falcon Admi
 - **Handling detections, incidents, and alerts**
 - **Seaches for entities with specific filters**
 - **Searches for malicious files based on specific filters**
+- **Scans devices using ODS scan**
 These scripts are designed to work together with the Flask application to provide an interface for administrators to monitor and manage the CrowdStrike environment.
 
 ## Directory Structure
@@ -51,6 +53,7 @@ These scripts are designed to work together with the Flask application to provid
 │   ├── searchIOCs.py             # Searches and filters Indicators of Compromise (IOCs)
 ├── entity.py                     # Searches for entities after applying specific filters
 ├── getMaliciousFiles.py          # Searches for malicious files based on certain filters
+├── odsScan.py
 ```
 
 ## Script Descriptions
@@ -89,6 +92,13 @@ The `entity.py` script processes entities within the CrowdStrike environment. It
 - **Key Functions:**
   - `entity_table`: Retrieves and displays a table of entities.
   - `entity_filters`: Allows users to apply filters.
+
+### odsScan.py
+
+The `odsScan.py` script scans devices using ODS scan.
+
+- **Key Functions:**
+  - `Host id / Group id`: Inputs device ids to be scanned.
  
 ### getMaliciousFiles.py
 

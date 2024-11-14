@@ -1,6 +1,6 @@
 # Falcon Admin Management Tool
 
-Falcon Admin Management Tool is a Flask-based web application designed to interact with CrowdStrike's Falcon APIs. The tool automates various administrative tasks, viewing and modifying containment status, providing an interface to remove users' admin rights, searching IOCs, detections, and other endpoints, searching for entities, malware files and streamlining the management of a CrowdStrike environment.
+Falcon Admin Management Tool is a Flask-based web application designed to interact with CrowdStrike's Falcon APIs. The tool automates various administrative tasks, viewing and modifying containment status, providing an interface to remove users' admin rights, searching IOCs, detections, and other endpoints, searching for entities, malware files, scanning devices and streamlining the management of a CrowdStrike environment.
 
 Please refer here for detailed documentation : [README.md](/website/README.md)
 ## Table of Contents
@@ -15,7 +15,7 @@ Please refer here for detailed documentation : [README.md](/website/README.md)
 
 ## Overview
 
-This tool leverages CrowdStrike's Falcon APIs to perform a variety of administrative operations, such as removing admin rights from devices, checking and altering host containment status, managing stale accounts, conducting endpoint monitoring, retrieving malicious files and dealing with entities. It provides a user-friendly interface for security administrators to efficiently manage and secure their CrowdStrike environment.
+This tool leverages CrowdStrike's Falcon APIs to perform a variety of administrative operations, such as removing admin rights from devices, checking and altering host containment status, managing stale accounts, conducting endpoint monitoring, retrieving malicious files, scanning devices and dealing with entities. It provides a user-friendly interface for security administrators to efficiently manage and secure their CrowdStrike environment.
 
 ## Features
 
@@ -27,6 +27,7 @@ This tool leverages CrowdStrike's Falcon APIs to perform a variety of administra
 - **IOC and Detection Lookup**: Search for IOCs and detections, view related incidents, alerts, and CrowdScore data.
 - **Entities Lookup**: Searches for entities after applying filters to find accounts which are stale, have weak or exposed passwords and more.
 - **Malicious Files Search**: Searches malicious files based on selected filters.
+- **ODS Scan**: Scans devices using on demand scan.
 
 ## Prerequisites
 
@@ -107,6 +108,7 @@ FullStackCrowdStrikeAutomation/
 │   │   ├── stale.py                     # Loads and processes stale accounts
 |   |   ├── entity.py                    # retrieves entities
 |   |   ├── getMaliciousFiles.py         # gets the list of malicious files
+|   |   ├── odsScan.py                   # Scans devices using on demand scan
 │   ├── templates/
 │   │   ├── adminRights/
 │   │   │   ├── adminRights.html
@@ -134,6 +136,8 @@ FullStackCrowdStrikeAutomation/
 │   │   │   ├── containment.html
 |   |   ├── maliciousFiles/
 |   |   |   ├── maliciousFiles.html
+|   |   ├── odsScan/
+|   |   |   ├── odsScan.html
 │   │   ├── stale_accounts/
 │   │   │   ├── stale_accounts.html
 │   │   ├── authenticate.html
@@ -159,6 +163,7 @@ Once the application is running, you can navigate to the various pages to perfor
 - Removing admin rights from hosts.
 - Searchig for entities with using specific filters.
 - Searching for malicious files using certain filters.
+- Scanning devices using ODS.
 
 The application also provides detailed logs and alerts for each operation performed.
 

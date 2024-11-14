@@ -32,6 +32,8 @@ templates/
 │   ├── containment.html             # General containment view
 ├── maliciousFiles/
 |   ├── maliciousFiles.html          # Malicious Files filter view and table
+├── odsScan/
+|   ├── odsScan.html
 ├── stale_accounts/
 │   ├── stale_accounts.html          # Stale accounts management view
 ├── authenticate.html                # Authentication form
@@ -62,4 +64,5 @@ The templates are used to render the front-end views of the Falcon Admin Managem
 - **authenticate.html**: User login and authentication form.
 - **base.html**: The base layout template used for consistent styling across pages.
 - **home.html**: Home page view with links to various modules.
+- **odsScan.html**: Input fields for ODS scan.
   
