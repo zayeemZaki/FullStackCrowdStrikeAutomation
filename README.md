@@ -6,9 +6,9 @@ Please refer here for detailed documentation : [README.md](/website/README.md)
 
 
 ├── [Doc1](/README.md)    
- |   ├── [Doc2](/website/README.md)     
-|  |   ├── [Doc3](/website/scripts/README.md)  
-|  |   ├── [Doc4](/website/templates/README.md)
+├── [Doc2](/website/README.md)     
+│   ├── [Doc3](/website/scripts/README.md)  
+│   ├── [Doc4](/website/templates/README.md)
 
 
 ## Table of Contents
