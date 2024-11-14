@@ -31,45 +31,69 @@
                     {% endfor %}
                 </tbody>
             </table>
+            
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    {% if page > 1 %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('entity.entity_table', page=page-1) }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% for p in range(1, total_pages + 1) %}
+                    <li class="page-item {% if p == page %}active{% endif %}">
+                        <a class="page-link" href="{{ url_for('entity.entity_table', page=p) }}">{{ p }}</a>
+                    </li>
+                    {% endfor %}
+                    {% if page < total_pages %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('entity.entity_table', page=page+1) }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
         </div>
     </div>
-
+    
 <style>
     body {
-        background-color: #0f4c81; /* Classic Blue */
-        color: #ffffff; /* White text */
+        background-color: #0f4c81;
+        color: #ffffff;
     }
 
     .container {
         max-width: 98%;
         padding: 15px;
-        color: #ffffff; /* White text */
+        color: #ffffff;
     }
 
     .title {
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        color: #ffffff; /* White text */
+        color: #ffffff;
         text-align: center;
     }
 
     .thead-dark-custom {
-        background-color: #007d79; /* Turquoise */
-        color: #ffffff; /* White text */
+        background-color: #007d79;
+        color: #ffffff;
     }
 
     .table-row-custom:nth-child(even) {
-        background-color: #007d79; /* Turquoise */
-        color: #ffffff; /* White text */
+        background-color: #007d79;
+        color: #ffffff;
     }
 
     .table-row-custom:nth-child(odd) {
         background-color: #343a40;
-        color: #ffffff; /* White text */
+        color: #ffffff;
     }
 
     .table-row-custom:hover {
         background-color: #495057;
-        color: #ffffff; /* White text */
+        color: #ffffff;
     }
 
     .table thead th {
