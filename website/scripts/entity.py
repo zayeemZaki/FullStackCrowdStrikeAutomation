@@ -1,7 +1,7 @@
 import requests
 import pandas as pd
 from datetime import datetime, timezone
-from flask import Blueprint, render_template, request, session
+from flask import Blueprint, render_template, request, session, flash, redirect, url_for
 from flask_login import login_required, current_user
 
 entity = Blueprint('entity', __name__)
@@ -126,6 +126,67 @@ def entity_table():
 
         else:
             return f"Failed to retrieve users: {response.status_code} - {response.text}", 500
+
+    except Exception as e:
+        return f"An error occurred: {str(e)}", 500
+    
+@entity.route('/entity-action', methods=['POST'])
+@login_required
+def entity_action():
+    try:
+        token = session.get('token')
+        if not token:
+            return "Authentication failed", 403
+
+        headers = {
+            'Authorization': f'Bearer {token}',
+            'Content-Type': 'application/json'
+        }
+
+        action = request.form.getlist('action')
+        host_name = request.form.get('host-name')
+
+        if not host_name.strip():
+            flash('Host name cannot be empty', 'danger')
+            return redirect(url_for('entity.entity_table'))
+
+        mutations = []
+
+        if 'mark' in action:
+            mark_mutation = f"""
+            mutation {{
+                markEntity(entityName: "{host_name.strip()}", marked: true) {{
+                    success
+                    message
+                }}
+            }}
+            """
+            mutations.append(mark_mutation)
+
+        if 'watch' in action:
+            watch_mutation = f"""
+            mutation {{
+                addToWatchList(entityName: "{host_name.strip()}", watchListed: true) {{
+                    success
+                    message
+                }}
+            }}
+            """
+            mutations.append(watch_mutation)
+
+        for mutation in mutations:
+            response = requests.post(graphqlUrl, headers=headers, json={'query': mutation})
+            if response.status_code != 200 or not response.json().get('data'):
+                return f"Failed to perform action: {response.status_code} - {response.text}", 500
+
+            if 'errors' in response.json():
+                error_message = response.json()['errors'][0]['message']
+                flash(f"Action failed: {error_message}", 'danger')
+            else:
+                success_message = response.json()['data']
+                flash(f"Action successful: {success_message}", 'success')
+
+        return redirect(url_for('entity.entity_table'))
 
     except Exception as e:
         return f"An error occurred: {str(e)}", 500

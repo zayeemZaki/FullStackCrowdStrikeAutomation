@@ -57,6 +57,29 @@
             </nav>
         </div>
     </div>
+
+    <div class="d-flex justify-content-center mt 5">
+        <div class="card p-4 shadow-sm card-custom">
+            <h4 class="text-center mb-4 title">Mark user or add to watch list!</h4>
+            <form action="{{ url_for('entity.entity_action')}}" method="post">
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" name="action" id="mark" value="mark">
+                    <label class="form-check-label" for="mark" style="color: #ffffff;">
+                        Mark Entity
+                    </label>
+                </div>
+                <div class="forn-check mb-3">
+                    <input class="form-check-input" type="checkbox" name="action" id="watch" value="watch">
+                    <label class="form-check-label" for="watch" style="color: #ffffff;">
+                        Add to Watch List
+                    </label>
+                </div>
+                <textarea class="form-control mt-3" id="host-name" name="host-name" placeholder="Enter host name" style="text-align: center;">
+                </textarea>
+                <button type="submit" class="btn btn-custom btn-block">Submit</button>
+            </form>
+        </div>
+    </div>
     
 <style>
     body {
