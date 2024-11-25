@@ -19,11 +19,11 @@ def admin_rights_view():
 @adminRights.route('/remove-admin-rights', methods=['GET', 'POST'])
 @login_required
 def remove_admin_rights():
-    user_name = request.form.get('user-name')
-    device_name = request.form.get('device-name')
+    user_names = request.form.get('user-name').splitlines()
+    device_names = request.form.get('device-name').splitlines()
     token = session.get('token')
     script_name = 'removeAdminRights.ps1'
-    script_content = f"Remove-LocalGroupMember -Group 'Administrators' -Member '{user_name}'"
+    # script_content = f"Remove-LocalGroupMember -Group 'Administrators' -Member '{user_name}'"
 
     def getDeviceId(hostname):
         url = "https://api.crowdstrike.com/devices/queries/devices/v1"
@@ -92,7 +92,7 @@ def remove_admin_rights():
         except Exception as e:
             raise
 
-    def edit_script(script_id):
+    def edit_script(script_id, script_content):
         headers = {
             'Authorization': f'Bearer {token}'
         }
@@ -156,30 +156,63 @@ def remove_admin_rights():
             raise
         except Exception as e:
             raise
-        
+
+    offline_devices = []
+    device_ids = []
+    for device_name in device_names:
+        device_ids.append(getDeviceId(device_name))
+
     script_id = check_script_exists(script_name)
 
-    if script_id:
-        edit_script(script_id)
-    else:
-        upload_script()
+    for user_name, device_id in zip(user_names, device_ids):
+        if not device_id:
+            flash(f'Device ID not found for hostname: {device_name}', category='error')
+            continue
+        
+        script_content = f"Remove-LocalGroupMember -Group 'Administrators' -Member '{user_name}'"
 
-    print("UserName: ", user_name)
-    print("DeviceName: ", device_name)
+        if script_id:
+            edit_script(script_id, script_content)
+        else:
+            upload_script(script_content)
+            script_id = check_script_exists(script_name)
 
-    device_id = getDeviceId(device_name)
-
-    print("Device id: ", device_id)
-    
-    while True:
+        
         if is_device_online(device_id):
             session_id = initiateRtrSession(device_id)
-            if not session_id:
-                print(f'Failed to initiate RTR session for device ID: {device_id}')
-                exit()
-            run_script(session_id)
-            break 
+            if session_id:
+                try:
+                    run_script(session_id)
+                except Exception as e:
+                    flash(f'Error running script on device ID {device_id}: {str(e)}', category='error')
+            else:
+                flash(f'Failed to initiate RTR session for device ID: {device_id}', category='error')
         else:
-            flash('Host is offline will try again!', category='error')
-            time.sleep(60)
+            flash(f'Host is offline, will try again: {device_id}', category='error')
+            offline_devices.append((device_id, user_name, script_content))
+
+
+
+    # print("UserName: ", user_name)
+    # print("DeviceName: ", device_name)
+
+
+
+    # print("Device id: ", device_id)
+    
+    while offline_devices:
+        time.sleep(60)
+
+        for device_id, user_name, script_content in offline_devices[:]:
+            if is_device_online(device_id):
+                session_id = initiateRtrSession(device_id)
+                if not session_id:
+                    print(f'Failed to initiate RTR session for device ID: {device_id}')
+                    break
+                run_script(session_id)
+                offline_devices.remove((device_id, user_name, script_content))
+            else:
+                flash('Host is offline will try again!', category='error')
+        
+
     return render_template("adminRights/adminRights.html", user=current_user)
