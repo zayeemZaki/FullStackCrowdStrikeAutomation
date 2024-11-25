@@ -192,7 +192,8 @@ def remove_admin_rights():
             offline_devices.append((device_id, user_name, script_content))
 
 
-
+    print("Devices that were offline: ")
+    print(offline_devices[i][1] for i in range(len(offline_devices)))
     # print("UserName: ", user_name)
     # print("DeviceName: ", device_name)
 
