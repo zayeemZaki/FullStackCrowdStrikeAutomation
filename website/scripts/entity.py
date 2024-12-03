@@ -171,6 +171,7 @@ def entity_action():
                     message
                 }}
             }}
+            
             """
             mutations.append(watch_mutation)
 
