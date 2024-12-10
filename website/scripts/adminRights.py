@@ -129,6 +129,7 @@ def remove_admin_rights():
             data = response.json()
             if data['resources']:
                 state = data['resources'][0].get('state')
+                print("Testing in is_device_online: ", state == 'Online')
                 return state == 'online'
             else:
                 return False
@@ -183,6 +184,7 @@ def remove_admin_rights():
             if session_id:
                 try:
                     run_script(session_id)
+                    flash(f'Removed admin rights on device ID {device_id}: {str(e)}', category='success')
                 except Exception as e:
                     flash(f'Error running script on device ID {device_id}: {str(e)}', category='error')
             else:
@@ -190,6 +192,7 @@ def remove_admin_rights():
         else:
             flash(f'Host is offline, will try again: {device_id}', category='error')
             offline_devices.append((device_id, user_name, script_content))
+            print("Offline devices: ", offline_devices, "Device id: ", device_id)
 
 
     print("Devices that were offline: ")
