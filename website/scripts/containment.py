@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, session, request, redirect, url_for, send_file
+from flask import Blueprint, render_template, session, request, redirect, url_for, send_file, flash
 from flask_login import login_required, current_user
 from falconpy import Hosts, HostGroup, APIError, APIHarnessV2
 import pandas as pd
@@ -161,7 +161,11 @@ def group_containment_action():
 def contain_group(hostNames, hostIds, falcon_hosts):
 
     for i in range(len(hostIds)):
-        falcon_hosts.perform_action(action_name="contain", ids=[hostIds[i]])
+        if not "DHC" in hostNames[i]:
+            falcon_hosts.perform_action(action_name="contain", ids=[hostIds[i]])
+        else:
+            print(f"Skipping containment for host: {hostNames[i]}")
+            flash(f"Skipping containment for host: {hostNames[i]}")
         
     time.sleep(60)
 
@@ -181,7 +185,12 @@ def contain_group(hostNames, hostIds, falcon_hosts):
 def lift_containment_group(hostNames, hostIds, falcon_hosts):
 
     for i in range(len(hostIds)):
-        falcon_hosts.perform_action(action_name="lift_containment", ids=[hostIds[i]])
+        if not "DHC" in hostNames[i]:
+            falcon_hosts.perform_action(action_name="lift_containment", ids=[hostIds[i]])
+        else:
+            print(f"Skipping lift containment for host: {hostNames[i]}")
+            flash(f"Skipping lift containment for host: {hostNames[i]}")
+
     
     time.sleep(60)
 
@@ -285,7 +294,13 @@ def hosts_containment_action():
 def contain_hosts(hosts, falcon_hosts):
     for host_name in hosts:
         host_id = falcon_hosts.query_devices_by_filter(filter=f"hostname:'{host_name}'")["body"]["resources"][0]  # Get the host ID from the response
-        falcon_hosts.perform_action(action_name="contain", ids=[host_id])
+    
+        if not "DHC" in host_name:
+            falcon_hosts.perform_action(action_name="contain", ids=[host_id])
+        else:
+            print(f"Skipping containment for host: {host_name}")
+            flash(f"Skipping containment for host: {host_name}")
+
 
     time.sleep(60)
 
@@ -304,8 +319,12 @@ def contain_hosts(hosts, falcon_hosts):
 
 def lift_containment_hosts(hosts, falcon_hosts):
     for host_name in hosts:
-        host_id = falcon_hosts.query_devices_by_filter(filter=f"hostname:'{host_name}'")["body"]["resources"][0]  # Get the host ID from the response
-        falcon_hosts.perform_action(action_name="lift_containment", ids=[host_id])
+        host_id = falcon_hosts.query_devices_by_filter(filter=f"hostname:'{host_name}'")["body"]["resources"][0]  # Get the host ID from the 
+        if not "DHC" in host_name:
+            falcon_hosts.perform_action(action_name="lift_containment", ids=[host_id])
+        else:
+            print(f"Skipping lift containment for host: {host_name}")
+            flash(f"Skipping lift containment for host: {host_name}")
 
     time.sleep(60)
 
